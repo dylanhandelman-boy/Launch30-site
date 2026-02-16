@@ -1,0 +1,1116 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>launch30 - Launch Your Dream Software in 30 Days or Less</title>
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700;800&display=swap" rel="stylesheet">
+    <link href="https://assets.calendly.com/assets/external/widget.css" rel="stylesheet">
+    <script src="https://assets.calendly.com/assets/external/widget.js" type="text/javascript" async></script>
+    <style>
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+
+        :root {
+            --primary-green: #00d66f;
+            --dark-green: #00b359;
+            --light-green: #00ff88;
+            --white: #ffffff;
+            --off-white: #f8fffe;
+            --text-dark: #0a1f1a;
+            --text-gray: #4a5d56;
+            --shadow: 0 15px 40px rgba(0, 214, 111, 0.25);
+            --shadow-hover: 0 20px 50px rgba(0, 214, 111, 0.35);
+        }
+
+        body {
+            font-family: 'Inter', -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, Oxygen, Ubuntu, Cantarell, sans-serif;
+            line-height: 1.6;
+            color: var(--text-dark);
+            background-color: var(--white);
+        }
+
+        .container {
+            max-width: 1200px;
+            margin: 0 auto;
+            padding: 0 20px;
+        }
+
+        /* Navigation */
+        nav {
+            background: var(--white);
+            padding: 20px 0;
+            position: fixed;
+            width: 100%;
+            top: 0;
+            z-index: 1000;
+            box-shadow: 0 4px 20px rgba(0, 214, 111, 0.15);
+            border-bottom: 2px solid rgba(0, 214, 111, 0.1);
+        }
+
+        .nav-content {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+        }
+
+        .logo {
+            font-size: 32px;
+            font-weight: 900;
+            color: var(--primary-green);
+            text-decoration: none;
+            letter-spacing: -0.5px;
+            text-shadow: 0 2px 10px rgba(0, 214, 111, 0.2);
+        }
+
+        .nav-cta {
+            background: linear-gradient(135deg, var(--primary-green) 0%, var(--light-green) 100%);
+            color: var(--white);
+            padding: 14px 32px;
+            border-radius: 10px;
+            text-decoration: none;
+            font-weight: 700;
+            transition: all 0.3s ease;
+            box-shadow: 0 4px 15px rgba(0, 214, 111, 0.3);
+            text-transform: uppercase;
+            font-size: 14px;
+            letter-spacing: 0.5px;
+        }
+
+        .nav-cta:hover {
+            background: linear-gradient(135deg, var(--dark-green) 0%, var(--primary-green) 100%);
+            transform: translateY(-2px);
+            box-shadow: 0 6px 20px rgba(0, 214, 111, 0.4);
+        }
+
+        /* Hero Section */
+        .hero {
+            background: linear-gradient(135deg, #f0fff9 0%, var(--white) 50%, #f0fff9 100%);
+            padding: 160px 0 100px;
+            text-align: center;
+            position: relative;
+            overflow: hidden;
+        }
+
+        .hero::before {
+            content: '';
+            position: absolute;
+            top: -50%;
+            right: -20%;
+            width: 600px;
+            height: 600px;
+            background: radial-gradient(circle, rgba(0, 214, 111, 0.1) 0%, transparent 70%);
+            border-radius: 50%;
+        }
+
+        .hero::after {
+            content: '';
+            position: absolute;
+            bottom: -50%;
+            left: -20%;
+            width: 600px;
+            height: 600px;
+            background: radial-gradient(circle, rgba(0, 214, 111, 0.1) 0%, transparent 70%);
+            border-radius: 50%;
+        }
+
+        .hero > .container {
+            position: relative;
+            z-index: 1;
+        }
+
+        .hero h1 {
+            font-size: 72px;
+            font-weight: 900;
+            color: var(--primary-green);
+            margin-bottom: 20px;
+            letter-spacing: -2px;
+            text-shadow: 0 4px 20px rgba(0, 214, 111, 0.2);
+        }
+
+        .hero h2 {
+            font-size: 42px;
+            font-weight: 700;
+            color: var(--text-dark);
+            margin-bottom: 30px;
+            line-height: 1.3;
+        }
+
+        .hero p {
+            font-size: 22px;
+            color: var(--text-gray);
+            max-width: 800px;
+            margin: 0 auto 50px;
+            font-weight: 500;
+        }
+
+        .cta-buttons {
+            display: flex;
+            gap: 20px;
+            justify-content: center;
+            flex-wrap: wrap;
+        }
+
+        .btn-primary {
+            background: linear-gradient(135deg, var(--primary-green) 0%, var(--light-green) 100%);
+            color: var(--white);
+            padding: 20px 45px;
+            border-radius: 12px;
+            text-decoration: none;
+            font-weight: 700;
+            font-size: 19px;
+            transition: all 0.3s ease;
+            display: inline-block;
+            border: none;
+            box-shadow: 0 8px 25px rgba(0, 214, 111, 0.35);
+            text-transform: uppercase;
+            letter-spacing: 0.5px;
+        }
+
+        .btn-primary:hover {
+            background: linear-gradient(135deg, var(--dark-green) 0%, var(--primary-green) 100%);
+            transform: translateY(-4px);
+            box-shadow: var(--shadow-hover);
+        }
+
+        .btn-secondary {
+            background: var(--white);
+            color: var(--primary-green);
+            padding: 20px 45px;
+            border-radius: 12px;
+            text-decoration: none;
+            font-weight: 700;
+            font-size: 19px;
+            transition: all 0.3s ease;
+            display: inline-block;
+            border: 3px solid var(--primary-green);
+            box-shadow: 0 8px 25px rgba(0, 0, 0, 0.1);
+            text-transform: uppercase;
+            letter-spacing: 0.5px;
+        }
+
+        .btn-secondary:hover {
+            background: var(--primary-green);
+            color: var(--white);
+            transform: translateY(-4px);
+            box-shadow: var(--shadow-hover);
+        }
+
+        /* Section Styles */
+        section {
+            padding: 100px 0;
+        }
+
+        section h2 {
+            font-size: 52px;
+            font-weight: 900;
+            color: var(--text-dark);
+            margin-bottom: 30px;
+            text-align: center;
+            letter-spacing: -1px;
+            position: relative;
+            display: inline-block;
+            width: 100%;
+        }
+
+        section h2::after {
+            content: '';
+            position: absolute;
+            bottom: -10px;
+            left: 50%;
+            transform: translateX(-50%);
+            width: 80px;
+            height: 5px;
+            background: linear-gradient(90deg, var(--primary-green), var(--light-green));
+            border-radius: 3px;
+        }
+
+        section h3 {
+            font-size: 24px;
+            font-weight: 600;
+            color: var(--text-dark);
+            margin-bottom: 15px;
+        }
+
+        .section-intro {
+            font-size: 22px;
+            color: var(--text-gray);
+            max-width: 900px;
+            margin: 0 auto 60px;
+            text-align: center;
+            font-weight: 600;
+            line-height: 1.7;
+        }
+
+        /* What We Do */
+        .what-we-do {
+            background: linear-gradient(180deg, #f0fff9 0%, var(--white) 50%, #f0fff9 100%);
+            position: relative;
+        }
+
+        .what-we-do::before {
+            content: '';
+            position: absolute;
+            top: 0;
+            left: 0;
+            right: 0;
+            height: 2px;
+            background: linear-gradient(90deg, transparent 0%, var(--primary-green) 50%, transparent 100%);
+        }
+
+        .services-list {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(300px, 1fr));
+            gap: 20px;
+            max-width: 1000px;
+            margin: 0 auto;
+        }
+
+        .service-item {
+            display: flex;
+            align-items: flex-start;
+            gap: 15px;
+            font-size: 19px;
+            color: var(--text-dark);
+            background: var(--white);
+            padding: 20px 25px;
+            border-radius: 12px;
+            box-shadow: 0 4px 15px rgba(0, 214, 111, 0.1);
+            transition: all 0.3s ease;
+            font-weight: 600;
+        }
+
+        .service-item:hover {
+            transform: translateX(8px);
+            box-shadow: 0 6px 25px rgba(0, 214, 111, 0.2);
+        }
+
+        .service-item i {
+            color: var(--primary-green);
+            margin-top: 2px;
+            font-size: 24px;
+            flex-shrink: 0;
+        }
+
+        /* Who This Is For */
+        .target-audience {
+            display: flex;
+            flex-direction: column;
+            gap: 25px;
+            margin-bottom: 60px;
+            max-width: 900px;
+            margin-left: auto;
+            margin-right: auto;
+        }
+
+        .audience-card {
+            background: linear-gradient(135deg, var(--white) 0%, #f0fff9 100%);
+            padding: 35px 40px;
+            border-radius: 16px;
+            box-shadow: 0 8px 30px rgba(0, 214, 111, 0.15);
+            transition: all 0.4s ease;
+            border-left: 6px solid var(--primary-green);
+            position: relative;
+            overflow: hidden;
+            display: flex;
+            align-items: center;
+            gap: 25px;
+        }
+
+        .audience-card::before {
+            content: '';
+            position: absolute;
+            top: 0;
+            right: 0;
+            width: 150px;
+            height: 150px;
+            background: radial-gradient(circle, rgba(0, 214, 111, 0.1) 0%, transparent 70%);
+            border-radius: 50%;
+            transform: translate(50%, -50%);
+        }
+
+        .audience-card:hover {
+            transform: translateX(10px);
+            box-shadow: 0 12px 40px rgba(0, 214, 111, 0.25);
+            border-left-width: 8px;
+        }
+
+        .audience-icon {
+            background: linear-gradient(135deg, var(--primary-green) 0%, var(--light-green) 100%);
+            color: var(--white);
+            width: 70px;
+            height: 70px;
+            border-radius: 50%;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            font-size: 32px;
+            flex-shrink: 0;
+            box-shadow: 0 6px 20px rgba(0, 214, 111, 0.3);
+            position: relative;
+            z-index: 1;
+        }
+
+        .audience-content {
+            flex: 1;
+            position: relative;
+            z-index: 1;
+        }
+
+        .audience-card h3 {
+            color: var(--primary-green);
+            margin-bottom: 8px;
+            font-size: 26px;
+            font-weight: 800;
+        }
+
+        .audience-card p {
+            color: var(--text-gray);
+            font-size: 16px;
+            line-height: 1.6;
+            font-weight: 500;
+        }
+
+        .benefits {
+            background: linear-gradient(135deg, var(--primary-green) 0%, var(--dark-green) 100%);
+            padding: 60px 50px;
+            border-radius: 20px;
+            color: var(--white);
+            box-shadow: 0 15px 50px rgba(0, 214, 111, 0.35);
+            position: relative;
+            overflow: hidden;
+        }
+
+        .benefits::before {
+            content: '';
+            position: absolute;
+            top: -100px;
+            right: -100px;
+            width: 300px;
+            height: 300px;
+            background: radial-gradient(circle, rgba(255, 255, 255, 0.1) 0%, transparent 70%);
+            border-radius: 50%;
+        }
+
+        .benefits::after {
+            content: '';
+            position: absolute;
+            bottom: -100px;
+            left: -100px;
+            width: 300px;
+            height: 300px;
+            background: radial-gradient(circle, rgba(255, 255, 255, 0.1) 0%, transparent 70%);
+            border-radius: 50%;
+        }
+
+        .benefits h3 {
+            color: var(--white);
+            font-size: 36px;
+            margin-bottom: 40px;
+            text-align: center;
+            font-weight: 800;
+            position: relative;
+            z-index: 1;
+        }
+
+        .benefits-list {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(280px, 1fr));
+            gap: 30px;
+        }
+
+        .benefit-item {
+            display: flex;
+            flex-direction: column;
+            gap: 10px;
+            position: relative;
+            z-index: 1;
+        }
+
+        .benefit-item strong {
+            font-size: 20px;
+            font-weight: 800;
+            text-shadow: 0 2px 10px rgba(0, 0, 0, 0.1);
+        }
+
+        .benefit-item p {
+            opacity: 0.97;
+            font-size: 17px;
+            line-height: 1.7;
+            font-weight: 500;
+        }
+
+        /* How It Works */
+        .how-it-works {
+            background: linear-gradient(180deg, #f0fff9 0%, var(--white) 50%, #f0fff9 100%);
+            position: relative;
+        }
+
+        .how-it-works::before {
+            content: '';
+            position: absolute;
+            top: 0;
+            left: 0;
+            right: 0;
+            height: 2px;
+            background: linear-gradient(90deg, transparent 0%, var(--primary-green) 50%, transparent 100%);
+        }
+
+        .steps {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(260px, 1fr));
+            gap: 40px;
+            max-width: 1100px;
+            margin: 0 auto;
+        }
+
+        .step {
+            background: linear-gradient(135deg, var(--white) 0%, #f0fff9 100%);
+            padding: 40px 30px;
+            border-radius: 16px;
+            text-align: center;
+            position: relative;
+            box-shadow: 0 8px 30px rgba(0, 214, 111, 0.15);
+            transition: all 0.4s ease;
+            border-top: 4px solid var(--primary-green);
+        }
+
+        .step:hover {
+            transform: translateY(-8px) scale(1.02);
+            box-shadow: 0 15px 45px rgba(0, 214, 111, 0.3);
+            border-top-width: 6px;
+        }
+
+        .step-icon {
+            background: linear-gradient(135deg, var(--primary-green) 0%, var(--light-green) 100%);
+            color: var(--white);
+            width: 80px;
+            height: 80px;
+            border-radius: 50%;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            font-size: 36px;
+            margin: 0 auto 20px;
+            box-shadow: 0 8px 20px rgba(0, 214, 111, 0.3);
+        }
+
+        .step h3 {
+            margin-bottom: 12px;
+            color: var(--primary-green);
+            font-size: 24px;
+            font-weight: 800;
+        }
+
+        .step p {
+            color: var(--text-gray);
+            font-size: 16px;
+            line-height: 1.6;
+            font-weight: 500;
+        }
+
+        /* CTA Section */
+        .cta-section {
+            background: linear-gradient(135deg, var(--primary-green) 0%, #00b359 50%, var(--dark-green) 100%);
+            color: var(--white);
+            text-align: center;
+            padding: 100px 0;
+            position: relative;
+            overflow: hidden;
+        }
+
+        .cta-section::before {
+            content: '';
+            position: absolute;
+            top: -200px;
+            right: -200px;
+            width: 500px;
+            height: 500px;
+            background: radial-gradient(circle, rgba(255, 255, 255, 0.15) 0%, transparent 70%);
+            border-radius: 50%;
+        }
+
+        .cta-section::after {
+            content: '';
+            position: absolute;
+            bottom: -200px;
+            left: -200px;
+            width: 500px;
+            height: 500px;
+            background: radial-gradient(circle, rgba(255, 255, 255, 0.15) 0%, transparent 70%);
+            border-radius: 50%;
+        }
+
+        .cta-section .container {
+            position: relative;
+            z-index: 1;
+        }
+
+        .cta-section h2 {
+            color: var(--white);
+            margin-bottom: 25px;
+        }
+
+        .cta-section h2::after {
+            background: linear-gradient(90deg, var(--white), rgba(255, 255, 255, 0.7));
+        }
+
+        .cta-section p {
+            font-size: 24px;
+            max-width: 800px;
+            margin: 0 auto 50px;
+            opacity: 0.97;
+            font-weight: 600;
+            line-height: 1.6;
+        }
+
+        .cta-section .btn-primary {
+            background: var(--white);
+            color: var(--primary-green);
+            box-shadow: 0 10px 35px rgba(0, 0, 0, 0.2);
+        }
+
+        .cta-section .btn-primary:hover {
+            background: #f0fff9;
+            transform: translateY(-6px) scale(1.05);
+            box-shadow: 0 15px 45px rgba(0, 0, 0, 0.3);
+        }
+
+        .calendly-container {
+            max-width: 900px;
+            margin: 50px auto 0;
+            background: var(--white);
+            border-radius: 12px;
+            padding: 20px;
+            box-shadow: var(--shadow);
+        }
+
+        /* Footer */
+        footer {
+            background: linear-gradient(135deg, #0a1f1a 0%, #051310 100%);
+            color: var(--white);
+            padding: 60px 0 30px;
+            text-align: center;
+            position: relative;
+        }
+
+        footer::before {
+            content: '';
+            position: absolute;
+            top: 0;
+            left: 0;
+            right: 0;
+            height: 2px;
+            background: linear-gradient(90deg, transparent 0%, var(--primary-green) 50%, transparent 100%);
+        }
+
+        .footer-logo {
+            font-size: 36px;
+            font-weight: 900;
+            color: var(--primary-green);
+            margin-bottom: 15px;
+            text-shadow: 0 4px 15px rgba(0, 214, 111, 0.3);
+            letter-spacing: -0.5px;
+        }
+
+        footer p {
+            color: rgba(255, 255, 255, 0.85);
+            margin-bottom: 30px;
+            font-size: 18px;
+            font-weight: 500;
+        }
+
+        footer .btn-primary {
+            background: linear-gradient(135deg, var(--primary-green) 0%, var(--light-green) 100%);
+            box-shadow: 0 8px 25px rgba(0, 214, 111, 0.35);
+        }
+
+        .copyright {
+            margin-top: 40px;
+            padding-top: 30px;
+            border-top: 1px solid rgba(255, 255, 255, 0.1);
+            color: rgba(255, 255, 255, 0.6);
+            font-size: 14px;
+        }
+
+        /* Responsive */
+        @media (max-width: 768px) {
+            .hero h1 {
+                font-size: 42px;
+            }
+
+            .hero h2 {
+                font-size: 26px;
+            }
+
+            .hero p {
+                font-size: 18px;
+            }
+
+            section h2 {
+                font-size: 32px;
+            }
+
+            .cta-buttons {
+                flex-direction: column;
+                align-items: center;
+            }
+
+            .btn-primary, .btn-secondary {
+                width: 100%;
+                max-width: 300px;
+            }
+
+            .benefits {
+                padding: 30px 20px;
+            }
+
+            .audience-card {
+                flex-direction: column;
+                text-align: center;
+                padding: 30px 25px;
+            }
+
+            .step-icon {
+                width: 70px;
+                height: 70px;
+                font-size: 32px;
+            }
+
+            .stats-grid {
+                grid-template-columns: repeat(2, 1fr);
+                gap: 30px;
+            }
+
+            .stat-number {
+                font-size: 36px;
+            }
+
+            .hero-mockup {
+                padding: 40px 20px;
+            }
+
+            .mockup-icon {
+                font-size: 60px;
+            }
+
+            .quote-text {
+                font-size: 24px;
+            }
+
+            .quote-icon {
+                font-size: 36px;
+            }
+
+            section {
+                padding: 60px 0;
+            }
+        }
+
+        /* Stats Section */
+        .stats-section {
+            background: var(--white);
+            padding: 60px 0;
+            border-top: 1px solid rgba(0, 214, 111, 0.1);
+            border-bottom: 1px solid rgba(0, 214, 111, 0.1);
+        }
+
+        .stats-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(200px, 1fr));
+            gap: 40px;
+            max-width: 1000px;
+            margin: 0 auto;
+        }
+
+        .stat-item {
+            text-align: center;
+        }
+
+        .stat-number {
+            font-size: 48px;
+            font-weight: 900;
+            color: var(--primary-green);
+            margin-bottom: 10px;
+            line-height: 1;
+        }
+
+        .stat-label {
+            font-size: 16px;
+            color: var(--text-gray);
+            font-weight: 600;
+            text-transform: uppercase;
+            letter-spacing: 1px;
+        }
+
+        /* Hero Image Placeholder */
+        .hero-visual {
+            max-width: 700px;
+            margin: 50px auto 0;
+            position: relative;
+        }
+
+        .hero-mockup {
+            background: linear-gradient(135deg, #f0fff9 0%, var(--white) 100%);
+            border: 3px solid var(--primary-green);
+            border-radius: 20px;
+            padding: 60px 40px;
+            text-align: center;
+            box-shadow: 0 20px 60px rgba(0, 214, 111, 0.2);
+            position: relative;
+        }
+
+        .mockup-icon {
+            font-size: 80px;
+            color: var(--primary-green);
+            margin-bottom: 20px;
+        }
+
+        .mockup-text {
+            font-size: 18px;
+            color: var(--text-gray);
+            font-weight: 600;
+        }
+
+        /* Quote Divider */
+        .quote-divider {
+            background: linear-gradient(135deg, var(--primary-green) 0%, var(--dark-green) 100%);
+            padding: 60px 20px;
+            text-align: center;
+            position: relative;
+            overflow: hidden;
+        }
+
+        .quote-divider::before {
+            content: '';
+            position: absolute;
+            top: -100px;
+            right: -100px;
+            width: 300px;
+            height: 300px;
+            background: radial-gradient(circle, rgba(255, 255, 255, 0.1) 0%, transparent 70%);
+            border-radius: 50%;
+        }
+
+        .quote-divider::after {
+            content: '';
+            position: absolute;
+            bottom: -100px;
+            left: -100px;
+            width: 300px;
+            height: 300px;
+            background: radial-gradient(circle, rgba(255, 255, 255, 0.1) 0%, transparent 70%);
+            border-radius: 50%;
+        }
+
+        .quote-content {
+            max-width: 800px;
+            margin: 0 auto;
+            position: relative;
+            z-index: 1;
+        }
+
+        .quote-icon {
+            font-size: 48px;
+            color: rgba(255, 255, 255, 0.3);
+            margin-bottom: 20px;
+        }
+
+        .quote-text {
+            font-size: 32px;
+            font-weight: 700;
+            color: var(--white);
+            line-height: 1.4;
+            margin-bottom: 20px;
+        }
+
+        .quote-author {
+            font-size: 18px;
+            color: rgba(255, 255, 255, 0.85);
+            font-weight: 600;
+        }
+
+        /* Smooth scroll */
+        html {
+            scroll-behavior: smooth;
+        }
+    </style>
+</head>
+<body>
+    <!-- Navigation -->
+    <nav>
+        <div class="container">
+            <div class="nav-content">
+                <a href="#" class="logo">launch30</a>
+                <a href="#cta" class="nav-cta">Book Free Consultation</a>
+            </div>
+        </div>
+    </nav>
+
+    <!-- Hero Section -->
+    <section class="hero">
+        <div class="container">
+            <h1>launch30</h1>
+            <h2>Launch your dream software in 30 days or less.</h2>
+            <p>We build custom software solutions for businesses, startups, enterprise companies, and individuals.</p>
+            <div class="cta-buttons">
+                <a href="#cta" class="btn-primary">Book Your Free Consultation</a>
+                <a href="#what-we-do" class="btn-secondary">See What We Do</a>
+            </div>
+
+            <!-- Hero Visual -->
+            <div class="hero-visual">
+                <div class="hero-mockup">
+                    <div class="mockup-icon">
+                        <i class="fas fa-rocket"></i>
+                    </div>
+                    <div class="mockup-text">Custom software that grows with your business</div>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- Stats Section -->
+    <section class="stats-section">
+        <div class="container">
+            <div class="stats-grid">
+                <div class="stat-item">
+                    <div class="stat-number">30</div>
+                    <div class="stat-label">Days or Less</div>
+                </div>
+                <div class="stat-item">
+                    <div class="stat-number">100%</div>
+                    <div class="stat-label">Custom Built</div>
+                </div>
+                <div class="stat-item">
+                    <div class="stat-number">24/7</div>
+                    <div class="stat-label">Support</div>
+                </div>
+                <div class="stat-item">
+                    <div class="stat-number">∞</div>
+                    <div class="stat-label">Scalability</div>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- What We Do -->
+    <section id="what-we-do" class="what-we-do">
+        <div class="container">
+            <h2>What We Do</h2>
+            <p class="section-intro">Custom software solutions built specifically for you—no templates, no off-the-shelf products.</p>
+            <h3 style="text-align: center; margin-bottom: 30px; color: var(--primary-green); font-size: 22px;">Our Services:</h3>
+            <div class="services-list">
+                <div class="service-item">
+                    <i class="fas fa-check-circle"></i>
+                    <span>Custom websites and web applications</span>
+                </div>
+                <div class="service-item">
+                    <i class="fas fa-check-circle"></i>
+                    <span>Mobile applications (iOS and Android)</span>
+                </div>
+                <div class="service-item">
+                    <i class="fas fa-check-circle"></i>
+                    <span>SaaS platforms and subscription products</span>
+                </div>
+                <div class="service-item">
+                    <i class="fas fa-check-circle"></i>
+                    <span>E-commerce sites with custom functionality</span>
+                </div>
+                <div class="service-item">
+                    <i class="fas fa-check-circle"></i>
+                    <span>CRM and booking systems</span>
+                </div>
+                <div class="service-item">
+                    <i class="fas fa-check-circle"></i>
+                    <span>Business process automation tools</span>
+                </div>
+                <div class="service-item">
+                    <i class="fas fa-check-circle"></i>
+                    <span>Internal dashboards and reporting systems</span>
+                </div>
+                <div class="service-item">
+                    <i class="fas fa-check-circle"></i>
+                    <span>API integrations and data management</span>
+                </div>
+                <div class="service-item">
+                    <i class="fas fa-check-circle"></i>
+                    <span>Membership platforms and community tools</span>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- Quote Divider -->
+    <section class="quote-divider">
+        <div class="container">
+            <div class="quote-content">
+                <div class="quote-icon">
+                    <i class="fas fa-quote-left"></i>
+                </div>
+                <div class="quote-text">
+                    "If you need it built, we can build it."
+                </div>
+                <div class="quote-author">
+                    — The launch30 Promise
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- Who This Is For -->
+    <section id="who-this-is-for">
+        <div class="container">
+            <h2>Who We Work With</h2>
+            <p class="section-intro">We partner with businesses and individuals at every stage:</p>
+            <div class="target-audience">
+                <div class="audience-card">
+                    <div class="audience-icon">
+                        <i class="fas fa-building"></i>
+                    </div>
+                    <div class="audience-content">
+                        <h3>Existing Businesses</h3>
+                        <p>That need custom solutions to operate more efficiently, automate processes, or solve specific technical challenges.</p>
+                    </div>
+                </div>
+                <div class="audience-card">
+                    <div class="audience-icon">
+                        <i class="fas fa-lightbulb"></i>
+                    </div>
+                    <div class="audience-content">
+                        <h3>Startups</h3>
+                        <p>With ideas ready to be built and brought to market.</p>
+                    </div>
+                </div>
+                <div class="audience-card">
+                    <div class="audience-icon">
+                        <i class="fas fa-city"></i>
+                    </div>
+                    <div class="audience-content">
+                        <h3>Enterprise Companies</h3>
+                        <p>That need scalable, custom software infrastructure.</p>
+                    </div>
+                </div>
+                <div class="audience-card">
+                    <div class="audience-icon">
+                        <i class="fas fa-user"></i>
+                    </div>
+                    <div class="audience-content">
+                        <h3>Individuals</h3>
+                        <p>Who need reliable software development without the complexity of managing it themselves.</p>
+                    </div>
+                </div>
+            </div>
+
+            <div class="benefits">
+                <h3>Why Work With Us?</h3>
+                <div class="benefits-list">
+                    <div class="benefit-item">
+                        <strong>Custom-built, not templated.</strong>
+                        <p>Every solution is designed specifically for your needs.</p>
+                    </div>
+                    <div class="benefit-item">
+                        <strong>Transparent process.</strong>
+                        <p>Clear pricing, realistic timelines, and regular communication throughout.</p>
+                    </div>
+                    <div class="benefit-item">
+                        <strong>Technical expertise you can trust.</strong>
+                        <p>We handle the complexity so you don't have to.</p>
+                    </div>
+                    <div class="benefit-item">
+                        <strong>Built to scale.</strong>
+                        <p>Whether you're just starting or growing fast, we build infrastructure that grows with you.</p>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- How It Works -->
+    <section id="how-it-works" class="how-it-works">
+        <div class="container">
+            <h2>How It Works</h2>
+            <div class="steps">
+                <div class="step">
+                    <div class="step-icon">
+                        <i class="fas fa-phone-alt"></i>
+                    </div>
+                    <h3>Discovery Call</h3>
+                    <p>Book a free consultation. We discuss your needs and determine the best solution.</p>
+                </div>
+                <div class="step">
+                    <div class="step-icon">
+                        <i class="fas fa-file-contract"></i>
+                    </div>
+                    <h3>Custom Proposal</h3>
+                    <p>Clear plan with timeline and cost. No surprises, no hidden fees.</p>
+                </div>
+                <div class="step">
+                    <div class="step-icon">
+                        <i class="fas fa-code"></i>
+                    </div>
+                    <h3>Build & Launch</h3>
+                    <p>We build your solution while keeping you updated. Delivered exactly as needed.</p>
+                </div>
+                <div class="step">
+                    <div class="step-icon">
+                        <i class="fas fa-headset"></i>
+                    </div>
+                    <h3>Support & Optimization</h3>
+                    <p>Ongoing support and optimization to keep your solution performing as you grow.</p>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- CTA Section with Calendly -->
+    <section id="cta" class="cta-section">
+        <div class="container">
+            <h2>Ready to Get Started?</h2>
+            <p>Stop waiting. Start building. The right technical infrastructure changes everything.</p>
+            <a href="#" class="btn-primary" onclick="Calendly.initPopupWidget({url: 'https://calendly.com/your-calendly-url'});return false;">Book Your Free Consultation</a>
+
+            <!-- Calendly inline widget -->
+            <div class="calendly-container">
+                <div class="calendly-inline-widget" data-url="https://calendly.com/your-calendly-url" style="min-width:320px;height:700px;"></div>
+            </div>
+        </div>
+    </section>
+
+    <!-- Footer -->
+    <footer>
+        <div class="container">
+            <div class="footer-logo">launch30</div>
+            <p>Custom software solutions for businesses, startups, and individuals.</p>
+            <a href="#cta" class="btn-primary">Schedule a Call</a>
+            <div class="copyright">
+                &copy; 2026 launch30. All rights reserved.
+            </div>
+        </div>
+    </footer>
+
+    <script>
+        // Smooth scroll for anchor links
+        document.querySelectorAll('a[href^="#"]').forEach(anchor => {
+            anchor.addEventListener('click', function (e) {
+                const href = this.getAttribute('href');
+                if (href !== '#' && !this.onclick) {
+                    e.preventDefault();
+                    const target = document.querySelector(href);
+                    if (target) {
+                        const offsetTop = target.offsetTop - 80;
+                        window.scrollTo({
+                            top: offsetTop,
+                            behavior: 'smooth'
+                        });
+                    }
+                }
+            });
+        });
+    </script>
+</body>
+</html>

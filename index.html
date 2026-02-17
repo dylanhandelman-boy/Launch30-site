@@ -345,11 +345,11 @@
         .btn-primary {
             background: var(--primary-green);
             color: var(--white);
-            padding: 16px 32px;
-            border-radius: 10px;
+            padding: 22px 48px;
+            border-radius: 12px;
             text-decoration: none;
             font-weight: 600;
-            font-size: 16px;
+            font-size: 20px;
             transition: all 0.2s ease;
             display: inline-flex;
             align-items: center;
@@ -1433,24 +1433,24 @@
             <p class="section-intro fade-in">We partner with businesses and individuals at every stage:</p>
             <div class="journey-strip fade-in">
                 <div class="journey-node active" data-index="0">
-                    <div class="journey-icon"><i class="fas fa-building"></i></div>
-                    <div class="journey-label">Existing Businesses</div>
+                    <div class="journey-icon"><i class="fas fa-user"></i></div>
+                    <div class="journey-label">Individuals</div>
                 </div>
                 <div class="journey-node" data-index="1">
                     <div class="journey-icon"><i class="fas fa-lightbulb"></i></div>
                     <div class="journey-label">Startups</div>
                 </div>
                 <div class="journey-node" data-index="2">
+                    <div class="journey-icon"><i class="fas fa-building"></i></div>
+                    <div class="journey-label">Existing Businesses</div>
+                </div>
+                <div class="journey-node" data-index="3">
                     <div class="journey-icon"><i class="fas fa-city"></i></div>
                     <div class="journey-label">Enterprise</div>
                 </div>
-                <div class="journey-node" data-index="3">
-                    <div class="journey-icon"><i class="fas fa-user"></i></div>
-                    <div class="journey-label">Individuals</div>
-                </div>
             </div>
             <div class="journey-description fade-in">
-                <p>Custom solutions to operate more efficiently, automate processes, or solve specific technical challenges.</p>
+                <p>Reliable software development without the complexity of managing it themselves.</p>
             </div>
         </div>
     </section>
@@ -1722,10 +1722,10 @@
 
         // Journey strip node switching
         const journeyDescriptions = [
-            'Custom solutions to operate more efficiently, automate processes, or solve specific technical challenges.',
+            'Reliable software development without the complexity of managing it themselves.',
             'With ideas ready to be built and brought to market.',
-            'Scalable, custom software infrastructure for growing organizations.',
-            'Reliable software development without the complexity of managing it themselves.'
+            'Custom solutions to operate more efficiently, automate processes, or solve specific technical challenges.',
+            'Scalable, custom software infrastructure for growing organizations.'
         ];
 
         const journeyNodes = document.querySelectorAll('.journey-node');

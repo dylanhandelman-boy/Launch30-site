@@ -1,0 +1,153 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Inbox - Freelancer Matching (Before Pairwise)</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Plus+Jakarta+Sans:wght@400;500;600;700&display=swap" rel="stylesheet">
+<style>
+:root {
+  --bg: #ffffff; --bg-page: #f4f5f7; --bg-hover: #f1f3f5; --bg-toolbar: #f8f9fa;
+  --text: #1a1a1a; --text-sec: #5f6368; --text-dim: #9aa0a6; --text-link: #1a73e8;
+  --border: #e0e0e0; --border-light: #eeeeee;
+  --yellow-bar: #fef3cd; --yellow-bar-text: #856404; --yellow-bar-border: #ffeeba;
+  --star: #f4b400; --unread-bg: #eaf1fb; --blue: #1a73e8;
+  --font: 'Plus Jakarta Sans', -apple-system, BlinkMacSystemFont, 'Segoe UI', sans-serif;
+}
+@media (prefers-color-scheme: dark) {
+  :root {
+    --bg: #1e1e1e; --bg-page: #121212; --bg-hover: #2a2a2a; --bg-toolbar: #252525;
+    --text: #e8eaed; --text-sec: #9aa0a6; --text-dim: #5f6368; --text-link: #8ab4f8;
+    --border: #3c3c3c; --border-light: #2e2e2e;
+    --yellow-bar: #3e3318; --yellow-bar-text: #fcd34d; --yellow-bar-border: #5c4b1f;
+    --star: #f4b400; --unread-bg: #1e2a3a; --blue: #8ab4f8;
+  }
+}
+*, *::before, *::after { margin: 0; padding: 0; box-sizing: border-box; }
+body { font-family: var(--font); background: var(--bg-page); color: var(--text); line-height: 1.5; min-height: 100vh; -webkit-font-smoothing: antialiased; }
+.inbox { background: var(--bg); max-width: 960px; margin: 0 auto; min-height: 100vh; border-left: 1px solid var(--border); border-right: 1px solid var(--border); }
+/* Notification bar */
+.notif-bar { display: flex; align-items: center; gap: 8px; padding: 8px 16px; background: var(--yellow-bar); border-bottom: 1px solid var(--yellow-bar-border); font-size: 0.78rem; font-weight: 600; color: var(--yellow-bar-text); }
+.notif-bar svg { width: 15px; height: 15px; flex-shrink: 0; }
+/* Toolbar */
+.toolbar { display: flex; align-items: center; gap: 2px; padding: 6px 12px; border-bottom: 1px solid var(--border); background: var(--bg-toolbar); }
+.tb-btn { display: flex; align-items: center; justify-content: center; width: 34px; height: 34px; border: none; background: none; border-radius: 6px; color: var(--text-sec); cursor: default; }
+.tb-btn svg { width: 18px; height: 18px; }
+.tb-sep { width: 1px; height: 20px; background: var(--border); margin: 0 6px; }
+.tb-check { width: 16px; height: 16px; border: 2px solid var(--text-dim); border-radius: 3px; margin: 0 8px 0 4px; }
+.tb-right { margin-left: auto; font-size: 0.72rem; color: var(--text-dim); font-weight: 500; }
+/* Tab bar */
+.tabs { display: flex; border-bottom: 1px solid var(--border); }
+.tab { flex: 1; padding: 10px 0; text-align: center; font-size: 0.78rem; font-weight: 600; color: var(--text-sec); border-bottom: 2px solid transparent; cursor: default; }
+.tab.active { color: var(--blue); border-bottom-color: var(--blue); }
+.tab .count { display: inline-block; background: var(--blue); color: #fff; font-size: 0.65rem; padding: 1px 6px; border-radius: 10px; margin-left: 4px; font-weight: 700; }
+/* Email rows */
+.email-row { display: grid; grid-template-columns: auto auto 1fr auto; align-items: center; padding: 10px 16px; border-bottom: 1px solid var(--border-light); gap: 10px; font-size: 0.82rem; cursor: default; }
+.email-row.unread { background: var(--unread-bg); }
+.email-row.unread .sender { font-weight: 700; }
+.email-row.unread .subject { font-weight: 700; }
+.e-actions { display: flex; align-items: center; gap: 4px; }
+.e-star { width: 16px; height: 16px; color: var(--text-dim); flex-shrink: 0; }
+.e-star.filled { color: var(--star); fill: var(--star); }
+.e-check { width: 14px; height: 14px; border: 1.5px solid var(--text-dim); border-radius: 3px; flex-shrink: 0; }
+.sender { font-size: 0.82rem; color: var(--text); white-space: nowrap; min-width: 90px; max-width: 110px; overflow: hidden; text-overflow: ellipsis; }
+.subject-line { display: flex; align-items: center; gap: 6px; min-width: 0; }
+.subject { white-space: nowrap; overflow: hidden; text-overflow: ellipsis; color: var(--text); }
+.preview { white-space: nowrap; overflow: hidden; text-overflow: ellipsis; color: var(--text-dim); font-weight: 400; }
+.subject-line .clip { flex-shrink: 0; width: 14px; height: 14px; color: var(--text-dim); }
+.meta { display: flex; align-items: center; gap: 6px; white-space: nowrap; }
+.date { font-size: 0.72rem; color: var(--text-dim); font-weight: 500; }
+.date.unread-date { color: var(--text); font-weight: 600; }
+</style>
+</head>
+<body>
+<div class="inbox">
+  <!-- Notification bar -->
+  <div class="notif-bar">
+    <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M10.29 3.86L1.82 18a2 2 0 001.71 3h16.94a2 2 0 001.71-3L13.71 3.86a2 2 0 00-3.42 0z"/><line x1="12" y1="9" x2="12" y2="13"/><line x1="12" y1="17" x2="12.01" y2="17"/></svg>
+    3 freelancer replies need response
+  </div>
+  <!-- Toolbar -->
+  <div class="toolbar">
+    <div class="tb-check"></div>
+    <div class="tb-btn"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><polyline points="3 6 5 6 21 6"/><path d="M19 6l-1 14H6L5 6"/><path d="M10 11v6"/><path d="M14 11v6"/><path d="M9 6V4h6v2"/></svg></div>
+    <div class="tb-btn"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><rect x="2" y="4" width="20" height="16" rx="2"/><path d="M2 8h20"/></svg></div>
+    <div class="tb-btn"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M22 2L11 13"/><polygon points="22 2 15 22 11 13 2 9 22 2"/></svg></div>
+    <div class="tb-sep"></div>
+    <div class="tb-btn"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><polyline points="9 11 12 14 22 4"/><path d="M21 12v7a2 2 0 01-2 2H5a2 2 0 01-2-2V5a2 2 0 012-2h11"/></svg></div>
+    <div class="tb-btn"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><circle cx="12" cy="12" r="1"/><circle cx="19" cy="12" r="1"/><circle cx="5" cy="12" r="1"/></svg></div>
+    <div class="tb-right">1-24 of 247</div>
+  </div>
+  <!-- Tabs -->
+  <div class="tabs">
+    <div class="tab active">Inbox <span class="count">24</span></div>
+    <div class="tab">Starred</div>
+    <div class="tab">Sent</div>
+    <div class="tab">Drafts <span class="count" style="background:var(--text-dim);">6</span></div>
+  </div>
+  <!-- Email rows -->
+  <div class="email-row unread">
+    <div class="e-actions"><div class="e-check"></div><svg class="e-star" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><polygon points="12 2 15.09 8.26 22 9.27 17 14.14 18.18 21.02 12 17.77 5.82 21.02 7 14.14 2 9.27 8.91 8.26 12 2"/></svg></div>
+    <div class="sender">Jordan L.</div>
+    <div class="subject-line"><span class="subject">Re: Re: Available for React project?</span><span class="preview"> - Yes I could start next Tue but need to confirm the hourly rate first. Also do you</span></div>
+    <div class="meta"><span class="date unread-date">2h ago</span></div>
+  </div>
+  <div class="email-row unread">
+    <div class="e-actions"><div class="e-check"></div><svg class="e-star filled" viewBox="0 0 24 24" stroke="currentColor" stroke-width="2"><polygon points="12 2 15.09 8.26 22 9.27 17 14.14 18.18 21.02 12 17.77 5.82 21.02 7 14.14 2 9.27 8.91 8.26 12 2"/></svg></div>
+    <div class="sender">Priya S.</div>
+    <div class="subject-line"><span class="subject">Updated rate card - Q1</span><svg class="clip" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M21.44 11.05l-9.19 9.19a6 6 0 01-8.49-8.49l9.19-9.19a4 4 0 015.66 5.66l-9.2 9.19a2 2 0 01-2.83-2.83l8.49-8.49"/></svg><span class="preview"> - Hi Sarah, attaching my updated rates for Q1. Let me know if the new</span></div>
+    <div class="meta"><span class="date unread-date">5h ago</span></div>
+  </div>
+  <div class="email-row">
+    <div class="e-actions"><div class="e-check"></div><svg class="e-star" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><polygon points="12 2 15.09 8.26 22 9.27 17 14.14 18.18 21.02 12 17.77 5.82 21.02 7 14.14 2 9.27 8.91 8.26 12 2"/></svg></div>
+    <div class="sender">Alex M.</div>
+    <div class="subject-line"><span class="subject">Portfolio + availability</span><svg class="clip" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M21.44 11.05l-9.19 9.19a6 6 0 01-8.49-8.49l9.19-9.19a4 4 0 015.66 5.66l-9.2 9.19a2 2 0 01-2.83-2.83l8.49-8.49"/></svg><span class="preview"> - Hey! Here's my portfolio as requested. I'm open from mid-Feb onward</span></div>
+    <div class="meta"><span class="date">1d ago</span></div>
+  </div>
+  <div class="email-row unread">
+    <div class="e-actions"><div class="e-check"></div><svg class="e-star" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><polygon points="12 2 15.09 8.26 22 9.27 17 14.14 18.18 21.02 12 17.77 5.82 21.02 7 14.14 2 9.27 8.91 8.26 12 2"/></svg></div>
+    <div class="sender">Marcus T.</div>
+    <div class="subject-line"><span class="subject">Re: Contract terms?</span><span class="preview"> - I'm not comfortable with the IP clause in section 4. Can we revise before</span></div>
+    <div class="meta"><span class="date unread-date">1d ago</span></div>
+  </div>
+  <div class="email-row">
+    <div class="e-actions"><div class="e-check"></div><svg class="e-star filled" viewBox="0 0 24 24" stroke="currentColor" stroke-width="2"><polygon points="12 2 15.09 8.26 22 9.27 17 14.14 18.18 21.02 12 17.77 5.82 21.02 7 14.14 2 9.27 8.91 8.26 12 2"/></svg></div>
+    <div class="sender">Lena K.</div>
+    <div class="subject-line"><span class="subject">Invoice #247 - Dashboard project</span><svg class="clip" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M21.44 11.05l-9.19 9.19a6 6 0 01-8.49-8.49l9.19-9.19a4 4 0 015.66 5.66l-9.2 9.19a2 2 0 01-2.83-2.83l8.49-8.49"/></svg><span class="preview"> - Please find attached invoice for 32hrs of work on the dashboard redesign</span></div>
+    <div class="meta"><span class="date">2d ago</span></div>
+  </div>
+  <div class="email-row">
+    <div class="e-actions"><div class="e-check"></div><svg class="e-star" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><polygon points="12 2 15.09 8.26 22 9.27 17 14.14 18.18 21.02 12 17.77 5.82 21.02 7 14.14 2 9.27 8.91 8.26 12 2"/></svg></div>
+    <div class="sender">Dev R.</div>
+    <div class="subject-line"><span class="subject">Re: Re: Re: Timeline for API build?</span><span class="preview"> - Sorry for the late reply. I think 6 weeks is doable if we start by the 20th</span></div>
+    <div class="meta"><span class="date">3d ago</span></div>
+  </div>
+  <div class="email-row unread">
+    <div class="e-actions"><div class="e-check"></div><svg class="e-star" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><polygon points="12 2 15.09 8.26 22 9.27 17 14.14 18.18 21.02 12 17.77 5.82 21.02 7 14.14 2 9.27 8.91 8.26 12 2"/></svg></div>
+    <div class="sender">Nina W.</div>
+    <div class="subject-line"><span class="subject">Can't do Mondays anymore</span><span class="preview"> - Hi Sarah, just a heads up - my other project shifted and I won't be free on</span></div>
+    <div class="meta"><span class="date unread-date">3d ago</span></div>
+  </div>
+  <div class="email-row">
+    <div class="e-actions"><div class="e-check"></div><svg class="e-star" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><polygon points="12 2 15.09 8.26 22 9.27 17 14.14 18.18 21.02 12 17.77 5.82 21.02 7 14.14 2 9.27 8.91 8.26 12 2"/></svg></div>
+    <div class="sender">Jordan L.</div>
+    <div class="subject-line"><span class="subject">Re: NDA for mobile app project</span><svg class="clip" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M21.44 11.05l-9.19 9.19a6 6 0 01-8.49-8.49l9.19-9.19a4 4 0 015.66 5.66l-9.2 9.19a2 2 0 01-2.83-2.83l8.49-8.49"/></svg><span class="preview"> - Signed copy attached. When do we kick off? I'll block out my calendar</span></div>
+    <div class="meta"><span class="date">5d ago</span></div>
+  </div>
+  <div class="email-row">
+    <div class="e-actions"><div class="e-check"></div><svg class="e-star" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><polygon points="12 2 15.09 8.26 22 9.27 17 14.14 18.18 21.02 12 17.77 5.82 21.02 7 14.14 2 9.27 8.91 8.26 12 2"/></svg></div>
+    <div class="sender">Priya S.</div>
+    <div class="subject-line"><span class="subject">Re: Figma access for e-commerce?</span><span class="preview"> - Got it, thanks! I'll start the wireframes this week. Quick question about the</span></div>
+    <div class="meta"><span class="date">5d ago</span></div>
+  </div>
+  <div class="email-row unread">
+    <div class="e-actions"><div class="e-check"></div><svg class="e-star" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><polygon points="12 2 15.09 8.26 22 9.27 17 14.14 18.18 21.02 12 17.77 5.82 21.02 7 14.14 2 9.27 8.91 8.26 12 2"/></svg></div>
+    <div class="sender">Alex M.</div>
+    <div class="subject-line"><span class="subject">Referral: backend dev for your API project</span><span class="preview"> - Hey Sarah, my colleague Sam is great with Node/Express. Want me to intro?</span></div>
+    <div class="meta"><span class="date unread-date">6d ago</span></div>
+  </div>
+</div>
+</body>
+</html>

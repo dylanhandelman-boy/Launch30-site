@@ -1,0 +1,1781 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>FitTrack Personal Dashboard</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=DM+Sans:wght@400;500;600;700&family=Space+Mono:wght@400;700&display=swap" rel="stylesheet">
+<style>
+/* ============================================
+   CSS CUSTOM PROPERTIES — Warm Wellness Theme
+   ============================================ */
+:root {
+  /* Colors — Light Mode */
+  --bg-primary: #FBF8F4;
+  --bg-secondary: #FFFFFF;
+  --bg-sidebar: #F5F0EA;
+  --bg-card: #FFFFFF;
+  --bg-hover: #F0EBE4;
+  --bg-progress: #EDE8E1;
+
+  --text-primary: #2D2926;
+  --text-secondary: #7A7067;
+  --text-muted: #9C9389;
+  --text-sidebar: #7A7067;
+  --text-sidebar-active: #2D2926;
+  --text-on-accent: #ffffff;
+
+  --accent-coral: #E8725C;
+  --accent-coral-light: #FDF0ED;
+  --accent-coral-dark: #C95A45;
+  --accent-sage: #7C9A82;
+  --accent-sage-light: #EDF3EE;
+  --accent-sage-dark: #5E7D64;
+  --accent-amber: #D4A853;
+  --accent-amber-light: #FBF4E4;
+  --accent-lavender: #9B8EC4;
+  --accent-lavender-light: #F1EEF8;
+  --accent-sky: #5EA3C4;
+  --accent-sky-light: #EAF3F8;
+
+  --border-color: #E8E2DA;
+  --border-light: #F0EBE4;
+  --sidebar-border: #E0D8CE;
+
+  --shadow-sm: 0 1px 3px rgba(45, 41, 38, 0.04), 0 1px 2px rgba(45, 41, 38, 0.02);
+  --shadow-md: 0 4px 14px rgba(45, 41, 38, 0.06), 0 2px 6px rgba(45, 41, 38, 0.03);
+  --shadow-lg: 0 10px 30px rgba(45, 41, 38, 0.08), 0 4px 12px rgba(45, 41, 38, 0.04);
+  --shadow-card: 0 2px 8px rgba(45, 41, 38, 0.04), 0 1px 3px rgba(45, 41, 38, 0.03);
+  --shadow-warm: 0 4px 20px rgba(232, 114, 92, 0.08);
+
+  --radius-sm: 12px;
+  --radius-md: 16px;
+  --radius-lg: 20px;
+  --radius-xl: 24px;
+  --radius-pill: 9999px;
+
+  --sidebar-width: 260px;
+  --topbar-height: 76px;
+
+  --font-body: 'DM Sans', -apple-system, BlinkMacSystemFont, 'Segoe UI', sans-serif;
+  --font-mono: 'Space Mono', 'Courier New', monospace;
+
+  --transition-fast: 150ms ease;
+  --transition-normal: 250ms ease;
+  --transition-slow: 400ms cubic-bezier(0.25, 0.46, 0.45, 0.94);
+}
+
+/* ============================================
+   DARK MODE
+   ============================================ */
+@media (prefers-color-scheme: dark) {
+  :root {
+    --bg-primary: #1A1814;
+    --bg-secondary: #211F1B;
+    --bg-sidebar: #1E1C18;
+    --bg-card: #252220;
+    --bg-hover: #2E2B27;
+    --bg-progress: #332F2B;
+
+    --text-primary: #EDE8E1;
+    --text-secondary: #A69D93;
+    --text-muted: #7A7067;
+    --text-sidebar: #8A8178;
+    --text-sidebar-active: #EDE8E1;
+
+    --accent-coral-light: #3A2220;
+    --accent-sage-light: #1E2D20;
+    --accent-amber-light: #332C1A;
+    --accent-lavender-light: #272240;
+    --accent-sky-light: #1A2A33;
+
+    --border-color: #3A3530;
+    --border-light: #2E2B27;
+    --sidebar-border: #33302B;
+
+    --shadow-sm: 0 1px 3px rgba(0, 0, 0, 0.2);
+    --shadow-md: 0 4px 14px rgba(0, 0, 0, 0.25);
+    --shadow-lg: 0 10px 30px rgba(0, 0, 0, 0.35);
+    --shadow-card: 0 2px 8px rgba(0, 0, 0, 0.2), 0 1px 3px rgba(0, 0, 0, 0.15);
+    --shadow-warm: 0 4px 20px rgba(232, 114, 92, 0.06);
+  }
+}
+
+/* ============================================
+   REDUCED MOTION
+   ============================================ */
+@media (prefers-reduced-motion: reduce) {
+  *, *::before, *::after {
+    animation-duration: 0.01ms !important;
+    animation-iteration-count: 1 !important;
+    transition-duration: 0.01ms !important;
+  }
+}
+
+/* ============================================
+   RESET & BASE
+   ============================================ */
+*, *::before, *::after {
+  margin: 0;
+  padding: 0;
+  box-sizing: border-box;
+}
+
+html, body {
+  height: 100%;
+  overflow: hidden;
+}
+
+body {
+  font-family: var(--font-body);
+  background: var(--bg-primary);
+  color: var(--text-primary);
+  -webkit-font-smoothing: antialiased;
+  -moz-osx-font-smoothing: grayscale;
+  line-height: 1.6;
+}
+
+/* ============================================
+   LAYOUT SHELL
+   ============================================ */
+.app-shell {
+  display: flex;
+  height: 100vh;
+  width: 100%;
+  overflow: hidden;
+}
+
+/* ============================================
+   SIDEBAR — Warm Cream Theme
+   ============================================ */
+.sidebar {
+  width: var(--sidebar-width);
+  min-width: var(--sidebar-width);
+  background: var(--bg-sidebar);
+  border-right: 1px solid var(--sidebar-border);
+  display: flex;
+  flex-direction: column;
+  padding: 28px 18px;
+  transition: transform var(--transition-normal), width var(--transition-normal);
+  z-index: 100;
+  overflow-y: auto;
+  overflow-x: hidden;
+}
+
+.sidebar-logo {
+  display: flex;
+  align-items: center;
+  gap: 12px;
+  padding: 0 10px;
+  margin-bottom: 40px;
+  text-decoration: none;
+}
+
+.sidebar-logo svg {
+  flex-shrink: 0;
+}
+
+.sidebar-logo-text {
+  font-size: 20px;
+  font-weight: 700;
+  color: var(--text-primary);
+  letter-spacing: -0.4px;
+}
+
+.sidebar-logo-text span {
+  color: var(--accent-coral);
+}
+
+.sidebar-nav {
+  flex: 1;
+  display: flex;
+  flex-direction: column;
+  gap: 6px;
+}
+
+.nav-item {
+  display: flex;
+  align-items: center;
+  gap: 14px;
+  padding: 11px 14px;
+  border-radius: var(--radius-sm);
+  color: var(--text-sidebar);
+  cursor: pointer;
+  transition: all var(--transition-fast);
+  font-size: 14.5px;
+  font-weight: 500;
+  text-decoration: none;
+  border: none;
+  background: none;
+  width: 100%;
+  text-align: left;
+}
+
+.nav-item svg {
+  width: 20px;
+  height: 20px;
+  flex-shrink: 0;
+  opacity: 0.55;
+  transition: opacity var(--transition-fast);
+}
+
+.nav-item:hover {
+  background: var(--bg-hover);
+  color: var(--text-primary);
+}
+
+.nav-item:hover svg {
+  opacity: 0.8;
+}
+
+.nav-item.active {
+  background: var(--accent-coral-light);
+  color: var(--accent-coral);
+  font-weight: 600;
+}
+
+.nav-item.active svg {
+  opacity: 1;
+  color: var(--accent-coral);
+}
+
+.sidebar-user {
+  display: flex;
+  align-items: center;
+  gap: 12px;
+  padding: 14px 10px;
+  margin-top: 16px;
+  border-top: 1px solid var(--sidebar-border);
+}
+
+.sidebar-avatar {
+  width: 38px;
+  height: 38px;
+  border-radius: var(--radius-pill);
+  background: linear-gradient(135deg, var(--accent-coral), var(--accent-amber));
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  font-size: 14px;
+  font-weight: 700;
+  color: #ffffff;
+  flex-shrink: 0;
+}
+
+.sidebar-user-info {
+  min-width: 0;
+}
+
+.sidebar-user-name {
+  font-size: 13.5px;
+  font-weight: 600;
+  color: var(--text-primary);
+  white-space: nowrap;
+  overflow: hidden;
+  text-overflow: ellipsis;
+}
+
+.sidebar-user-plan {
+  font-size: 11.5px;
+  color: var(--text-muted);
+  white-space: nowrap;
+}
+
+/* ============================================
+   MOBILE MENU TOGGLE
+   ============================================ */
+.mobile-menu-btn {
+  display: none;
+  position: fixed;
+  top: 18px;
+  left: 16px;
+  z-index: 200;
+  width: 42px;
+  height: 42px;
+  border-radius: var(--radius-sm);
+  background: var(--bg-card);
+  border: 1px solid var(--border-color);
+  box-shadow: var(--shadow-md);
+  cursor: pointer;
+  align-items: center;
+  justify-content: center;
+  color: var(--text-primary);
+  transition: background var(--transition-fast);
+}
+
+.mobile-menu-btn:hover {
+  background: var(--bg-hover);
+}
+
+.sidebar-overlay {
+  display: none;
+  position: fixed;
+  inset: 0;
+  background: rgba(45, 41, 38, 0.4);
+  backdrop-filter: blur(4px);
+  z-index: 90;
+  opacity: 0;
+  transition: opacity var(--transition-normal);
+}
+
+.sidebar-overlay.visible {
+  opacity: 1;
+}
+
+/* ============================================
+   MAIN CONTENT
+   ============================================ */
+.main-content {
+  flex: 1;
+  display: flex;
+  flex-direction: column;
+  overflow: hidden;
+  min-width: 0;
+}
+
+/* ============================================
+   TOP BAR
+   ============================================ */
+.topbar {
+  height: var(--topbar-height);
+  min-height: var(--topbar-height);
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  padding: 0 36px;
+  border-bottom: 1px solid var(--border-color);
+  background: var(--bg-secondary);
+}
+
+.topbar-left h1 {
+  font-size: 21px;
+  font-weight: 700;
+  color: var(--text-primary);
+  letter-spacing: -0.3px;
+}
+
+.topbar-left p {
+  font-size: 13px;
+  color: var(--text-muted);
+  margin-top: 2px;
+}
+
+.topbar-right {
+  display: flex;
+  align-items: center;
+  gap: 12px;
+}
+
+.notification-btn {
+  position: relative;
+  width: 42px;
+  height: 42px;
+  border-radius: var(--radius-sm);
+  border: 1px solid var(--border-color);
+  background: var(--bg-card);
+  cursor: pointer;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  color: var(--text-secondary);
+  transition: all var(--transition-fast);
+}
+
+.notification-btn:hover {
+  border-color: var(--accent-coral);
+  color: var(--accent-coral);
+  box-shadow: var(--shadow-warm);
+}
+
+.notification-dot {
+  position: absolute;
+  top: 9px;
+  right: 9px;
+  width: 8px;
+  height: 8px;
+  border-radius: 50%;
+  background: var(--accent-coral);
+  border: 2px solid var(--bg-card);
+}
+
+/* ============================================
+   SCROLLABLE AREA
+   ============================================ */
+.content-scroll {
+  flex: 1;
+  overflow-y: auto;
+  overflow-x: hidden;
+  padding: 30px 36px 48px;
+}
+
+.content-scroll::-webkit-scrollbar {
+  width: 6px;
+}
+
+.content-scroll::-webkit-scrollbar-track {
+  background: transparent;
+}
+
+.content-scroll::-webkit-scrollbar-thumb {
+  background: var(--border-color);
+  border-radius: 3px;
+}
+
+.content-scroll::-webkit-scrollbar-thumb:hover {
+  background: var(--text-muted);
+}
+
+/* ============================================
+   STATS ROW
+   ============================================ */
+.stats-row {
+  display: grid;
+  grid-template-columns: repeat(4, 1fr);
+  gap: 18px;
+  margin-bottom: 30px;
+}
+
+.stat-card {
+  background: var(--bg-card);
+  border: 1px solid var(--border-color);
+  border-radius: var(--radius-lg);
+  padding: 22px;
+  box-shadow: var(--shadow-card);
+  transition: transform var(--transition-slow), box-shadow var(--transition-slow);
+  cursor: default;
+  position: relative;
+  overflow: hidden;
+}
+
+.stat-card::before {
+  content: '';
+  position: absolute;
+  top: 0;
+  left: 0;
+  right: 0;
+  height: 100%;
+  opacity: 0.35;
+  pointer-events: none;
+  border-radius: inherit;
+}
+
+.stat-card.coral-gradient::before {
+  background: linear-gradient(135deg, rgba(232, 114, 92, 0.1) 0%, transparent 60%);
+}
+
+.stat-card.amber-gradient::before {
+  background: linear-gradient(135deg, rgba(212, 168, 83, 0.1) 0%, transparent 60%);
+}
+
+.stat-card.sage-gradient::before {
+  background: linear-gradient(135deg, rgba(124, 154, 130, 0.1) 0%, transparent 60%);
+}
+
+.stat-card.sky-gradient::before {
+  background: linear-gradient(135deg, rgba(94, 163, 196, 0.1) 0%, transparent 60%);
+}
+
+.stat-card:hover {
+  transform: translateY(-3px);
+  box-shadow: var(--shadow-lg);
+}
+
+.stat-card-header {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  margin-bottom: 16px;
+  position: relative;
+}
+
+.stat-card-icon {
+  width: 44px;
+  height: 44px;
+  border-radius: var(--radius-pill);
+  display: flex;
+  align-items: center;
+  justify-content: center;
+}
+
+.stat-card-icon.coral {
+  background: var(--accent-coral-light);
+  color: var(--accent-coral);
+}
+.stat-card-icon.sage {
+  background: var(--accent-sage-light);
+  color: var(--accent-sage);
+}
+.stat-card-icon.amber {
+  background: var(--accent-amber-light);
+  color: var(--accent-amber);
+}
+.stat-card-icon.sky {
+  background: var(--accent-sky-light);
+  color: var(--accent-sky);
+}
+
+.stat-card-badge {
+  font-size: 11px;
+  font-weight: 700;
+  padding: 4px 10px;
+  border-radius: var(--radius-pill);
+  font-family: var(--font-mono);
+  letter-spacing: 0.2px;
+}
+
+.stat-card-badge.up {
+  background: var(--accent-sage-light);
+  color: var(--accent-sage-dark);
+}
+
+.stat-card-badge.neutral {
+  background: var(--bg-hover);
+  color: var(--text-muted);
+}
+
+.stat-card-value {
+  font-family: var(--font-mono);
+  font-size: 28px;
+  font-weight: 700;
+  color: var(--text-primary);
+  letter-spacing: -1px;
+  line-height: 1.1;
+  position: relative;
+}
+
+.stat-card-label {
+  font-size: 13px;
+  color: var(--text-muted);
+  margin-top: 4px;
+  position: relative;
+}
+
+.stat-card-progress {
+  margin-top: 14px;
+  position: relative;
+}
+
+.stat-progress-bar {
+  width: 100%;
+  height: 7px;
+  background: var(--bg-progress);
+  border-radius: var(--radius-pill);
+  overflow: hidden;
+}
+
+.stat-progress-fill {
+  height: 100%;
+  border-radius: var(--radius-pill);
+  transition: width 0.8s ease;
+}
+
+.stat-progress-fill.coral { background: var(--accent-coral); }
+.stat-progress-fill.sage { background: var(--accent-sage); }
+.stat-progress-fill.amber { background: var(--accent-amber); }
+.stat-progress-fill.sky { background: var(--accent-sky); }
+
+.stat-progress-text {
+  font-size: 11px;
+  font-family: var(--font-mono);
+  color: var(--text-muted);
+  margin-top: 7px;
+}
+
+/* Steps card with ring */
+.steps-card-body {
+  display: flex;
+  align-items: center;
+  gap: 20px;
+  position: relative;
+}
+
+.steps-ring-container {
+  position: relative;
+  width: 76px;
+  height: 76px;
+  flex-shrink: 0;
+}
+
+.steps-ring-container svg {
+  transform: rotate(-90deg);
+}
+
+.steps-ring-text {
+  position: absolute;
+  inset: 0;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  font-family: var(--font-mono);
+  font-size: 13px;
+  font-weight: 700;
+  color: var(--text-primary);
+}
+
+/* ============================================
+   GRID: Chart + Nutrition
+   ============================================ */
+.content-grid {
+  display: grid;
+  grid-template-columns: 1fr 360px;
+  gap: 18px;
+  margin-bottom: 30px;
+}
+
+/* ============================================
+   CARD SHARED STYLES
+   ============================================ */
+.card {
+  background: var(--bg-card);
+  border: 1px solid var(--border-color);
+  border-radius: var(--radius-lg);
+  box-shadow: var(--shadow-card);
+  overflow: hidden;
+}
+
+.card-header {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  padding: 22px 26px 0;
+}
+
+.card-title {
+  font-size: 17px;
+  font-weight: 700;
+  color: var(--text-primary);
+  letter-spacing: -0.2px;
+}
+
+.card-subtitle {
+  font-size: 12.5px;
+  color: var(--text-muted);
+  margin-top: 2px;
+}
+
+.card-action {
+  font-size: 12.5px;
+  font-weight: 600;
+  color: var(--accent-coral);
+  cursor: pointer;
+  background: none;
+  border: none;
+  padding: 7px 14px;
+  border-radius: var(--radius-sm);
+  transition: background var(--transition-fast);
+  font-family: var(--font-body);
+}
+
+.card-action:hover {
+  background: var(--accent-coral-light);
+}
+
+.card-body {
+  padding: 22px 26px 26px;
+}
+
+/* ============================================
+   WEEKLY ACTIVITY CHART — Pill-shaped bars
+   ============================================ */
+.chart-container {
+  width: 100%;
+  height: 220px;
+  display: flex;
+  align-items: flex-end;
+  gap: 0;
+  position: relative;
+  padding-left: 40px;
+  padding-bottom: 30px;
+}
+
+.chart-y-axis {
+  position: absolute;
+  left: 0;
+  top: 0;
+  bottom: 30px;
+  width: 40px;
+  display: flex;
+  flex-direction: column;
+  justify-content: space-between;
+  align-items: flex-end;
+  padding-right: 10px;
+}
+
+.chart-y-label {
+  font-family: var(--font-mono);
+  font-size: 10px;
+  color: var(--text-muted);
+  line-height: 1;
+}
+
+.chart-grid {
+  position: absolute;
+  left: 40px;
+  right: 0;
+  top: 0;
+  bottom: 30px;
+}
+
+.chart-grid-line {
+  position: absolute;
+  left: 0;
+  right: 0;
+  height: 1px;
+  background: var(--border-light);
+}
+
+.chart-bars {
+  display: flex;
+  align-items: flex-end;
+  flex: 1;
+  height: 100%;
+  gap: 0;
+  position: relative;
+  z-index: 2;
+  padding-bottom: 0;
+}
+
+.chart-bar-group {
+  flex: 1;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  height: 100%;
+  justify-content: flex-end;
+}
+
+.chart-bar {
+  width: 50%;
+  max-width: 32px;
+  border-radius: var(--radius-pill);
+  background: var(--accent-sage);
+  opacity: 0.3;
+  transition: opacity var(--transition-fast), transform var(--transition-fast);
+  cursor: pointer;
+  position: relative;
+}
+
+.chart-bar:hover {
+  opacity: 0.55 !important;
+  transform: scaleY(1.03);
+  transform-origin: bottom;
+}
+
+.chart-bar.today {
+  opacity: 1;
+  background: linear-gradient(to top, var(--accent-coral), #EE9484);
+}
+
+.chart-bar.active {
+  opacity: 0.4;
+}
+
+.chart-bar-label {
+  margin-top: 12px;
+  font-size: 11.5px;
+  font-weight: 500;
+  color: var(--text-muted);
+  text-align: center;
+}
+
+.chart-bar-label.today {
+  color: var(--accent-coral);
+  font-weight: 700;
+}
+
+/* Tooltip */
+.chart-bar-tooltip {
+  position: absolute;
+  bottom: calc(100% + 10px);
+  left: 50%;
+  transform: translateX(-50%);
+  background: var(--text-primary);
+  color: var(--bg-primary);
+  font-family: var(--font-mono);
+  font-size: 11px;
+  font-weight: 700;
+  padding: 5px 10px;
+  border-radius: var(--radius-sm);
+  white-space: nowrap;
+  opacity: 0;
+  pointer-events: none;
+  transition: opacity var(--transition-fast);
+}
+
+.chart-bar:hover .chart-bar-tooltip {
+  opacity: 1;
+}
+
+/* ============================================
+   NUTRITION DONUT
+   ============================================ */
+.nutrition-chart {
+  display: flex;
+  align-items: center;
+  gap: 26px;
+}
+
+.donut-container {
+  position: relative;
+  width: 140px;
+  height: 140px;
+  flex-shrink: 0;
+}
+
+.donut-center {
+  position: absolute;
+  inset: 0;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+}
+
+.donut-center-value {
+  font-family: var(--font-mono);
+  font-size: 22px;
+  font-weight: 700;
+  color: var(--text-primary);
+  line-height: 1.1;
+}
+
+.donut-center-label {
+  font-size: 11px;
+  color: var(--text-muted);
+  margin-top: 3px;
+}
+
+.nutrition-legend {
+  display: flex;
+  flex-direction: column;
+  gap: 16px;
+  flex: 1;
+}
+
+.legend-item {
+  display: flex;
+  align-items: center;
+  gap: 12px;
+}
+
+.legend-dot {
+  width: 12px;
+  height: 12px;
+  border-radius: var(--radius-pill);
+  flex-shrink: 0;
+}
+
+.legend-dot.protein { background: var(--accent-sage); }
+.legend-dot.carbs { background: var(--accent-sky); }
+.legend-dot.fat { background: var(--accent-amber); }
+
+.legend-info {
+  flex: 1;
+  min-width: 0;
+}
+
+.legend-label {
+  font-size: 13px;
+  font-weight: 500;
+  color: var(--text-secondary);
+}
+
+.legend-value {
+  font-family: var(--font-mono);
+  font-size: 14px;
+  font-weight: 700;
+  color: var(--text-primary);
+}
+
+.legend-bar {
+  width: 100%;
+  height: 5px;
+  background: var(--bg-progress);
+  border-radius: var(--radius-pill);
+  margin-top: 5px;
+  overflow: hidden;
+}
+
+.legend-bar-fill {
+  height: 100%;
+  border-radius: var(--radius-pill);
+}
+
+.legend-bar-fill.protein { background: var(--accent-sage); width: 80%; }
+.legend-bar-fill.carbs { background: var(--accent-sky); width: 60%; }
+.legend-bar-fill.fat { background: var(--accent-amber); width: 72%; }
+
+/* ============================================
+   RECENT WORKOUTS TABLE
+   ============================================ */
+.workouts-table {
+  width: 100%;
+}
+
+.workout-row {
+  display: flex;
+  align-items: center;
+  padding: 15px 0;
+  border-bottom: 1px solid var(--border-light);
+  transition: background var(--transition-fast);
+  border-radius: var(--radius-sm);
+  gap: 16px;
+}
+
+.workout-row:last-child {
+  border-bottom: none;
+  padding-bottom: 0;
+}
+
+.workout-row:first-child {
+  padding-top: 0;
+}
+
+.workout-icon {
+  width: 44px;
+  height: 44px;
+  border-radius: var(--radius-pill);
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  flex-shrink: 0;
+}
+
+.workout-icon.run {
+  background: var(--accent-coral-light);
+  color: var(--accent-coral);
+}
+.workout-icon.strength {
+  background: var(--accent-sage-light);
+  color: var(--accent-sage);
+}
+.workout-icon.yoga {
+  background: var(--accent-lavender-light);
+  color: var(--accent-lavender);
+}
+.workout-icon.hiit {
+  background: var(--accent-amber-light);
+  color: var(--accent-amber);
+}
+.workout-icon.cycling {
+  background: var(--accent-sky-light);
+  color: var(--accent-sky);
+}
+
+.workout-info {
+  flex: 1;
+  min-width: 0;
+}
+
+.workout-name {
+  font-size: 14.5px;
+  font-weight: 600;
+  color: var(--text-primary);
+}
+
+.workout-date {
+  font-size: 12px;
+  color: var(--text-muted);
+  margin-top: 2px;
+}
+
+.workout-stats {
+  display: flex;
+  align-items: center;
+  gap: 22px;
+}
+
+.workout-stat {
+  text-align: right;
+}
+
+.workout-stat-value {
+  font-family: var(--font-mono);
+  font-size: 13px;
+  font-weight: 700;
+  color: var(--text-primary);
+}
+
+.workout-stat-label {
+  font-size: 11px;
+  color: var(--text-muted);
+}
+
+.workout-badge {
+  font-size: 11px;
+  font-weight: 600;
+  padding: 5px 12px;
+  border-radius: var(--radius-pill);
+  background: var(--accent-sage-light);
+  color: var(--accent-sage-dark);
+  white-space: nowrap;
+}
+
+/* ============================================
+   RESPONSIVE — TABLETS
+   ============================================ */
+@media (max-width: 1024px) {
+  .content-grid {
+    grid-template-columns: 1fr;
+  }
+
+  .stats-row {
+    grid-template-columns: repeat(2, 1fr);
+  }
+}
+
+/* ============================================
+   RESPONSIVE — MOBILE
+   ============================================ */
+@media (max-width: 768px) {
+  .sidebar {
+    position: fixed;
+    left: 0;
+    top: 0;
+    bottom: 0;
+    transform: translateX(-100%);
+  }
+
+  .sidebar.open {
+    transform: translateX(0);
+  }
+
+  .sidebar-overlay.visible {
+    display: block;
+  }
+
+  .mobile-menu-btn {
+    display: flex;
+  }
+
+  .topbar {
+    padding: 0 18px 0 68px;
+  }
+
+  .content-scroll {
+    padding: 22px 18px 36px;
+  }
+
+  .stats-row {
+    grid-template-columns: 1fr 1fr;
+    gap: 14px;
+  }
+
+  .stat-card {
+    padding: 18px;
+  }
+
+  .stat-card-value {
+    font-size: 22px;
+  }
+
+  .workout-stats {
+    gap: 14px;
+  }
+
+  .workout-badge {
+    display: none;
+  }
+
+  .topbar-left h1 {
+    font-size: 17px;
+  }
+
+  .card-body {
+    padding: 18px;
+  }
+
+  .card-header {
+    padding: 18px 18px 0;
+  }
+}
+
+@media (max-width: 480px) {
+  .stats-row {
+    grid-template-columns: 1fr;
+  }
+
+  .steps-card-body {
+    flex-direction: column;
+    align-items: flex-start;
+  }
+
+  .nutrition-chart {
+    flex-direction: column;
+    align-items: center;
+  }
+
+  .workout-stats {
+    flex-direction: column;
+    gap: 4px;
+    align-items: flex-end;
+  }
+}
+
+/* ============================================
+   ANIMATIONS
+   ============================================ */
+@keyframes fadeInUp {
+  from {
+    opacity: 0;
+    transform: translateY(14px);
+  }
+  to {
+    opacity: 1;
+    transform: translateY(0);
+  }
+}
+
+.animate-in {
+  animation: fadeInUp 0.5s cubic-bezier(0.25, 0.46, 0.45, 0.94) forwards;
+  opacity: 0;
+}
+
+.animate-in:nth-child(1) { animation-delay: 0.06s; }
+.animate-in:nth-child(2) { animation-delay: 0.12s; }
+.animate-in:nth-child(3) { animation-delay: 0.18s; }
+.animate-in:nth-child(4) { animation-delay: 0.24s; }
+
+@keyframes ringFill {
+  from { stroke-dashoffset: 188.5; }
+}
+
+.ring-progress {
+  animation: ringFill 1.4s cubic-bezier(0.25, 0.46, 0.45, 0.94) forwards;
+}
+
+@keyframes barGrow {
+  from { transform: scaleY(0); }
+  to { transform: scaleY(1); }
+}
+
+.chart-bar {
+  transform-origin: bottom;
+  animation: barGrow 0.7s cubic-bezier(0.25, 0.46, 0.45, 0.94) forwards;
+}
+
+.chart-bar-group:nth-child(1) .chart-bar { animation-delay: 0.1s; }
+.chart-bar-group:nth-child(2) .chart-bar { animation-delay: 0.16s; }
+.chart-bar-group:nth-child(3) .chart-bar { animation-delay: 0.22s; }
+.chart-bar-group:nth-child(4) .chart-bar { animation-delay: 0.28s; }
+.chart-bar-group:nth-child(5) .chart-bar { animation-delay: 0.34s; }
+.chart-bar-group:nth-child(6) .chart-bar { animation-delay: 0.4s; }
+.chart-bar-group:nth-child(7) .chart-bar { animation-delay: 0.46s; }
+
+</style>
+</head>
+<body>
+
+<!-- Mobile menu button -->
+<button class="mobile-menu-btn" onclick="toggleSidebar()" aria-label="Toggle menu">
+  <svg width="20" height="20" viewBox="0 0 20 20" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round">
+    <line x1="3" y1="5" x2="17" y2="5"/>
+    <line x1="3" y1="10" x2="17" y2="10"/>
+    <line x1="3" y1="15" x2="17" y2="15"/>
+  </svg>
+</button>
+
+<!-- Sidebar overlay (mobile) -->
+<div class="sidebar-overlay" id="sidebarOverlay" onclick="toggleSidebar()"></div>
+
+<div class="app-shell">
+
+  <!-- ========== SIDEBAR ========== -->
+  <aside class="sidebar" id="sidebar">
+    <a class="sidebar-logo" href="#">
+      <svg width="32" height="32" viewBox="0 0 32 32" fill="none">
+        <rect width="32" height="32" rx="16" fill="#E8725C"/>
+        <path d="M10 17l3.5-5 3 3L21 10" stroke="#fff" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round"/>
+        <circle cx="21" cy="10" r="1.5" fill="#fff"/>
+      </svg>
+      <span class="sidebar-logo-text">Fit<span>Track</span></span>
+    </a>
+
+    <nav class="sidebar-nav">
+      <button class="nav-item active">
+        <svg viewBox="0 0 20 20" fill="none" stroke="currentColor" stroke-width="1.6" stroke-linecap="round" stroke-linejoin="round">
+          <rect x="2" y="2" width="7" height="7" rx="3"/>
+          <rect x="11" y="2" width="7" height="7" rx="3"/>
+          <rect x="2" y="11" width="7" height="7" rx="3"/>
+          <rect x="11" y="11" width="7" height="7" rx="3"/>
+        </svg>
+        Dashboard
+      </button>
+      <button class="nav-item">
+        <svg viewBox="0 0 20 20" fill="none" stroke="currentColor" stroke-width="1.6" stroke-linecap="round" stroke-linejoin="round">
+          <circle cx="10" cy="10" r="7"/>
+          <path d="M10 6v4l3 2"/>
+        </svg>
+        Workouts
+      </button>
+      <button class="nav-item">
+        <svg viewBox="0 0 20 20" fill="none" stroke="currentColor" stroke-width="1.6" stroke-linecap="round" stroke-linejoin="round">
+          <path d="M3 10c0-3 2-7 7-7s7 4 7 7"/>
+          <path d="M5 17c0-2.5 2.2-5 5-5s5 2.5 5 5"/>
+          <circle cx="10" cy="7" r="2"/>
+        </svg>
+        Nutrition
+      </button>
+      <button class="nav-item">
+        <svg viewBox="0 0 20 20" fill="none" stroke="currentColor" stroke-width="1.6" stroke-linecap="round" stroke-linejoin="round">
+          <polyline points="3,15 7,9 11,12 17,5"/>
+          <polyline points="13,5 17,5 17,9"/>
+        </svg>
+        Progress
+      </button>
+      <button class="nav-item">
+        <svg viewBox="0 0 20 20" fill="none" stroke="currentColor" stroke-width="1.6" stroke-linecap="round" stroke-linejoin="round">
+          <circle cx="10" cy="10" r="3"/>
+          <path d="M10 2v2m0 12v2m-6-8H2m16 0h-2M4.93 4.93l1.41 1.41m7.32 7.32l1.41 1.41M15.07 4.93l-1.41 1.41M6.34 13.66l-1.41 1.41"/>
+        </svg>
+        Settings
+      </button>
+    </nav>
+
+    <div class="sidebar-user">
+      <div class="sidebar-avatar">AM</div>
+      <div class="sidebar-user-info">
+        <div class="sidebar-user-name">Alex M.</div>
+        <div class="sidebar-user-plan">Pro Plan</div>
+      </div>
+    </div>
+  </aside>
+
+  <!-- ========== MAIN CONTENT ========== -->
+  <div class="main-content">
+
+    <!-- Top bar -->
+    <header class="topbar">
+      <div class="topbar-left">
+        <h1>Good morning, Alex</h1>
+        <p id="currentDate">Tuesday, February 24, 2026</p>
+      </div>
+      <div class="topbar-right">
+        <button class="notification-btn" aria-label="Notifications">
+          <svg width="18" height="18" viewBox="0 0 18 18" fill="none" stroke="currentColor" stroke-width="1.6" stroke-linecap="round" stroke-linejoin="round">
+            <path d="M13.5 6.75a4.5 4.5 0 0 0-9 0c0 5.25-2.25 6.75-2.25 6.75h13.5s-2.25-1.5-2.25-6.75"/>
+            <path d="M10.3 15.75a1.5 1.5 0 0 1-2.6 0"/>
+          </svg>
+          <span class="notification-dot"></span>
+        </button>
+      </div>
+    </header>
+
+    <!-- Scrollable content -->
+    <div class="content-scroll">
+
+      <!-- Stats Row -->
+      <div class="stats-row">
+
+        <!-- Steps -->
+        <div class="stat-card coral-gradient animate-in">
+          <div class="stat-card-header">
+            <div class="stat-card-icon coral">
+              <svg width="20" height="20" viewBox="0 0 20 20" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round">
+                <path d="M6 16l2-3 3 1 3-5 2 3"/>
+                <path d="M4 18h14"/>
+              </svg>
+            </div>
+            <span class="stat-card-badge up">+12%</span>
+          </div>
+          <div class="steps-card-body">
+            <div class="steps-ring-container">
+              <svg width="76" height="76" viewBox="0 0 76 76">
+                <circle cx="38" cy="38" r="30" fill="none" stroke="var(--bg-progress)" stroke-width="7"/>
+                <circle cx="38" cy="38" r="30" fill="none" stroke="var(--accent-coral)" stroke-width="7"
+                  stroke-linecap="round"
+                  stroke-dasharray="188.5"
+                  stroke-dashoffset="29.4"
+                  class="ring-progress"/>
+              </svg>
+              <div class="steps-ring-text">84%</div>
+            </div>
+            <div>
+              <div class="stat-card-value">8,432</div>
+              <div class="stat-card-label">of 10,000 steps</div>
+            </div>
+          </div>
+        </div>
+
+        <!-- Calories -->
+        <div class="stat-card amber-gradient animate-in">
+          <div class="stat-card-header">
+            <div class="stat-card-icon amber">
+              <svg width="20" height="20" viewBox="0 0 20 20" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round">
+                <path d="M10 2c-1 3-4 5-4 8a4 4 0 0 0 8 0c0-3-3-5-4-8z"/>
+                <path d="M10 18c-1-1.5-2-2.5-2-4a2 2 0 0 1 4 0c0 1.5-1 2.5-2 4z"/>
+              </svg>
+            </div>
+            <span class="stat-card-badge up">+8%</span>
+          </div>
+          <div class="stat-card-value">1,847</div>
+          <div class="stat-card-label">calories burned</div>
+          <div class="stat-card-progress">
+            <div class="stat-progress-bar">
+              <div class="stat-progress-fill amber" style="width: 74%;"></div>
+            </div>
+            <div class="stat-progress-text">74% of daily goal</div>
+          </div>
+        </div>
+
+        <!-- Active Minutes -->
+        <div class="stat-card sage-gradient animate-in">
+          <div class="stat-card-header">
+            <div class="stat-card-icon sage">
+              <svg width="20" height="20" viewBox="0 0 20 20" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round">
+                <circle cx="10" cy="10" r="8"/>
+                <polyline points="10,5 10,10 13.5,12"/>
+              </svg>
+            </div>
+            <span class="stat-card-badge up">+5%</span>
+          </div>
+          <div class="stat-card-value">47<span style="font-size:16px;color:var(--text-muted);font-weight:500;"> min</span></div>
+          <div class="stat-card-label">active minutes today</div>
+          <div class="stat-card-progress">
+            <div class="stat-progress-bar">
+              <div class="stat-progress-fill sage" style="width: 78%;"></div>
+            </div>
+            <div class="stat-progress-text">47 of 60 min goal</div>
+          </div>
+        </div>
+
+        <!-- Water -->
+        <div class="stat-card sky-gradient animate-in">
+          <div class="stat-card-header">
+            <div class="stat-card-icon sky">
+              <svg width="20" height="20" viewBox="0 0 20 20" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round">
+                <path d="M10 2L5 10c0 3 2.2 5.5 5 5.5s5-2.5 5-5.5L10 2z"/>
+              </svg>
+            </div>
+            <span class="stat-card-badge neutral">On track</span>
+          </div>
+          <div class="stat-card-value">6<span style="font-size:16px;color:var(--text-muted);font-weight:500;"> / 8</span></div>
+          <div class="stat-card-label">glasses of water</div>
+          <div class="stat-card-progress">
+            <div class="stat-progress-bar">
+              <div class="stat-progress-fill sky" style="width: 75%;"></div>
+            </div>
+            <div class="stat-progress-text">2 glasses remaining</div>
+          </div>
+        </div>
+
+      </div>
+
+      <!-- Chart + Nutrition row -->
+      <div class="content-grid">
+
+        <!-- Weekly Activity Chart -->
+        <div class="card">
+          <div class="card-header">
+            <div>
+              <div class="card-title">Weekly Activity</div>
+              <div class="card-subtitle">Steps per day this week</div>
+            </div>
+            <button class="card-action">View All</button>
+          </div>
+          <div class="card-body">
+            <div class="chart-container">
+              <!-- Y-Axis -->
+              <div class="chart-y-axis">
+                <span class="chart-y-label">12k</span>
+                <span class="chart-y-label">9k</span>
+                <span class="chart-y-label">6k</span>
+                <span class="chart-y-label">3k</span>
+                <span class="chart-y-label">0</span>
+              </div>
+              <!-- Grid lines -->
+              <div class="chart-grid">
+                <div class="chart-grid-line" style="top: 0%;"></div>
+                <div class="chart-grid-line" style="top: 25%;"></div>
+                <div class="chart-grid-line" style="top: 50%;"></div>
+                <div class="chart-grid-line" style="top: 75%;"></div>
+                <div class="chart-grid-line" style="top: 100%;"></div>
+              </div>
+              <!-- Bars -->
+              <div class="chart-bars">
+                <div class="chart-bar-group">
+                  <div class="chart-bar active" style="height: 75%;">
+                    <div class="chart-bar-tooltip">9,120</div>
+                  </div>
+                  <div class="chart-bar-label">Mon</div>
+                </div>
+                <div class="chart-bar-group">
+                  <div class="chart-bar active" style="height: 58%;">
+                    <div class="chart-bar-tooltip">7,040</div>
+                  </div>
+                  <div class="chart-bar-label">Tue</div>
+                </div>
+                <div class="chart-bar-group">
+                  <div class="chart-bar active" style="height: 90%;">
+                    <div class="chart-bar-tooltip">10,850</div>
+                  </div>
+                  <div class="chart-bar-label">Wed</div>
+                </div>
+                <div class="chart-bar-group">
+                  <div class="chart-bar active" style="height: 45%;">
+                    <div class="chart-bar-tooltip">5,430</div>
+                  </div>
+                  <div class="chart-bar-label">Thu</div>
+                </div>
+                <div class="chart-bar-group">
+                  <div class="chart-bar active" style="height: 82%;">
+                    <div class="chart-bar-tooltip">9,920</div>
+                  </div>
+                  <div class="chart-bar-label">Fri</div>
+                </div>
+                <div class="chart-bar-group">
+                  <div class="chart-bar active" style="height: 65%;">
+                    <div class="chart-bar-tooltip">7,840</div>
+                  </div>
+                  <div class="chart-bar-label">Sat</div>
+                </div>
+                <div class="chart-bar-group">
+                  <div class="chart-bar today" style="height: 70%;">
+                    <div class="chart-bar-tooltip">8,432</div>
+                  </div>
+                  <div class="chart-bar-label today">Sun</div>
+                </div>
+              </div>
+            </div>
+          </div>
+        </div>
+
+        <!-- Nutrition Summary -->
+        <div class="card">
+          <div class="card-header">
+            <div>
+              <div class="card-title">Nutrition</div>
+              <div class="card-subtitle">Today's macro breakdown</div>
+            </div>
+            <button class="card-action">Details</button>
+          </div>
+          <div class="card-body">
+            <div class="nutrition-chart">
+              <div class="donut-container">
+                <svg width="140" height="140" viewBox="0 0 140 140">
+                  <!-- Background circle -->
+                  <circle cx="70" cy="70" r="54" fill="none" stroke="var(--bg-progress)" stroke-width="14"/>
+                  <!-- Fat segment (65g = 17.8%) -->
+                  <circle cx="70" cy="70" r="54" fill="none"
+                    stroke="var(--accent-amber)" stroke-width="14"
+                    stroke-dasharray="339.3"
+                    stroke-dashoffset="0"
+                    stroke-linecap="round"
+                    transform="rotate(-90 70 70)"
+                    style="stroke-dasharray: 60.4 278.9;"/>
+                  <!-- Carbs segment (180g = 49.3%) -->
+                  <circle cx="70" cy="70" r="54" fill="none"
+                    stroke="var(--accent-sky)" stroke-width="14"
+                    stroke-dasharray="339.3"
+                    stroke-dashoffset="0"
+                    stroke-linecap="round"
+                    transform="rotate(-90 70 70)"
+                    style="stroke-dasharray: 167.3 171.9; stroke-dashoffset: -60.4;"/>
+                  <!-- Protein segment (120g = 32.9%) -->
+                  <circle cx="70" cy="70" r="54" fill="none"
+                    stroke="var(--accent-sage)" stroke-width="14"
+                    stroke-dasharray="339.3"
+                    stroke-dashoffset="0"
+                    stroke-linecap="round"
+                    transform="rotate(-90 70 70)"
+                    style="stroke-dasharray: 111.6 227.7; stroke-dashoffset: -227.7;"/>
+                </svg>
+                <div class="donut-center">
+                  <div class="donut-center-value">1,460</div>
+                  <div class="donut-center-label">kcal total</div>
+                </div>
+              </div>
+              <div class="nutrition-legend">
+                <div class="legend-item">
+                  <div class="legend-dot protein"></div>
+                  <div class="legend-info">
+                    <div style="display:flex;justify-content:space-between;align-items:baseline;">
+                      <span class="legend-label">Protein</span>
+                      <span class="legend-value">120g</span>
+                    </div>
+                    <div class="legend-bar"><div class="legend-bar-fill protein"></div></div>
+                  </div>
+                </div>
+                <div class="legend-item">
+                  <div class="legend-dot carbs"></div>
+                  <div class="legend-info">
+                    <div style="display:flex;justify-content:space-between;align-items:baseline;">
+                      <span class="legend-label">Carbs</span>
+                      <span class="legend-value">180g</span>
+                    </div>
+                    <div class="legend-bar"><div class="legend-bar-fill carbs"></div></div>
+                  </div>
+                </div>
+                <div class="legend-item">
+                  <div class="legend-dot fat"></div>
+                  <div class="legend-info">
+                    <div style="display:flex;justify-content:space-between;align-items:baseline;">
+                      <span class="legend-label">Fat</span>
+                      <span class="legend-value">65g</span>
+                    </div>
+                    <div class="legend-bar"><div class="legend-bar-fill fat"></div></div>
+                  </div>
+                </div>
+              </div>
+            </div>
+          </div>
+        </div>
+
+      </div>
+
+      <!-- Recent Workouts -->
+      <div class="card">
+        <div class="card-header">
+          <div>
+            <div class="card-title">Recent Workouts</div>
+            <div class="card-subtitle">Your activity this week</div>
+          </div>
+          <button class="card-action">See All</button>
+        </div>
+        <div class="card-body">
+          <div class="workouts-table">
+
+            <!-- Morning Run -->
+            <div class="workout-row">
+              <div class="workout-icon run">
+                <svg width="20" height="20" viewBox="0 0 20 20" fill="none" stroke="currentColor" stroke-width="1.6" stroke-linecap="round" stroke-linejoin="round">
+                  <circle cx="12" cy="4" r="1.5"/>
+                  <path d="M4 17l3-5 2.5 2 3-4.5"/>
+                  <path d="M14 7l-2 3-2.5-2L7 12"/>
+                  <path d="M14 7l2.5 1"/>
+                </svg>
+              </div>
+              <div class="workout-info">
+                <div class="workout-name">Morning Run</div>
+                <div class="workout-date">Today, 6:30 AM</div>
+              </div>
+              <div class="workout-stats">
+                <div class="workout-stat">
+                  <div class="workout-stat-value">32 min</div>
+                  <div class="workout-stat-label">Duration</div>
+                </div>
+                <div class="workout-stat">
+                  <div class="workout-stat-value">320 cal</div>
+                  <div class="workout-stat-label">Burned</div>
+                </div>
+              </div>
+              <span class="workout-badge">Completed</span>
+            </div>
+
+            <!-- Upper Body -->
+            <div class="workout-row">
+              <div class="workout-icon strength">
+                <svg width="20" height="20" viewBox="0 0 20 20" fill="none" stroke="currentColor" stroke-width="1.6" stroke-linecap="round" stroke-linejoin="round">
+                  <path d="M4 8v4m12-4v4"/>
+                  <path d="M2 9v2m16-2v2"/>
+                  <path d="M4 10h12"/>
+                  <rect x="3" y="7" width="2" height="6" rx="0.5"/>
+                  <rect x="15" y="7" width="2" height="6" rx="0.5"/>
+                </svg>
+              </div>
+              <div class="workout-info">
+                <div class="workout-name">Upper Body</div>
+                <div class="workout-date">Yesterday, 5:15 PM</div>
+              </div>
+              <div class="workout-stats">
+                <div class="workout-stat">
+                  <div class="workout-stat-value">45 min</div>
+                  <div class="workout-stat-label">Duration</div>
+                </div>
+                <div class="workout-stat">
+                  <div class="workout-stat-value">280 cal</div>
+                  <div class="workout-stat-label">Burned</div>
+                </div>
+              </div>
+              <span class="workout-badge">Completed</span>
+            </div>
+
+            <!-- Yoga Flow -->
+            <div class="workout-row">
+              <div class="workout-icon yoga">
+                <svg width="20" height="20" viewBox="0 0 20 20" fill="none" stroke="currentColor" stroke-width="1.6" stroke-linecap="round" stroke-linejoin="round">
+                  <circle cx="10" cy="4.5" r="1.5"/>
+                  <path d="M10 6v5"/>
+                  <path d="M6 9l4 2 4-2"/>
+                  <path d="M7 17l3-6 3 6"/>
+                </svg>
+              </div>
+              <div class="workout-info">
+                <div class="workout-name">Yoga Flow</div>
+                <div class="workout-date">Feb 22, 7:00 AM</div>
+              </div>
+              <div class="workout-stats">
+                <div class="workout-stat">
+                  <div class="workout-stat-value">30 min</div>
+                  <div class="workout-stat-label">Duration</div>
+                </div>
+                <div class="workout-stat">
+                  <div class="workout-stat-value">150 cal</div>
+                  <div class="workout-stat-label">Burned</div>
+                </div>
+              </div>
+              <span class="workout-badge">Completed</span>
+            </div>
+
+            <!-- HIIT Session -->
+            <div class="workout-row">
+              <div class="workout-icon hiit">
+                <svg width="20" height="20" viewBox="0 0 20 20" fill="none" stroke="currentColor" stroke-width="1.6" stroke-linecap="round" stroke-linejoin="round">
+                  <path d="M4 10h2l2-5 3 10 2-5h3"/>
+                </svg>
+              </div>
+              <div class="workout-info">
+                <div class="workout-name">HIIT Session</div>
+                <div class="workout-date">Feb 21, 12:00 PM</div>
+              </div>
+              <div class="workout-stats">
+                <div class="workout-stat">
+                  <div class="workout-stat-value">25 min</div>
+                  <div class="workout-stat-label">Duration</div>
+                </div>
+                <div class="workout-stat">
+                  <div class="workout-stat-value">310 cal</div>
+                  <div class="workout-stat-label">Burned</div>
+                </div>
+              </div>
+              <span class="workout-badge">Completed</span>
+            </div>
+
+            <!-- Evening Cycling -->
+            <div class="workout-row">
+              <div class="workout-icon cycling">
+                <svg width="20" height="20" viewBox="0 0 20 20" fill="none" stroke="currentColor" stroke-width="1.6" stroke-linecap="round" stroke-linejoin="round">
+                  <circle cx="5.5" cy="13.5" r="3"/>
+                  <circle cx="14.5" cy="13.5" r="3"/>
+                  <path d="M5.5 13.5L8 8h4l2.5 5.5"/>
+                  <path d="M8 8l2 5.5"/>
+                </svg>
+              </div>
+              <div class="workout-info">
+                <div class="workout-name">Evening Cycling</div>
+                <div class="workout-date">Feb 20, 6:45 PM</div>
+              </div>
+              <div class="workout-stats">
+                <div class="workout-stat">
+                  <div class="workout-stat-value">40 min</div>
+                  <div class="workout-stat-label">Duration</div>
+                </div>
+                <div class="workout-stat">
+                  <div class="workout-stat-value">290 cal</div>
+                  <div class="workout-stat-label">Burned</div>
+                </div>
+              </div>
+              <span class="workout-badge">Completed</span>
+            </div>
+
+          </div>
+        </div>
+      </div>
+
+    </div><!-- / content-scroll -->
+  </div><!-- / main-content -->
+</div><!-- / app-shell -->
+
+<script>
+// ============================================
+// SIDEBAR TOGGLE (MOBILE)
+// ============================================
+function toggleSidebar() {
+  const sidebar = document.getElementById('sidebar');
+  const overlay = document.getElementById('sidebarOverlay');
+  const isOpen = sidebar.classList.contains('open');
+
+  if (isOpen) {
+    sidebar.classList.remove('open');
+    overlay.classList.remove('visible');
+    setTimeout(() => { overlay.style.display = 'none'; }, 250);
+  } else {
+    overlay.style.display = 'block';
+    // Force reflow for transition
+    void overlay.offsetWidth;
+    sidebar.classList.add('open');
+    overlay.classList.add('visible');
+  }
+}
+
+// ============================================
+// NAV ITEM ACTIVE STATE
+// ============================================
+document.querySelectorAll('.nav-item').forEach(item => {
+  item.addEventListener('click', function() {
+    document.querySelectorAll('.nav-item').forEach(i => i.classList.remove('active'));
+    this.classList.add('active');
+    // Close sidebar on mobile after selection
+    if (window.innerWidth <= 768) {
+      toggleSidebar();
+    }
+  });
+});
+
+// ============================================
+// DATE DISPLAY
+// ============================================
+(function updateDate() {
+  const el = document.getElementById('currentDate');
+  if (!el) return;
+  const now = new Date();
+  const options = { weekday: 'long', year: 'numeric', month: 'long', day: 'numeric' };
+  el.textContent = now.toLocaleDateString('en-US', options);
+})();
+
+// ============================================
+// GREETING BASED ON TIME
+// ============================================
+(function updateGreeting() {
+  const h1 = document.querySelector('.topbar-left h1');
+  if (!h1) return;
+  const hour = new Date().getHours();
+  let greeting = 'Good morning';
+  if (hour >= 12 && hour < 17) greeting = 'Good afternoon';
+  else if (hour >= 17) greeting = 'Good evening';
+  h1.textContent = greeting + ', Alex';
+})();
+
+// ============================================
+// HIGHLIGHT TODAY'S BAR IN CHART
+// ============================================
+(function highlightTodayBar() {
+  const days = ['Sun', 'Mon', 'Tue', 'Wed', 'Thu', 'Fri', 'Sat'];
+  const todayName = days[new Date().getDay()];
+  const labels = document.querySelectorAll('.chart-bar-label');
+  const bars = document.querySelectorAll('.chart-bar');
+
+  labels.forEach((label, index) => {
+    const bar = bars[index];
+    if (!bar || !label) return;
+
+    // Reset classes
+    bar.classList.remove('today', 'active');
+    label.classList.remove('today');
+
+    if (label.textContent.trim().substring(0, 3) === todayName.substring(0, 3)) {
+      bar.classList.add('today');
+      label.classList.add('today');
+    } else {
+      bar.classList.add('active');
+    }
+  });
+})();
+
+// ============================================
+// CLOSE SIDEBAR ON RESIZE TO DESKTOP
+// ============================================
+window.addEventListener('resize', function() {
+  if (window.innerWidth > 768) {
+    const sidebar = document.getElementById('sidebar');
+    const overlay = document.getElementById('sidebarOverlay');
+    sidebar.classList.remove('open');
+    overlay.classList.remove('visible');
+    overlay.style.display = 'none';
+  }
+});
+</script>
+</body>
+</html>

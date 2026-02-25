@@ -1,0 +1,2018 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Pairwise — Team Matching Platform</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Outfit:wght@400;500;600;700;800&family=JetBrains+Mono:wght@400;500;600;700&display=swap" rel="stylesheet">
+<style>
+/* ========================================================
+   CSS Custom Properties
+   ======================================================== */
+:root {
+  /* Brand */
+  --primary: #5B21B6;
+  --primary-light: #7C3AED;
+  --accent: #F43F5E;
+  --accent-soft: rgba(244, 63, 94, 0.1);
+  --gradient-hero: linear-gradient(135deg, #5B21B6 0%, #7C3AED 50%, #F43F5E 100%);
+  --gradient-bar: linear-gradient(90deg, #5B21B6, #7C3AED, #F43F5E);
+  --gradient-nav: linear-gradient(180deg, rgba(91, 33, 182, 0.06) 0%, transparent 100%);
+
+  /* Surfaces */
+  --bg-page: #FAFBFF;
+  --bg-card: #FFFFFF;
+  --bg-nav: rgba(255, 255, 255, 0.85);
+  --bg-hover: #F0F0F8;
+  --bg-input: #F5F5FC;
+  --bg-stripe-even: rgba(91, 33, 182, 0.02);
+
+  /* Borders */
+  --border: #E4E6F0;
+  --border-light: #EEEEF6;
+
+  /* Text */
+  --text-primary: #1A1A2E;
+  --text-secondary: #6E7191;
+  --text-tertiary: #A0A3BD;
+  --text-inverse: #FFFFFF;
+
+  /* Status */
+  --green: #10B981;
+  --green-bg: #ECFDF5;
+  --green-text: #065F46;
+  --blue: #3B82F6;
+  --blue-bg: #EFF6FF;
+  --blue-text: #1E40AF;
+  --yellow: #F59E0B;
+  --yellow-bg: #FFFBEB;
+  --yellow-text: #92400E;
+  --gray-badge: #6E7191;
+  --gray-badge-bg: #F0F0F8;
+  --gray-badge-text: #4E4B66;
+  --red: #EF4444;
+
+  /* Tag Colors */
+  --tag-violet-bg: rgba(124, 58, 237, 0.1);
+  --tag-violet-text: #7C3AED;
+  --tag-coral-bg: rgba(244, 63, 94, 0.1);
+  --tag-coral-text: #E11D48;
+  --tag-teal-bg: rgba(20, 184, 166, 0.1);
+  --tag-teal-text: #0D9488;
+  --tag-amber-bg: rgba(245, 158, 11, 0.1);
+  --tag-amber-text: #B45309;
+  --tag-blue-bg: rgba(59, 130, 246, 0.1);
+  --tag-blue-text: #2563EB;
+  --tag-slate-bg: #F0F0F8;
+  --tag-slate-text: #6E7191;
+
+  /* Shadows */
+  --shadow-sm: 0 1px 3px rgba(26, 26, 46, 0.04), 0 1px 2px rgba(26, 26, 46, 0.02);
+  --shadow-md: 0 4px 12px rgba(26, 26, 46, 0.06), 0 2px 4px rgba(26, 26, 46, 0.03);
+  --shadow-lg: 0 12px 28px rgba(26, 26, 46, 0.08), 0 4px 10px rgba(26, 26, 46, 0.04);
+  --shadow-xl: 0 24px 48px rgba(26, 26, 46, 0.1), 0 8px 16px rgba(26, 26, 46, 0.05);
+  --shadow-card: 0 2px 8px rgba(26, 26, 46, 0.05), 0 0 0 1px rgba(228, 230, 240, 0.5);
+  --shadow-card-hover: 0 12px 32px rgba(91, 33, 182, 0.1), 0 4px 12px rgba(26, 26, 46, 0.06);
+
+  /* Radii */
+  --radius-sm: 8px;
+  --radius-md: 12px;
+  --radius-lg: 16px;
+  --radius-xl: 20px;
+  --radius-full: 9999px;
+
+  /* Spacing */
+  --space-xs: 4px;
+  --space-sm: 8px;
+  --space-md: 16px;
+  --space-lg: 24px;
+  --space-xl: 36px;
+  --space-2xl: 56px;
+
+  /* Transitions */
+  --transition-fast: 150ms cubic-bezier(0.22, 1, 0.36, 1);
+  --transition-base: 250ms cubic-bezier(0.22, 1, 0.36, 1);
+  --transition-slow: 400ms cubic-bezier(0.22, 1, 0.36, 1);
+
+  /* Typography */
+  --font-body: 'Outfit', -apple-system, BlinkMacSystemFont, 'Segoe UI', sans-serif;
+  --font-mono: 'JetBrains Mono', 'SF Mono', 'Fira Code', Menlo, monospace;
+}
+
+/* ========================================================
+   Dark Mode
+   ======================================================== */
+@media (prefers-color-scheme: dark) {
+  :root {
+    --primary: #8B5CF6;
+    --primary-light: #A78BFA;
+    --accent: #FB7185;
+    --accent-soft: rgba(251, 113, 133, 0.12);
+    --gradient-hero: linear-gradient(135deg, #7C3AED 0%, #8B5CF6 50%, #FB7185 100%);
+    --gradient-bar: linear-gradient(90deg, #8B5CF6, #A78BFA, #FB7185);
+    --gradient-nav: linear-gradient(180deg, rgba(139, 92, 246, 0.08) 0%, transparent 100%);
+
+    --bg-page: #0A0A1A;
+    --bg-card: #14142B;
+    --bg-nav: rgba(20, 20, 43, 0.9);
+    --bg-hover: #1E1E3A;
+    --bg-input: #1A1A34;
+    --bg-stripe-even: rgba(139, 92, 246, 0.04);
+
+    --border: #2A2A4A;
+    --border-light: #1E1E3A;
+
+    --text-primary: #F0F0FF;
+    --text-secondary: #A0A3BD;
+    --text-tertiary: #6E7191;
+    --text-inverse: #0A0A1A;
+
+    --green-bg: rgba(16, 185, 129, 0.12);
+    --green-text: #6EE7B7;
+    --blue-bg: rgba(59, 130, 246, 0.12);
+    --blue-text: #93C5FD;
+    --yellow-bg: rgba(245, 158, 11, 0.12);
+    --yellow-text: #FCD34D;
+    --gray-badge-bg: rgba(110, 113, 145, 0.15);
+    --gray-badge-text: #A0A3BD;
+
+    --tag-violet-bg: rgba(139, 92, 246, 0.15);
+    --tag-violet-text: #A78BFA;
+    --tag-coral-bg: rgba(251, 113, 133, 0.15);
+    --tag-coral-text: #FB7185;
+    --tag-teal-bg: rgba(20, 184, 166, 0.15);
+    --tag-teal-text: #5EEAD4;
+    --tag-amber-bg: rgba(245, 158, 11, 0.15);
+    --tag-amber-text: #FCD34D;
+    --tag-blue-bg: rgba(59, 130, 246, 0.15);
+    --tag-blue-text: #93C5FD;
+    --tag-slate-bg: rgba(110, 113, 145, 0.12);
+    --tag-slate-text: #A0A3BD;
+
+    --shadow-sm: 0 1px 3px rgba(0, 0, 0, 0.3);
+    --shadow-md: 0 4px 12px rgba(0, 0, 0, 0.35);
+    --shadow-lg: 0 12px 28px rgba(0, 0, 0, 0.4);
+    --shadow-xl: 0 24px 48px rgba(0, 0, 0, 0.5);
+    --shadow-card: 0 2px 8px rgba(0, 0, 0, 0.2), 0 0 0 1px rgba(42, 42, 74, 0.6);
+    --shadow-card-hover: 0 12px 32px rgba(139, 92, 246, 0.15), 0 4px 12px rgba(0, 0, 0, 0.3);
+  }
+}
+
+/* ========================================================
+   Reduced Motion
+   ======================================================== */
+@media (prefers-reduced-motion: reduce) {
+  *, *::before, *::after {
+    animation-duration: 0.01ms !important;
+    animation-iteration-count: 1 !important;
+    transition-duration: 0.01ms !important;
+    scroll-behavior: auto !important;
+  }
+}
+
+/* ========================================================
+   Reset & Base
+   ======================================================== */
+*, *::before, *::after {
+  margin: 0;
+  padding: 0;
+  box-sizing: border-box;
+}
+
+html {
+  font-size: 16px;
+  -webkit-text-size-adjust: 100%;
+}
+
+body {
+  font-family: var(--font-body);
+  background: var(--bg-page);
+  color: var(--text-primary);
+  line-height: 1.6;
+  -webkit-font-smoothing: antialiased;
+  -moz-osx-font-smoothing: grayscale;
+  min-height: 100vh;
+  overflow-x: hidden;
+}
+
+button {
+  font-family: inherit;
+  cursor: pointer;
+  border: none;
+  background: none;
+  font-size: inherit;
+  color: inherit;
+}
+
+a {
+  color: inherit;
+  text-decoration: none;
+}
+
+/* ========================================================
+   Gradient Accent Stripe
+   ======================================================== */
+.gradient-stripe {
+  height: 4px;
+  background: var(--gradient-hero);
+  position: fixed;
+  top: 0;
+  left: 0;
+  right: 0;
+  z-index: 200;
+}
+
+/* ========================================================
+   Top Navigation
+   ======================================================== */
+.top-nav {
+  position: sticky;
+  top: 4px;
+  z-index: 100;
+  background: var(--bg-nav);
+  border-bottom: 1px solid var(--border);
+  backdrop-filter: blur(20px);
+  -webkit-backdrop-filter: blur(20px);
+}
+
+.top-nav::before {
+  content: '';
+  position: absolute;
+  inset: 0;
+  background: var(--gradient-nav);
+  pointer-events: none;
+}
+
+.nav-inner {
+  max-width: 1440px;
+  margin: 0 auto;
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  padding: 0 var(--space-xl);
+  height: 68px;
+  position: relative;
+}
+
+.nav-left {
+  display: flex;
+  align-items: center;
+  gap: var(--space-xl);
+}
+
+.logo {
+  display: flex;
+  align-items: center;
+  gap: 10px;
+  font-weight: 800;
+  font-size: 1.25rem;
+  color: var(--text-primary);
+  flex-shrink: 0;
+  letter-spacing: -0.02em;
+}
+
+.logo-icon {
+  width: 36px;
+  height: 36px;
+  background: var(--gradient-hero);
+  border-radius: 10px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  color: white;
+  box-shadow: 0 4px 12px rgba(91, 33, 182, 0.3);
+}
+
+.logo-icon svg {
+  width: 20px;
+  height: 20px;
+}
+
+.nav-links {
+  display: flex;
+  align-items: center;
+  gap: 2px;
+  list-style: none;
+}
+
+.nav-links li a {
+  display: flex;
+  align-items: center;
+  gap: 7px;
+  padding: 9px 16px;
+  border-radius: var(--radius-sm);
+  font-size: 0.875rem;
+  font-weight: 500;
+  color: var(--text-secondary);
+  transition: all var(--transition-fast);
+  white-space: nowrap;
+  position: relative;
+}
+
+.nav-links li a:hover {
+  color: var(--text-primary);
+  background: var(--bg-hover);
+}
+
+.nav-links li a.active {
+  color: var(--primary);
+  background: var(--tag-violet-bg);
+  font-weight: 600;
+}
+
+.nav-links li a svg {
+  width: 16px;
+  height: 16px;
+  flex-shrink: 0;
+}
+
+.nav-right {
+  display: flex;
+  align-items: center;
+  gap: var(--space-md);
+}
+
+.notification-btn {
+  position: relative;
+  width: 40px;
+  height: 40px;
+  border-radius: var(--radius-sm);
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  color: var(--text-secondary);
+  transition: all var(--transition-fast);
+}
+
+.notification-btn:hover {
+  background: var(--bg-hover);
+  color: var(--primary);
+}
+
+.notification-btn svg {
+  width: 20px;
+  height: 20px;
+}
+
+.notification-dot {
+  position: absolute;
+  top: 8px;
+  right: 8px;
+  width: 9px;
+  height: 9px;
+  background: var(--accent);
+  border-radius: 50%;
+  border: 2px solid var(--bg-card);
+  box-shadow: 0 0 0 2px rgba(244, 63, 94, 0.2);
+}
+
+.user-menu {
+  display: flex;
+  align-items: center;
+  gap: var(--space-sm);
+  padding: 6px 12px 6px 6px;
+  border-radius: var(--radius-full);
+  transition: all var(--transition-fast);
+  cursor: pointer;
+  border: 1px solid transparent;
+}
+
+.user-menu:hover {
+  background: var(--bg-hover);
+  border-color: var(--border);
+}
+
+.user-avatar {
+  width: 34px;
+  height: 34px;
+  border-radius: 50%;
+  background: var(--gradient-hero);
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  color: white;
+  font-size: 0.75rem;
+  font-weight: 700;
+  flex-shrink: 0;
+  box-shadow: 0 0 0 2px var(--bg-card), 0 0 0 4px rgba(91, 33, 182, 0.2);
+}
+
+.user-name {
+  font-size: 0.875rem;
+  font-weight: 600;
+  color: var(--text-primary);
+}
+
+.user-menu svg {
+  width: 14px;
+  height: 14px;
+  color: var(--text-tertiary);
+}
+
+/* ========================================================
+   Main Layout
+   ======================================================== */
+.main-wrapper {
+  max-width: 1440px;
+  margin: 0 auto;
+  padding: var(--space-xl);
+}
+
+.page-header {
+  margin-bottom: var(--space-xl);
+  padding-bottom: var(--space-lg);
+  border-bottom: 1px solid var(--border-light);
+}
+
+.page-header h1 {
+  font-size: 1.85rem;
+  font-weight: 800;
+  color: var(--text-primary);
+  margin-bottom: 6px;
+  letter-spacing: -0.03em;
+}
+
+.page-header p {
+  font-size: 1rem;
+  color: var(--text-secondary);
+  font-weight: 400;
+}
+
+.dashboard-grid {
+  display: grid;
+  grid-template-columns: 1fr 380px;
+  gap: var(--space-xl);
+}
+
+/* ========================================================
+   Stat Cards
+   ======================================================== */
+.stats-row {
+  display: grid;
+  grid-template-columns: repeat(3, 1fr);
+  gap: var(--space-lg);
+  margin-bottom: var(--space-xl);
+}
+
+.stat-card {
+  background: var(--bg-card);
+  border-radius: var(--radius-lg);
+  padding: var(--space-lg) var(--space-lg) var(--space-lg) calc(var(--space-lg) - 4px);
+  display: flex;
+  align-items: flex-start;
+  gap: var(--space-md);
+  transition: all var(--transition-base);
+  cursor: default;
+  box-shadow: var(--shadow-card);
+  border-left: 4px solid transparent;
+  position: relative;
+  overflow: hidden;
+}
+
+.stat-card::after {
+  content: '';
+  position: absolute;
+  top: 0;
+  right: 0;
+  width: 80px;
+  height: 80px;
+  border-radius: 50%;
+  opacity: 0.04;
+  transform: translate(20px, -20px);
+  pointer-events: none;
+}
+
+.stat-card:hover {
+  box-shadow: var(--shadow-card-hover);
+  transform: translateY(-2px);
+}
+
+.stat-card.violet-border {
+  border-left-color: var(--primary);
+}
+
+.stat-card.violet-border::after {
+  background: var(--primary);
+}
+
+.stat-card.green-border {
+  border-left-color: var(--green);
+}
+
+.stat-card.green-border::after {
+  background: var(--green);
+}
+
+.stat-card.coral-border {
+  border-left-color: var(--accent);
+}
+
+.stat-card.coral-border::after {
+  background: var(--accent);
+}
+
+.stat-icon {
+  width: 48px;
+  height: 48px;
+  border-radius: var(--radius-md);
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  flex-shrink: 0;
+}
+
+.stat-icon svg {
+  width: 22px;
+  height: 22px;
+}
+
+.stat-icon.purple {
+  background: var(--tag-violet-bg);
+  color: var(--primary);
+}
+
+.stat-icon.green {
+  background: var(--green-bg);
+  color: var(--green);
+}
+
+.stat-icon.coral {
+  background: var(--accent-soft);
+  color: var(--accent);
+}
+
+.stat-content {
+  flex: 1;
+  min-width: 0;
+}
+
+.stat-label {
+  font-size: 0.8rem;
+  font-weight: 500;
+  color: var(--text-secondary);
+  margin-bottom: 4px;
+  text-transform: uppercase;
+  letter-spacing: 0.04em;
+}
+
+.stat-value {
+  font-family: var(--font-mono);
+  font-size: 1.75rem;
+  font-weight: 700;
+  color: var(--text-primary);
+  line-height: 1.2;
+  letter-spacing: -0.02em;
+}
+
+.stat-change {
+  display: inline-flex;
+  align-items: center;
+  gap: 4px;
+  font-size: 0.75rem;
+  font-weight: 600;
+  margin-top: 6px;
+  padding: 3px 10px;
+  border-radius: var(--radius-full);
+}
+
+.stat-change.up {
+  color: var(--green-text);
+  background: var(--green-bg);
+}
+
+.stat-change.up svg {
+  width: 12px;
+  height: 12px;
+}
+
+/* ========================================================
+   Team Builder Section
+   ======================================================== */
+.team-builder {
+  background: var(--bg-card);
+  border-radius: var(--radius-xl);
+  margin-bottom: var(--space-xl);
+  overflow: hidden;
+  box-shadow: var(--shadow-card);
+}
+
+.team-builder-header {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  padding: var(--space-lg) var(--space-xl);
+  border-bottom: 1px solid var(--border-light);
+  background: var(--bg-card);
+}
+
+.team-builder-header-left {
+  display: flex;
+  align-items: center;
+  gap: var(--space-md);
+}
+
+.project-badge {
+  display: inline-flex;
+  align-items: center;
+  gap: 6px;
+  padding: 5px 14px;
+  background: var(--green-bg);
+  color: var(--green-text);
+  border-radius: var(--radius-full);
+  font-size: 0.75rem;
+  font-weight: 600;
+}
+
+.project-badge svg {
+  width: 14px;
+  height: 14px;
+}
+
+.team-builder-title {
+  font-size: 1.15rem;
+  font-weight: 700;
+  letter-spacing: -0.01em;
+}
+
+.team-builder-subtitle {
+  font-size: 0.82rem;
+  color: var(--text-secondary);
+  margin-top: 2px;
+}
+
+.team-builder-actions {
+  display: flex;
+  gap: var(--space-sm);
+}
+
+.btn {
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  gap: 7px;
+  padding: 9px 18px;
+  font-size: 0.82rem;
+  font-weight: 600;
+  border-radius: var(--radius-sm);
+  transition: all var(--transition-fast);
+  white-space: nowrap;
+}
+
+.btn svg {
+  width: 15px;
+  height: 15px;
+}
+
+.btn-primary {
+  background: var(--gradient-hero);
+  color: white;
+  box-shadow: 0 2px 8px rgba(91, 33, 182, 0.25);
+}
+
+.btn-primary:hover {
+  box-shadow: 0 6px 20px rgba(91, 33, 182, 0.35);
+  transform: translateY(-1px);
+}
+
+.btn-secondary {
+  background: var(--bg-hover);
+  color: var(--text-primary);
+  border: 1px solid var(--border);
+}
+
+.btn-secondary:hover {
+  background: var(--bg-card);
+  border-color: var(--primary-light);
+  color: var(--primary);
+  box-shadow: var(--shadow-sm);
+}
+
+.btn-ghost {
+  color: var(--text-secondary);
+  padding: 9px 14px;
+}
+
+.btn-ghost:hover {
+  background: var(--bg-hover);
+  color: var(--primary);
+}
+
+/* Freelancer Cards */
+.freelancer-grid {
+  display: grid;
+  grid-template-columns: repeat(3, 1fr);
+  gap: var(--space-lg);
+  padding: var(--space-xl);
+}
+
+.freelancer-card {
+  border: 1px solid var(--border);
+  border-radius: var(--radius-lg);
+  padding: var(--space-lg);
+  transition: all var(--transition-base);
+  position: relative;
+  background: var(--bg-card);
+  overflow: hidden;
+}
+
+.freelancer-card::before {
+  content: '';
+  position: absolute;
+  top: 0;
+  left: 0;
+  right: 0;
+  height: 3px;
+  background: var(--gradient-hero);
+  opacity: 0;
+  transition: opacity var(--transition-base);
+}
+
+.freelancer-card:hover {
+  box-shadow: var(--shadow-card-hover);
+  border-color: transparent;
+  transform: translateY(-3px);
+}
+
+.freelancer-card:hover::before {
+  opacity: 1;
+}
+
+.freelancer-card-top {
+  display: flex;
+  align-items: flex-start;
+  gap: var(--space-md);
+  margin-bottom: var(--space-md);
+}
+
+.freelancer-avatar-ring {
+  width: 52px;
+  height: 52px;
+  border-radius: 50%;
+  padding: 3px;
+  background: var(--gradient-hero);
+  flex-shrink: 0;
+  box-shadow: 0 2px 8px rgba(91, 33, 182, 0.2);
+}
+
+.freelancer-avatar {
+  width: 100%;
+  height: 100%;
+  border-radius: 50%;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  font-size: 0.9rem;
+  font-weight: 700;
+  color: white;
+  border: 2px solid var(--bg-card);
+}
+
+.freelancer-info {
+  flex: 1;
+  min-width: 0;
+}
+
+.freelancer-name {
+  font-size: 0.95rem;
+  font-weight: 700;
+  color: var(--text-primary);
+  line-height: 1.3;
+  letter-spacing: -0.01em;
+}
+
+.freelancer-title {
+  font-size: 0.8rem;
+  color: var(--text-secondary);
+  font-weight: 500;
+}
+
+.freelancer-rate {
+  font-family: var(--font-mono);
+  font-size: 0.72rem;
+  color: var(--text-tertiary);
+  margin-top: 3px;
+}
+
+/* Match Score */
+.match-score-section {
+  margin-bottom: var(--space-md);
+}
+
+.match-score-header {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  margin-bottom: 8px;
+}
+
+.match-label {
+  font-size: 0.72rem;
+  font-weight: 600;
+  color: var(--text-secondary);
+  text-transform: uppercase;
+  letter-spacing: 0.05em;
+}
+
+.match-value {
+  font-family: var(--font-mono);
+  font-size: 0.85rem;
+  font-weight: 700;
+  color: var(--primary);
+}
+
+.match-bar-track {
+  width: 100%;
+  height: 7px;
+  background: var(--bg-hover);
+  border-radius: var(--radius-full);
+  overflow: hidden;
+}
+
+.match-bar-fill {
+  height: 100%;
+  border-radius: var(--radius-full);
+  background: var(--gradient-bar);
+  transition: width 800ms cubic-bezier(0.22, 1, 0.36, 1);
+}
+
+/* Skill Tags — varied colors */
+.skill-tags {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 6px;
+  margin-bottom: var(--space-md);
+}
+
+.skill-tag {
+  display: inline-block;
+  padding: 4px 11px;
+  border-radius: var(--radius-full);
+  font-size: 0.7rem;
+  font-weight: 600;
+  transition: all var(--transition-fast);
+}
+
+.skill-tag.violet {
+  background: var(--tag-violet-bg);
+  color: var(--tag-violet-text);
+}
+
+.skill-tag.coral {
+  background: var(--tag-coral-bg);
+  color: var(--tag-coral-text);
+}
+
+.skill-tag.teal {
+  background: var(--tag-teal-bg);
+  color: var(--tag-teal-text);
+}
+
+.skill-tag.amber {
+  background: var(--tag-amber-bg);
+  color: var(--tag-amber-text);
+}
+
+.skill-tag.blue {
+  background: var(--tag-blue-bg);
+  color: var(--tag-blue-text);
+}
+
+.skill-tag.slate {
+  background: var(--tag-slate-bg);
+  color: var(--tag-slate-text);
+}
+
+.freelancer-card:hover .skill-tag {
+  transform: translateY(-1px);
+}
+
+/* Card Actions */
+.freelancer-actions {
+  display: flex;
+  gap: var(--space-sm);
+}
+
+.freelancer-actions .btn {
+  flex: 1;
+  padding: 8px 14px;
+  font-size: 0.78rem;
+}
+
+/* ========================================================
+   Project Pipeline
+   ======================================================== */
+.pipeline-section {
+  background: var(--bg-card);
+  border-radius: var(--radius-xl);
+  overflow: hidden;
+  box-shadow: var(--shadow-card);
+}
+
+.section-header {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  padding: var(--space-lg) var(--space-xl);
+  border-bottom: 1px solid var(--border-light);
+}
+
+.section-title {
+  font-size: 1.05rem;
+  font-weight: 700;
+  letter-spacing: -0.01em;
+}
+
+.pipeline-table {
+  width: 100%;
+}
+
+.pipeline-row {
+  display: grid;
+  grid-template-columns: 1.5fr 0.8fr 0.6fr 0.8fr;
+  align-items: center;
+  padding: 16px var(--space-xl);
+  border-bottom: 1px solid var(--border-light);
+  font-size: 0.85rem;
+  transition: background var(--transition-fast);
+  cursor: default;
+}
+
+.pipeline-row:last-child {
+  border-bottom: none;
+}
+
+.pipeline-row:hover {
+  background: var(--bg-hover);
+}
+
+.pipeline-row:nth-child(even) {
+  background: var(--bg-stripe-even);
+}
+
+.pipeline-row:nth-child(even):hover {
+  background: var(--bg-hover);
+}
+
+.pipeline-row-header {
+  font-size: 0.72rem;
+  font-weight: 700;
+  color: var(--text-tertiary);
+  text-transform: uppercase;
+  letter-spacing: 0.06em;
+  padding: 12px var(--space-xl);
+  background: var(--bg-hover);
+  border-bottom: 1px solid var(--border-light);
+}
+
+.pipeline-row-header:hover,
+.pipeline-row-header:nth-child(even) {
+  background: var(--bg-hover);
+}
+
+.pipeline-project-name {
+  font-weight: 600;
+  color: var(--text-primary);
+}
+
+.status-badge {
+  display: inline-flex;
+  align-items: center;
+  gap: 6px;
+  padding: 4px 12px;
+  border-radius: var(--radius-full);
+  font-size: 0.72rem;
+  font-weight: 600;
+  width: fit-content;
+}
+
+.status-badge::before {
+  content: '';
+  width: 7px;
+  height: 7px;
+  border-radius: 50%;
+  flex-shrink: 0;
+}
+
+.status-badge.active {
+  background: var(--green-bg);
+  color: var(--green-text);
+}
+
+.status-badge.active::before {
+  background: var(--green);
+}
+
+.status-badge.matching {
+  background: var(--tag-violet-bg);
+  color: var(--tag-violet-text);
+}
+
+.status-badge.matching::before {
+  background: var(--primary);
+}
+
+.status-badge.review {
+  background: var(--yellow-bg);
+  color: var(--yellow-text);
+}
+
+.status-badge.review::before {
+  background: var(--yellow);
+}
+
+.status-badge.completed {
+  background: var(--gray-badge-bg);
+  color: var(--gray-badge-text);
+}
+
+.status-badge.completed::before {
+  background: var(--gray-badge);
+}
+
+.pipeline-team {
+  color: var(--text-secondary);
+  font-weight: 500;
+}
+
+.pipeline-budget {
+  font-family: var(--font-mono);
+  font-weight: 600;
+  color: var(--text-primary);
+  font-size: 0.82rem;
+}
+
+/* ========================================================
+   Sidebar
+   ======================================================== */
+.sidebar {
+  display: flex;
+  flex-direction: column;
+  gap: var(--space-xl);
+}
+
+/* ========================================================
+   Activity Feed with Timeline
+   ======================================================== */
+.activity-feed {
+  background: var(--bg-card);
+  border-radius: var(--radius-xl);
+  overflow: hidden;
+  box-shadow: var(--shadow-card);
+}
+
+.activity-list {
+  padding: var(--space-sm) 0;
+  position: relative;
+}
+
+.activity-item {
+  display: flex;
+  gap: var(--space-md);
+  padding: var(--space-md) var(--space-xl);
+  transition: background var(--transition-fast);
+  cursor: default;
+  position: relative;
+}
+
+/* Timeline vertical line */
+.activity-item::before {
+  content: '';
+  position: absolute;
+  left: calc(var(--space-xl) + 18px);
+  top: calc(var(--space-md) + 40px);
+  bottom: calc(-1 * var(--space-md));
+  width: 2px;
+  background: var(--border);
+  z-index: 0;
+}
+
+.activity-item:last-child::before {
+  display: none;
+}
+
+.activity-item:hover {
+  background: var(--bg-hover);
+}
+
+.activity-icon {
+  width: 38px;
+  height: 38px;
+  border-radius: 50%;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  flex-shrink: 0;
+  position: relative;
+  z-index: 1;
+  border: 2px solid var(--bg-card);
+}
+
+.activity-icon svg {
+  width: 16px;
+  height: 16px;
+}
+
+.activity-icon.invite {
+  background: var(--green-bg);
+  color: var(--green);
+}
+
+.activity-icon.match {
+  background: var(--tag-violet-bg);
+  color: var(--primary);
+}
+
+.activity-icon.contract {
+  background: var(--blue-bg);
+  color: var(--blue);
+}
+
+.activity-icon.payment {
+  background: var(--yellow-bg);
+  color: var(--yellow);
+}
+
+.activity-content {
+  flex: 1;
+  min-width: 0;
+  padding-top: 2px;
+}
+
+.activity-text {
+  font-size: 0.84rem;
+  color: var(--text-primary);
+  line-height: 1.45;
+}
+
+.activity-text strong {
+  font-weight: 700;
+}
+
+.activity-time {
+  font-size: 0.72rem;
+  color: var(--text-tertiary);
+  margin-top: 3px;
+  font-weight: 500;
+}
+
+/* ========================================================
+   Quick Actions with Gradient Icon Backgrounds
+   ======================================================== */
+.quick-actions-card {
+  background: var(--bg-card);
+  border-radius: var(--radius-xl);
+  overflow: hidden;
+  box-shadow: var(--shadow-card);
+}
+
+.quick-action-item {
+  display: flex;
+  align-items: center;
+  gap: var(--space-md);
+  padding: 16px var(--space-xl);
+  border-bottom: 1px solid var(--border-light);
+  font-size: 0.875rem;
+  font-weight: 500;
+  color: var(--text-secondary);
+  cursor: pointer;
+  transition: all var(--transition-fast);
+}
+
+.quick-action-item:last-child {
+  border-bottom: none;
+}
+
+.quick-action-item:hover {
+  background: var(--bg-hover);
+  color: var(--text-primary);
+}
+
+.quick-action-icon-wrap {
+  width: 36px;
+  height: 36px;
+  border-radius: var(--radius-sm);
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  flex-shrink: 0;
+  transition: all var(--transition-fast);
+}
+
+.quick-action-icon-wrap svg {
+  width: 18px;
+  height: 18px;
+}
+
+.quick-action-icon-wrap.violet {
+  background: var(--tag-violet-bg);
+  color: var(--primary);
+}
+
+.quick-action-icon-wrap.coral {
+  background: var(--accent-soft);
+  color: var(--accent);
+}
+
+.quick-action-icon-wrap.teal {
+  background: var(--tag-teal-bg);
+  color: var(--tag-teal-text);
+}
+
+.quick-action-icon-wrap.blue {
+  background: var(--tag-blue-bg);
+  color: var(--blue);
+}
+
+.quick-action-item:hover .quick-action-icon-wrap.violet {
+  background: var(--primary);
+  color: white;
+}
+
+.quick-action-item:hover .quick-action-icon-wrap.coral {
+  background: var(--accent);
+  color: white;
+}
+
+.quick-action-item:hover .quick-action-icon-wrap.teal {
+  background: var(--tag-teal-text);
+  color: white;
+}
+
+.quick-action-item:hover .quick-action-icon-wrap.blue {
+  background: var(--blue);
+  color: white;
+}
+
+.quick-action-label {
+  flex: 1;
+}
+
+.quick-action-arrow {
+  width: 16px;
+  height: 16px;
+  color: var(--text-tertiary);
+  opacity: 0;
+  transform: translateX(-4px);
+  transition: all var(--transition-fast);
+}
+
+.quick-action-item:hover .quick-action-arrow {
+  opacity: 1;
+  transform: translateX(0);
+}
+
+/* ========================================================
+   Mobile Nav Toggle
+   ======================================================== */
+.mobile-menu-btn {
+  display: none;
+  width: 40px;
+  height: 40px;
+  align-items: center;
+  justify-content: center;
+  border-radius: var(--radius-sm);
+  color: var(--text-secondary);
+  transition: all var(--transition-fast);
+}
+
+.mobile-menu-btn:hover {
+  background: var(--bg-hover);
+  color: var(--text-primary);
+}
+
+.mobile-menu-btn svg {
+  width: 22px;
+  height: 22px;
+}
+
+/* ========================================================
+   Responsive
+   ======================================================== */
+@media (max-width: 1100px) {
+  .dashboard-grid {
+    grid-template-columns: 1fr;
+  }
+
+  .sidebar {
+    display: grid;
+    grid-template-columns: 1fr 1fr;
+    gap: var(--space-lg);
+  }
+}
+
+@media (max-width: 900px) {
+  .freelancer-grid {
+    grid-template-columns: 1fr 1fr;
+  }
+
+  .stats-row {
+    grid-template-columns: repeat(3, 1fr);
+  }
+
+  .nav-links {
+    display: none;
+  }
+
+  .nav-links.open {
+    display: flex;
+    flex-direction: column;
+    position: absolute;
+    top: 68px;
+    left: 0;
+    right: 0;
+    background: var(--bg-nav);
+    backdrop-filter: blur(20px);
+    -webkit-backdrop-filter: blur(20px);
+    border-bottom: 1px solid var(--border);
+    padding: var(--space-sm) var(--space-xl);
+    box-shadow: var(--shadow-lg);
+    z-index: 99;
+  }
+
+  .nav-links.open li a {
+    padding: 14px var(--space-md);
+  }
+
+  .mobile-menu-btn {
+    display: flex;
+  }
+
+  .user-name {
+    display: none;
+  }
+
+  .user-menu svg:last-child {
+    display: none;
+  }
+}
+
+@media (max-width: 700px) {
+  .main-wrapper {
+    padding: var(--space-md);
+  }
+
+  .nav-inner {
+    padding: 0 var(--space-md);
+  }
+
+  .freelancer-grid {
+    grid-template-columns: 1fr;
+    padding: var(--space-md);
+  }
+
+  .stats-row {
+    grid-template-columns: 1fr;
+  }
+
+  .sidebar {
+    grid-template-columns: 1fr;
+  }
+
+  .pipeline-row {
+    grid-template-columns: 1fr 1fr;
+    gap: 8px;
+    padding: 14px var(--space-md);
+  }
+
+  .pipeline-row-header {
+    display: none;
+  }
+
+  .team-builder-header {
+    flex-direction: column;
+    gap: var(--space-md);
+    padding: var(--space-lg) var(--space-md);
+  }
+
+  .team-builder-actions {
+    width: 100%;
+  }
+
+  .team-builder-actions .btn {
+    flex: 1;
+  }
+
+  .section-header {
+    padding: var(--space-lg) var(--space-md);
+  }
+
+  .page-header h1 {
+    font-size: 1.5rem;
+  }
+}
+
+/* ========================================================
+   Animations
+   ======================================================== */
+@keyframes fadeInUp {
+  from {
+    opacity: 0;
+    transform: translateY(16px);
+  }
+  to {
+    opacity: 1;
+    transform: translateY(0);
+  }
+}
+
+@keyframes barFill {
+  from { width: 0; }
+}
+
+@keyframes slideInLeft {
+  from {
+    opacity: 0;
+    transform: translateX(-12px);
+  }
+  to {
+    opacity: 1;
+    transform: translateX(0);
+  }
+}
+
+@keyframes scaleIn {
+  from {
+    opacity: 0;
+    transform: scale(0.95);
+  }
+  to {
+    opacity: 1;
+    transform: scale(1);
+  }
+}
+
+.stat-card {
+  animation: fadeInUp 500ms cubic-bezier(0.22, 1, 0.36, 1) both;
+}
+
+.stat-card:nth-child(1) { animation-delay: 60ms; }
+.stat-card:nth-child(2) { animation-delay: 140ms; }
+.stat-card:nth-child(3) { animation-delay: 220ms; }
+
+.freelancer-card {
+  animation: scaleIn 500ms cubic-bezier(0.22, 1, 0.36, 1) both;
+}
+
+.freelancer-card:nth-child(1) { animation-delay: 200ms; }
+.freelancer-card:nth-child(2) { animation-delay: 320ms; }
+.freelancer-card:nth-child(3) { animation-delay: 440ms; }
+
+.match-bar-fill {
+  animation: barFill 900ms cubic-bezier(0.22, 1, 0.36, 1) both;
+  animation-delay: 600ms;
+}
+
+.activity-item {
+  animation: slideInLeft 400ms cubic-bezier(0.22, 1, 0.36, 1) both;
+}
+
+.activity-item:nth-child(1) { animation-delay: 100ms; }
+.activity-item:nth-child(2) { animation-delay: 200ms; }
+.activity-item:nth-child(3) { animation-delay: 300ms; }
+.activity-item:nth-child(4) { animation-delay: 400ms; }
+
+.quick-action-item {
+  animation: fadeInUp 350ms cubic-bezier(0.22, 1, 0.36, 1) both;
+}
+
+.quick-action-item:nth-child(2) { animation-delay: 100ms; }
+.quick-action-item:nth-child(3) { animation-delay: 180ms; }
+.quick-action-item:nth-child(4) { animation-delay: 260ms; }
+.quick-action-item:nth-child(5) { animation-delay: 340ms; }
+</style>
+</head>
+<body>
+
+<!-- Gradient Accent Stripe -->
+<div class="gradient-stripe" aria-hidden="true"></div>
+
+<!-- ============================================================
+     Top Navigation
+     ============================================================ -->
+<nav class="top-nav">
+  <div class="nav-inner">
+    <div class="nav-left">
+      <!-- Logo -->
+      <a href="#" class="logo">
+        <div class="logo-icon">
+          <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round">
+            <path d="M16 21v-2a4 4 0 0 0-4-4H6a4 4 0 0 0-4 4v2"/>
+            <circle cx="9" cy="7" r="4"/>
+            <path d="M22 21v-2a4 4 0 0 0-3-3.87"/>
+            <path d="M16 3.13a4 4 0 0 1 0 7.75"/>
+          </svg>
+        </div>
+        Pairwise
+      </a>
+
+      <!-- Nav Links -->
+      <ul class="nav-links" id="navLinks">
+        <li><a href="#" class="active" data-nav="dashboard">
+          <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><rect x="3" y="3" width="7" height="7" rx="1"/><rect x="14" y="3" width="7" height="7" rx="1"/><rect x="3" y="14" width="7" height="7" rx="1"/><rect x="14" y="14" width="7" height="7" rx="1"/></svg>
+          Dashboard
+        </a></li>
+        <li><a href="#" data-nav="projects">
+          <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M22 19a2 2 0 0 1-2 2H4a2 2 0 0 1-2-2V5a2 2 0 0 1 2-2h5l2 3h9a2 2 0 0 1 2 2z"/></svg>
+          Projects
+        </a></li>
+        <li><a href="#" data-nav="freelancers">
+          <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M17 21v-2a4 4 0 0 0-4-4H5a4 4 0 0 0-4 4v2"/><circle cx="9" cy="7" r="4"/><path d="M23 21v-2a4 4 0 0 0-3-3.87"/><path d="M16 3.13a4 4 0 0 1 0 7.75"/></svg>
+          Freelancers
+        </a></li>
+        <li><a href="#" data-nav="messages">
+          <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M21 15a2 2 0 0 1-2 2H7l-4 4V5a2 2 0 0 1 2-2h14a2 2 0 0 1 2 2z"/></svg>
+          Messages
+        </a></li>
+        <li><a href="#" data-nav="billing">
+          <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><rect x="1" y="4" width="22" height="16" rx="2" ry="2"/><line x1="1" y1="10" x2="23" y2="10"/></svg>
+          Billing
+        </a></li>
+      </ul>
+
+      <!-- Mobile menu button -->
+      <button class="mobile-menu-btn" id="mobileMenuBtn" aria-label="Toggle menu">
+        <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><line x1="3" y1="6" x2="21" y2="6"/><line x1="3" y1="12" x2="21" y2="12"/><line x1="3" y1="18" x2="21" y2="18"/></svg>
+      </button>
+    </div>
+
+    <div class="nav-right">
+      <!-- Notification bell -->
+      <button class="notification-btn" aria-label="Notifications">
+        <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M18 8A6 6 0 0 0 6 8c0 7-3 9-3 9h18s-3-2-3-9"/><path d="M13.73 21a2 2 0 0 1-3.46 0"/></svg>
+        <span class="notification-dot"></span>
+      </button>
+
+      <!-- User menu -->
+      <div class="user-menu" id="userMenu">
+        <div class="user-avatar">SK</div>
+        <span class="user-name">Sarah K.</span>
+        <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round"><polyline points="6 9 12 15 18 9"/></svg>
+      </div>
+    </div>
+  </div>
+</nav>
+
+<!-- ============================================================
+     Main Content
+     ============================================================ -->
+<main class="main-wrapper">
+
+  <!-- Page Header -->
+  <div class="page-header">
+    <h1>Dashboard</h1>
+    <p>Manage your projects and find the perfect freelancers for your team.</p>
+  </div>
+
+  <!-- Stats Row -->
+  <div class="stats-row">
+    <!-- Active Projects -->
+    <div class="stat-card violet-border">
+      <div class="stat-icon purple">
+        <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M22 19a2 2 0 0 1-2 2H4a2 2 0 0 1-2-2V5a2 2 0 0 1 2-2h5l2 3h9a2 2 0 0 1 2 2z"/></svg>
+      </div>
+      <div class="stat-content">
+        <div class="stat-label">Active Projects</div>
+        <div class="stat-value">8</div>
+        <div class="stat-change up">
+          <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round"><polyline points="18 15 12 9 6 15"/></svg>
+          +2 this month
+        </div>
+      </div>
+    </div>
+
+    <!-- Matched Freelancers -->
+    <div class="stat-card green-border">
+      <div class="stat-icon green">
+        <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M17 21v-2a4 4 0 0 0-4-4H5a4 4 0 0 0-4 4v2"/><circle cx="9" cy="7" r="4"/><path d="M23 21v-2a4 4 0 0 0-3-3.87"/><path d="M16 3.13a4 4 0 0 1 0 7.75"/></svg>
+      </div>
+      <div class="stat-content">
+        <div class="stat-label">Matched Freelancers</div>
+        <div class="stat-value">23</div>
+        <div class="stat-change up">
+          <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round"><polyline points="18 15 12 9 6 15"/></svg>
+          +5 this week
+        </div>
+      </div>
+    </div>
+
+    <!-- Avg Match Score -->
+    <div class="stat-card coral-border">
+      <div class="stat-icon coral">
+        <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M22 11.08V12a10 10 0 1 1-5.93-9.14"/><polyline points="22 4 12 14.01 9 11.01"/></svg>
+      </div>
+      <div class="stat-content">
+        <div class="stat-label">Avg. Match Score</div>
+        <div class="stat-value">94%</div>
+        <div class="stat-change up">
+          <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round"><polyline points="18 15 12 9 6 15"/></svg>
+          +3% vs last quarter
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <!-- Dashboard Grid: Main + Sidebar -->
+  <div class="dashboard-grid">
+    <!-- Main Column -->
+    <div class="main-column">
+
+      <!-- Team Builder -->
+      <div class="team-builder">
+        <div class="team-builder-header">
+          <div class="team-builder-header-left">
+            <div>
+              <div class="team-builder-title">E-commerce Redesign</div>
+              <div class="team-builder-subtitle">3 of 5 positions filled &middot; Due Mar 15</div>
+            </div>
+            <div class="project-badge">
+              <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round"><circle cx="12" cy="12" r="10"/><polyline points="12 6 12 12 16 14"/></svg>
+              Active
+            </div>
+          </div>
+          <div class="team-builder-actions">
+            <button class="btn btn-secondary">
+              <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><circle cx="11" cy="11" r="8"/><line x1="21" y1="21" x2="16.65" y2="16.65"/></svg>
+              Browse More
+            </button>
+            <button class="btn btn-primary">
+              <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><line x1="12" y1="5" x2="12" y2="19"/><line x1="5" y1="12" x2="19" y2="12"/></svg>
+              Add Role
+            </button>
+          </div>
+        </div>
+
+        <div class="freelancer-grid">
+          <!-- Card 1: Alex M. -->
+          <div class="freelancer-card">
+            <div class="freelancer-card-top">
+              <div class="freelancer-avatar-ring">
+                <div class="freelancer-avatar" style="background: linear-gradient(135deg, #5B21B6, #7C3AED);">AM</div>
+              </div>
+              <div class="freelancer-info">
+                <div class="freelancer-name">Alex Morgan</div>
+                <div class="freelancer-title">Full-Stack Developer</div>
+                <div class="freelancer-rate">$95/hr &middot; San Francisco</div>
+              </div>
+            </div>
+            <div class="match-score-section">
+              <div class="match-score-header">
+                <span class="match-label">Match Score</span>
+                <span class="match-value">92%</span>
+              </div>
+              <div class="match-bar-track">
+                <div class="match-bar-fill" style="width: 92%;"></div>
+              </div>
+            </div>
+            <div class="skill-tags">
+              <span class="skill-tag violet">React</span>
+              <span class="skill-tag teal">Node.js</span>
+              <span class="skill-tag blue">TypeScript</span>
+              <span class="skill-tag slate">PostgreSQL</span>
+              <span class="skill-tag coral">AWS</span>
+            </div>
+            <div class="freelancer-actions">
+              <button class="btn btn-secondary">View Profile</button>
+              <button class="btn btn-primary">Invite</button>
+            </div>
+          </div>
+
+          <!-- Card 2: Priya S. -->
+          <div class="freelancer-card">
+            <div class="freelancer-card-top">
+              <div class="freelancer-avatar-ring">
+                <div class="freelancer-avatar" style="background: linear-gradient(135deg, #EC4899, #F472B6);">PS</div>
+              </div>
+              <div class="freelancer-info">
+                <div class="freelancer-name">Priya Sharma</div>
+                <div class="freelancer-title">UI/UX Designer</div>
+                <div class="freelancer-rate">$85/hr &middot; London</div>
+              </div>
+            </div>
+            <div class="match-score-section">
+              <div class="match-score-header">
+                <span class="match-label">Match Score</span>
+                <span class="match-value">88%</span>
+              </div>
+              <div class="match-bar-track">
+                <div class="match-bar-fill" style="width: 88%;"></div>
+              </div>
+            </div>
+            <div class="skill-tags">
+              <span class="skill-tag coral">Figma</span>
+              <span class="skill-tag violet">UI Design</span>
+              <span class="skill-tag amber">Prototyping</span>
+              <span class="skill-tag teal">Design Systems</span>
+              <span class="skill-tag blue">CSS</span>
+            </div>
+            <div class="freelancer-actions">
+              <button class="btn btn-secondary">View Profile</button>
+              <button class="btn btn-primary">Invite</button>
+            </div>
+          </div>
+
+          <!-- Card 3: Marcus T. -->
+          <div class="freelancer-card">
+            <div class="freelancer-card-top">
+              <div class="freelancer-avatar-ring">
+                <div class="freelancer-avatar" style="background: linear-gradient(135deg, #F59E0B, #FBBF24);">MT</div>
+              </div>
+              <div class="freelancer-info">
+                <div class="freelancer-name">Marcus Torres</div>
+                <div class="freelancer-title">Backend Engineer</div>
+                <div class="freelancer-rate">$110/hr &middot; Berlin</div>
+              </div>
+            </div>
+            <div class="match-score-section">
+              <div class="match-score-header">
+                <span class="match-label">Match Score</span>
+                <span class="match-value">85%</span>
+              </div>
+              <div class="match-bar-track">
+                <div class="match-bar-fill" style="width: 85%;"></div>
+              </div>
+            </div>
+            <div class="skill-tags">
+              <span class="skill-tag amber">Python</span>
+              <span class="skill-tag slate">Django</span>
+              <span class="skill-tag violet">GraphQL</span>
+              <span class="skill-tag teal">Docker</span>
+              <span class="skill-tag coral">Redis</span>
+            </div>
+            <div class="freelancer-actions">
+              <button class="btn btn-secondary">View Profile</button>
+              <button class="btn btn-primary">Invite</button>
+            </div>
+          </div>
+        </div>
+      </div>
+
+      <!-- Project Pipeline -->
+      <div class="pipeline-section">
+        <div class="section-header">
+          <div class="section-title">Project Pipeline</div>
+          <button class="btn btn-ghost">
+            View All
+            <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" style="width:14px;height:14px;"><polyline points="9 18 15 12 9 6"/></svg>
+          </button>
+        </div>
+        <div class="pipeline-table">
+          <div class="pipeline-row pipeline-row-header">
+            <span>Project</span>
+            <span>Status</span>
+            <span>Team</span>
+            <span>Budget</span>
+          </div>
+          <div class="pipeline-row">
+            <span class="pipeline-project-name">E-commerce Redesign</span>
+            <span><span class="status-badge active">Active</span></span>
+            <span class="pipeline-team">3 / 5</span>
+            <span class="pipeline-budget">$48,000</span>
+          </div>
+          <div class="pipeline-row">
+            <span class="pipeline-project-name">Mobile App MVP</span>
+            <span><span class="status-badge matching">Matching</span></span>
+            <span class="pipeline-team">1 / 4</span>
+            <span class="pipeline-budget">$36,500</span>
+          </div>
+          <div class="pipeline-row">
+            <span class="pipeline-project-name">API Integration</span>
+            <span><span class="status-badge review">Review</span></span>
+            <span class="pipeline-team">2 / 2</span>
+            <span class="pipeline-budget">$12,000</span>
+          </div>
+          <div class="pipeline-row">
+            <span class="pipeline-project-name">Dashboard Redesign</span>
+            <span><span class="status-badge completed">Completed</span></span>
+            <span class="pipeline-team">4 / 4</span>
+            <span class="pipeline-budget">$28,750</span>
+          </div>
+        </div>
+      </div>
+
+    </div>
+
+    <!-- Sidebar -->
+    <div class="sidebar">
+
+      <!-- Recent Activity -->
+      <div class="activity-feed">
+        <div class="section-header">
+          <div class="section-title">Recent Activity</div>
+          <button class="btn btn-ghost" style="font-size:0.75rem;">
+            See All
+            <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" style="width:13px;height:13px;"><polyline points="9 18 15 12 9 6"/></svg>
+          </button>
+        </div>
+        <div class="activity-list">
+          <!-- Invite accepted -->
+          <div class="activity-item">
+            <div class="activity-icon invite">
+              <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><polyline points="20 6 9 17 4 12"/></svg>
+            </div>
+            <div class="activity-content">
+              <div class="activity-text"><strong>Jordan L.</strong> accepted invite to <strong>Mobile App</strong> project</div>
+              <div class="activity-time">2 hours ago</div>
+            </div>
+          </div>
+          <!-- New match -->
+          <div class="activity-item">
+            <div class="activity-icon match">
+              <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M16 21v-2a4 4 0 0 0-4-4H6a4 4 0 0 0-4 4v2"/><circle cx="9" cy="7" r="4"/><line x1="19" y1="8" x2="19" y2="14"/><line x1="22" y1="11" x2="16" y2="11"/></svg>
+            </div>
+            <div class="activity-content">
+              <div class="activity-text">New match found for <strong>API Integration</strong></div>
+              <div class="activity-time">4 hours ago</div>
+            </div>
+          </div>
+          <!-- Contract signed -->
+          <div class="activity-item">
+            <div class="activity-icon contract">
+              <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M14 2H6a2 2 0 0 0-2 2v16a2 2 0 0 0 2 2h12a2 2 0 0 0 2-2V8z"/><polyline points="14 2 14 8 20 8"/><line x1="16" y1="13" x2="8" y2="13"/><line x1="16" y1="17" x2="8" y2="17"/></svg>
+            </div>
+            <div class="activity-content">
+              <div class="activity-text">Contract signed: <strong>Dashboard Redesign</strong></div>
+              <div class="activity-time">1 day ago</div>
+            </div>
+          </div>
+          <!-- Payment -->
+          <div class="activity-item">
+            <div class="activity-icon payment">
+              <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><line x1="12" y1="1" x2="12" y2="23"/><path d="M17 5H9.5a3.5 3.5 0 0 0 0 7h5a3.5 3.5 0 0 1 0 7H6"/></svg>
+            </div>
+            <div class="activity-content">
+              <div class="activity-text">Payment processed: <strong>$4,200</strong></div>
+              <div class="activity-time">2 days ago</div>
+            </div>
+          </div>
+        </div>
+      </div>
+
+      <!-- Quick Actions -->
+      <div class="quick-actions-card">
+        <div class="section-header">
+          <div class="section-title">Quick Actions</div>
+        </div>
+        <div class="quick-action-item" data-action="new-project">
+          <div class="quick-action-icon-wrap violet">
+            <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><line x1="12" y1="5" x2="12" y2="19"/><line x1="5" y1="12" x2="19" y2="12"/></svg>
+          </div>
+          <span class="quick-action-label">Create New Project</span>
+          <svg class="quick-action-arrow" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><polyline points="9 18 15 12 9 6"/></svg>
+        </div>
+        <div class="quick-action-item" data-action="search">
+          <div class="quick-action-icon-wrap coral">
+            <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><circle cx="11" cy="11" r="8"/><line x1="21" y1="21" x2="16.65" y2="16.65"/></svg>
+          </div>
+          <span class="quick-action-label">Search Freelancers</span>
+          <svg class="quick-action-arrow" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><polyline points="9 18 15 12 9 6"/></svg>
+        </div>
+        <div class="quick-action-item" data-action="reports">
+          <div class="quick-action-icon-wrap teal">
+            <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><line x1="18" y1="20" x2="18" y2="10"/><line x1="12" y1="20" x2="12" y2="4"/><line x1="6" y1="20" x2="6" y2="14"/></svg>
+          </div>
+          <span class="quick-action-label">View Reports</span>
+          <svg class="quick-action-arrow" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><polyline points="9 18 15 12 9 6"/></svg>
+        </div>
+        <div class="quick-action-item" data-action="invite">
+          <div class="quick-action-icon-wrap blue">
+            <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M4 4h16c1.1 0 2 .9 2 2v12c0 1.1-.9 2-2 2H4c-1.1 0-2-.9-2-2V6c0-1.1.9-2 2-2z"/><polyline points="22,6 12,13 2,6"/></svg>
+          </div>
+          <span class="quick-action-label">Invite Team Member</span>
+          <svg class="quick-action-arrow" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><polyline points="9 18 15 12 9 6"/></svg>
+        </div>
+      </div>
+
+    </div>
+  </div>
+
+</main>
+
+<!-- ============================================================
+     JavaScript
+     ============================================================ -->
+<script>
+(function() {
+  'use strict';
+
+  /* ----- Navigation highlighting ----- */
+  var navLinks = document.querySelectorAll('.nav-links li a');
+  navLinks.forEach(function(link) {
+    link.addEventListener('click', function(e) {
+      e.preventDefault();
+      navLinks.forEach(function(l) { l.classList.remove('active'); });
+      this.classList.add('active');
+
+      // Close mobile menu if open
+      var menu = document.getElementById('navLinks');
+      if (menu) menu.classList.remove('open');
+    });
+  });
+
+  /* ----- Mobile menu toggle ----- */
+  var mobileBtn = document.getElementById('mobileMenuBtn');
+  var navMenu = document.getElementById('navLinks');
+  if (mobileBtn && navMenu) {
+    mobileBtn.addEventListener('click', function() {
+      navMenu.classList.toggle('open');
+    });
+  }
+
+  /* ----- Invite button interactions ----- */
+  var inviteButtons = document.querySelectorAll('.freelancer-actions .btn-primary');
+  inviteButtons.forEach(function(btn) {
+    btn.addEventListener('click', function() {
+      if (this.textContent.trim() === 'Invite') {
+        this.textContent = 'Invited';
+        this.style.background = 'var(--green)';
+        this.style.boxShadow = '0 2px 8px rgba(16, 185, 129, 0.3)';
+        this.style.pointerEvents = 'none';
+        var card = this.closest('.freelancer-card');
+        if (card) {
+          card.style.borderColor = 'var(--green)';
+          var bar = card.querySelector('.match-bar-fill');
+          if (bar) {
+            bar.style.background = 'linear-gradient(90deg, #10B981, #34D399)';
+          }
+        }
+      }
+    });
+  });
+
+  /* ----- View Profile button interactions ----- */
+  var viewButtons = document.querySelectorAll('.freelancer-actions .btn-secondary');
+  viewButtons.forEach(function(btn) {
+    btn.addEventListener('click', function() {
+      var card = this.closest('.freelancer-card');
+      if (card) {
+        var name = card.querySelector('.freelancer-name');
+        if (name) {
+          var orig = this.textContent;
+          this.textContent = 'Loading...';
+          this.style.color = 'var(--primary)';
+          var self = this;
+          setTimeout(function() {
+            self.textContent = orig;
+            self.style.color = '';
+          }, 800);
+        }
+      }
+    });
+  });
+
+  /* ----- Quick Actions click feedback ----- */
+  var quickActions = document.querySelectorAll('.quick-action-item');
+  quickActions.forEach(function(item) {
+    item.addEventListener('click', function() {
+      var iconWrap = this.querySelector('.quick-action-icon-wrap');
+      if (iconWrap) {
+        iconWrap.style.transform = 'scale(1.15)';
+        setTimeout(function() {
+          iconWrap.style.transform = '';
+        }, 250);
+      }
+      this.style.background = 'var(--tag-violet-bg)';
+      var self = this;
+      setTimeout(function() {
+        self.style.background = '';
+      }, 350);
+    });
+  });
+
+  /* ----- Pipeline row hover highlight for accessibility ----- */
+  var pipelineRows = document.querySelectorAll('.pipeline-row:not(.pipeline-row-header)');
+  pipelineRows.forEach(function(row) {
+    row.setAttribute('tabindex', '0');
+    row.setAttribute('role', 'row');
+  });
+
+  /* ----- Notification bell click feedback ----- */
+  var notifBtn = document.querySelector('.notification-btn');
+  if (notifBtn) {
+    notifBtn.addEventListener('click', function() {
+      var dot = this.querySelector('.notification-dot');
+      if (dot) {
+        dot.style.transform = 'scale(0)';
+        dot.style.opacity = '0';
+        setTimeout(function() {
+          dot.style.display = 'none';
+        }, 200);
+      }
+    });
+  }
+
+  /* ----- Close mobile nav on outside click ----- */
+  document.addEventListener('click', function(e) {
+    if (navMenu && navMenu.classList.contains('open')) {
+      if (!navMenu.contains(e.target) && e.target !== mobileBtn && !mobileBtn.contains(e.target)) {
+        navMenu.classList.remove('open');
+      }
+    }
+  });
+
+})();
+</script>
+
+</body>
+</html>

@@ -1,0 +1,836 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <meta name="description" content="Custom software in 30 days or less. Reliable development for businesses, startups, and individuals.">
+  <title>launch30 — Custom Software in 30 Days</title>
+
+  <!-- Meta Pixel Code -->
+  <script>
+  !function(f,b,e,v,n,t,s)
+  {if(f.fbq)return;n=f.fbq=function(){n.callMethod?
+  n.callMethod.apply(n,arguments):n.queue.push(arguments)};
+  if(!f._fbq)f._fbq=n;n.push=n;n.loaded=!0;n.version='2.0';
+  n.queue=[];t=b.createElement(e);t.async=!0;
+  t.src=v;s=b.getElementsByTagName(e)[0];
+  s.parentNode.insertBefore(t,s)}(window, document,'script',
+  'https://connect.facebook.net/en_US/fbevents.js');
+  fbq('init', '1224126959912819');
+  fbq('track', 'PageView');
+  </script>
+  <noscript><img height="1" width="1" style="display:none"
+  src="https://www.facebook.com/tr?id=1224126959912819&ev=PageView&noscript=1"
+  /></noscript>
+  <!-- End Meta Pixel Code -->
+
+  <link href="https://assets.calendly.com/assets/external/widget.css" rel="stylesheet">
+  <script src="https://assets.calendly.com/assets/external/widget.js" async></script>
+
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Plus+Jakarta+Sans:ital,wght@0,300;0,400;0,500;0,600;0,700;1,400;1,600&family=Geist+Mono:wght@400;500&display=swap" rel="stylesheet">
+
+  <script src="https://cdn.tailwindcss.com"></script>
+  <script>
+    tailwind.config = {
+      theme: {
+        extend: {
+          fontFamily: {
+            display: ['"Plus Jakarta Sans"', 'ui-sans-serif', 'system-ui', 'sans-serif'],
+            sans: ['"Plus Jakarta Sans"', 'ui-sans-serif', 'system-ui', 'sans-serif'],
+            mono: ['"Geist Mono"', 'ui-monospace', 'monospace'],
+          }
+        }
+      }
+    }
+  </script>
+
+  <style>
+    /* ─── DESIGN SYSTEM ─── */
+    :root {
+      --bg: #fafafa;
+      --surface: #ffffff;
+      --border: #e5e7eb;
+      --border-light: #f3f4f6;
+      --text: #111827;
+      --text-secondary: #4b5563;
+      --text-tertiary: #9ca3af;
+      --accent: #2563eb;
+      --accent-hover: #1d4ed8;
+      --accent-light: #dbeafe;
+      --accent-xlight: #eff6ff;
+      --shadow-sm: 0 1px 3px rgba(0,0,0,0.04);
+      --shadow-md: 0 4px 16px rgba(0,0,0,0.06);
+      --shadow-lg: 0 8px 32px rgba(0,0,0,0.08);
+      --radius-sm: 8px;
+      --radius-md: 12px;
+      --radius-lg: 16px;
+    }
+
+    @media (prefers-color-scheme: dark) {
+      :root {
+        --bg: #0f1117;
+        --surface: #1a1d27;
+        --border: #2a2d3a;
+        --border-light: #22252f;
+        --text: #f1f5f9;
+        --text-secondary: #94a3b8;
+        --text-tertiary: #64748b;
+        --accent: #4D9FFF;
+        --accent-hover: #3b82f6;
+        --accent-light: rgba(77, 159, 255, 0.12);
+        --accent-xlight: rgba(77, 159, 255, 0.06);
+        --shadow-sm: 0 1px 3px rgba(0,0,0,0.2);
+        --shadow-md: 0 4px 16px rgba(0,0,0,0.3);
+        --shadow-lg: 0 8px 32px rgba(0,0,0,0.4);
+      }
+    }
+
+    *, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
+    html { scroll-behavior: smooth; }
+
+    body {
+      background: var(--bg);
+      color: var(--text);
+      font-family: 'Plus Jakarta Sans', ui-sans-serif, system-ui, sans-serif;
+      -webkit-font-smoothing: antialiased;
+      line-height: 1.6;
+      overflow-x: hidden;
+    }
+
+    /* ─── NAV ─── */
+    #nav {
+      position: fixed; top: 0; left: 0; right: 0;
+      z-index: 100; height: 64px;
+      display: flex; align-items: center;
+      transition: background 0.3s, border-color 0.3s, box-shadow 0.3s;
+      border-bottom: 1px solid transparent;
+    }
+    #nav.scrolled {
+      background: rgba(250, 250, 250, 0.88);
+      backdrop-filter: blur(16px);
+      -webkit-backdrop-filter: blur(16px);
+      border-bottom-color: var(--border);
+      box-shadow: var(--shadow-sm);
+    }
+    @media (prefers-color-scheme: dark) {
+      #nav.scrolled {
+        background: rgba(15, 17, 23, 0.88);
+      }
+    }
+    .nav-inner {
+      max-width: 1120px; width: 100%;
+      margin: 0 auto; padding: 0 24px;
+      display: flex; align-items: center;
+      justify-content: space-between;
+      position: relative;
+    }
+    .nav-logo {
+      font-family: 'Plus Jakarta Sans', sans-serif;
+      font-size: 1.05rem; font-weight: 600;
+      color: var(--text); text-decoration: none;
+      letter-spacing: -0.02em;
+    }
+    .nav-logo {
+      display: inline-flex; align-items: center; gap: 6px;
+    }
+    .nav-logo-icon { flex-shrink: 0; }
+    .nav-logo span { color: var(--accent); }
+    .nav-links {
+      display: flex; gap: 32px; list-style: none;
+      position: absolute;
+      left: 50%; transform: translateX(-50%);
+    }
+    .nav-links a {
+      font-size: 0.875rem; font-weight: 400;
+      color: var(--text-secondary); text-decoration: none;
+      transition: color 0.15s;
+    }
+    .nav-links a:hover { color: var(--text); }
+    @media (max-width: 768px) {
+      .nav-links { display: none; }
+    }
+
+    /* ─── BUTTONS ─── */
+    .btn {
+      display: inline-flex; align-items: center; gap: 8px;
+      font-family: 'Plus Jakarta Sans', sans-serif;
+      font-size: 0.875rem; font-weight: 500; line-height: 1;
+      padding: 10px 20px; border-radius: var(--radius-sm);
+      cursor: pointer; text-decoration: none; border: none;
+      transition: background 0.15s, transform 0.15s, box-shadow 0.15s;
+    }
+    .btn:hover { transform: translateY(-1px); }
+    .btn:active { transform: translateY(0); }
+
+    .btn-primary {
+      background: var(--accent); color: #fff;
+      box-shadow: 0 1px 3px rgba(37, 99, 235, 0.3);
+    }
+    .btn-primary:hover {
+      background: var(--accent-hover);
+      box-shadow: 0 4px 12px rgba(37, 99, 235, 0.25);
+    }
+    .btn-secondary {
+      background: var(--surface); color: var(--text);
+      border: 1px solid var(--border);
+      box-shadow: var(--shadow-sm);
+    }
+    .btn-secondary:hover {
+      background: var(--bg);
+      box-shadow: var(--shadow-md);
+    }
+    .btn-lg { font-size: 1rem; padding: 13px 28px; border-radius: var(--radius-sm); }
+
+    /* ─── BADGE ─── */
+    .badge {
+      display: inline-flex; align-items: center; gap: 8px;
+      font-family: 'Geist Mono', monospace;
+      font-size: 0.75rem; font-weight: 500;
+      letter-spacing: 0.02em;
+      color: var(--accent);
+      background: var(--accent-xlight);
+      border: 1px solid var(--accent-light);
+      padding: 6px 14px; border-radius: var(--radius-sm);
+    }
+    .badge-dot {
+      width: 6px; height: 6px;
+      background: var(--accent);
+      border-radius: 50%;
+      animation: pulse-dot 2s ease-in-out infinite;
+    }
+    @keyframes pulse-dot {
+      0%, 100% { opacity: 1; }
+      50% { opacity: 0.4; }
+    }
+
+    /* ─── LAYOUT ─── */
+    .container {
+      max-width: 1120px; margin: 0 auto; padding: 0 24px;
+    }
+    .section-pad { padding: 100px 0; }
+    @media (max-width: 640px) { .section-pad { padding: 64px 0; } }
+
+    /* ─── SECTION TYPOGRAPHY ─── */
+    .eyebrow {
+      font-family: 'Geist Mono', monospace;
+      font-size: 0.75rem; font-weight: 500;
+      letter-spacing: 0.06em; text-transform: uppercase;
+      color: var(--accent);
+      margin-bottom: 12px;
+    }
+    .heading {
+      font-family: 'Plus Jakarta Sans', ui-sans-serif, system-ui, sans-serif;
+      font-size: clamp(2rem, 5vw, 3.25rem);
+      line-height: 1.12; letter-spacing: -0.02em;
+      color: var(--text);
+    }
+    .heading em {
+      font-style: italic; color: var(--text-secondary);
+    }
+    .subtext {
+      font-size: 1.0625rem; line-height: 1.65;
+      color: var(--text-secondary);
+      max-width: 520px; margin-top: 12px;
+    }
+
+    /* ─── HERO ─── */
+    #hero {
+      min-height: 100svh;
+      display: flex; flex-direction: column; justify-content: center;
+      padding-top: 64px; position: relative; overflow: hidden;
+    }
+    #hero::before {
+      content: '';
+      position: absolute; inset: 0;
+      background:
+        radial-gradient(circle at 25% 20%, rgba(37, 99, 235, 0.07), transparent 50%),
+        radial-gradient(circle at 75% 60%, rgba(99, 102, 241, 0.04), transparent 50%),
+        radial-gradient(circle at 50% 80%, rgba(37, 99, 235, 0.03), transparent 40%);
+      pointer-events: none;
+    }
+    @media (prefers-color-scheme: dark) {
+      #hero::before {
+        background:
+          radial-gradient(circle at 25% 20%, rgba(77, 159, 255, 0.1), transparent 50%),
+          radial-gradient(circle at 75% 60%, rgba(99, 102, 241, 0.06), transparent 50%);
+      }
+    }
+    /* Subtle dot grid */
+    #hero::after {
+      content: '';
+      position: absolute; inset: 0;
+      background-image: radial-gradient(circle, var(--border) 1px, transparent 1px);
+      background-size: 32px 32px;
+      opacity: 0.5;
+      pointer-events: none;
+    }
+    @media (prefers-color-scheme: dark) {
+      #hero::after { opacity: 0.15; }
+    }
+    .hero-content {
+      position: relative; z-index: 1;
+      padding: 80px 0 100px;
+      text-align: center;
+      display: flex; flex-direction: column; align-items: center;
+    }
+    .hero-headline {
+      font-family: 'Plus Jakarta Sans', ui-sans-serif, system-ui, sans-serif;
+      font-size: clamp(3rem, 7.5vw, 5.5rem);
+      line-height: 1.04; letter-spacing: -0.03em;
+      color: var(--text); margin-top: 20px;
+      max-width: 900px;
+    }
+    .hero-headline em {
+      font-style: italic; color: var(--accent);
+      display: inline-block;
+    }
+    /* ── SLIDE-IN LINE ── */
+    .slide-line {
+      display: inline-flex;
+      align-items: center;
+      justify-content: center;
+      gap: 0.25em;
+      opacity: 0;
+      transform: translateX(-120px);
+      animation: slide-in-left 1s cubic-bezier(0.34, 1.56, 0.64, 1) 0.3s forwards;
+    }
+    .hero-chevrons {
+      flex-shrink: 0;
+      animation: chevron-pulse 3s ease-in-out 1.6s infinite;
+    }
+    @keyframes slide-in-left {
+      0%   { opacity: 0; transform: translateX(-120px); }
+      40%  { opacity: 1; }
+      75%  { transform: translateX(6px); }
+      100% { opacity: 1; transform: translateX(0); }
+    }
+    @keyframes chevron-pulse {
+      0%, 100% { opacity: 1; }
+      50%      { opacity: 0.5; }
+    }
+    @media (prefers-reduced-motion: reduce) {
+      .slide-line { animation: none; opacity: 1; transform: none; }
+      .hero-chevrons { animation: none; }
+    }
+    .hero-sub {
+      font-size: clamp(1.05rem, 2vw, 1.2rem);
+      color: var(--text-secondary);
+      max-width: 500px; line-height: 1.65; margin-top: 20px;
+    }
+    .hero-cta-row {
+      display: flex; align-items: center; gap: 14px;
+      flex-wrap: wrap; justify-content: center;
+      margin-top: 36px;
+    }
+    @media (max-width: 480px) {
+      .hero-cta-row { flex-direction: column; width: 100%; }
+      .hero-cta-row .btn { width: 100%; justify-content: center; }
+    }
+
+    /* ─── SERVICES SECTION ─── */
+    .services-split {
+      display: grid;
+      grid-template-columns: 1fr 1fr;
+      gap: 48px;
+      align-items: center;
+    }
+    .services-left {
+      position: sticky;
+      top: 100px;
+    }
+    @media (max-width: 768px) {
+      .services-split { grid-template-columns: 1fr; gap: 32px; }
+      .services-left { position: static; text-align: center; }
+    }
+    /* ─── TABS ─── */
+    .tab-buttons {
+      display: inline-flex;
+      margin-top: 20px;
+      background: var(--surface);
+      border: 1px solid var(--border);
+      border-radius: 12px;
+      padding: 4px;
+    }
+    .tab-btn {
+      font-family: 'Geist Mono', monospace;
+      font-size: 0.75rem; font-weight: 500;
+      letter-spacing: 0.02em;
+      padding: 8px 18px;
+      border-radius: 10px;
+      border: none;
+      background: transparent;
+      color: var(--text-secondary);
+      cursor: pointer;
+      transition: color 0.2s, background 0.2s, box-shadow 0.2s;
+    }
+    .tab-btn:hover {
+      background: var(--border-light);
+      color: var(--text);
+    }
+    .tab-btn.active {
+      background: var(--accent);
+      color: #fff;
+      box-shadow: 0 1px 3px rgba(0,0,0,0.15);
+    }
+    .tab-btn.active:hover {
+      background: var(--accent-hover);
+    }
+    .tab-panels { position: relative; }
+    .tab-panel {
+      display: none;
+      animation: tab-fade 0.3s ease;
+    }
+    .tab-panel.active { display: block; }
+    @keyframes tab-fade {
+      from { opacity: 0; transform: translateY(6px); }
+      to   { opacity: 1; transform: translateY(0); }
+    }
+    .tab-panel h3 {
+      font-size: 1.15rem; font-weight: 600;
+      color: var(--text); margin-bottom: 8px;
+    }
+    .tab-panel h3 span { color: var(--accent); }
+    .tab-panel > p {
+      font-size: 0.9375rem; color: var(--text-secondary);
+      line-height: 1.65; margin-bottom: 20px;
+    }
+    .tab-panel ul {
+      list-style: none; padding: 0;
+      display: flex; flex-direction: column; gap: 8px;
+    }
+    .tab-panel li {
+      font-size: 0.875rem; color: var(--text);
+      display: flex; align-items: center; gap: 10px;
+    }
+    .tab-panel li::before {
+      content: '';
+      width: 6px; height: 6px;
+      background: var(--accent);
+      border-radius: 50%;
+      flex-shrink: 0;
+    }
+    .tab-cta {
+      display: inline-flex; align-items: center; gap: 6px;
+      margin-top: 20px;
+      font-family: var(--font-mono); font-size: 0.8rem;
+      font-weight: 600; letter-spacing: 0.03em;
+      color: var(--accent); text-decoration: none;
+      padding: 10px 20px;
+      border: 1.5px solid var(--accent);
+      border-radius: 999px;
+      transition: background 0.2s, color 0.2s;
+      cursor: pointer;
+    }
+    .tab-cta:hover {
+      background: var(--accent);
+      color: #fff;
+    }
+    @media (max-width: 768px) {
+      .tab-buttons { justify-content: center; }
+    }
+    @media (prefers-reduced-motion: reduce) {
+      .tab-panel { animation: none; }
+    }
+
+    /* ─── PROCESS STEPS ─── */
+    .steps {
+      display: grid;
+      grid-template-columns: repeat(4, 1fr);
+      gap: 0;
+      position: relative;
+    }
+    @media (max-width: 768px) {
+      .steps { grid-template-columns: 1fr; gap: 8px; }
+    }
+    .step {
+      padding: 0 24px;
+      position: relative;
+    }
+    /* Connecting line between steps (desktop) */
+    .steps::before {
+      content: '';
+      position: absolute;
+      top: 19px; left: 56px; right: 56px;
+      height: 2px;
+      background: var(--border);
+      z-index: 0;
+    }
+    @media (max-width: 768px) {
+      .steps::before { display: none; }
+      .step { padding: 16px 0; border-left: 2px solid var(--border); padding-left: 24px; }
+    }
+    .step-num {
+      width: 38px; height: 38px;
+      background: var(--accent);
+      color: #fff;
+      font-family: 'Geist Mono', monospace;
+      font-size: 0.8rem; font-weight: 600;
+      border-radius: 50%;
+      display: flex; align-items: center; justify-content: center;
+      position: relative; z-index: 1;
+      margin-bottom: 16px;
+    }
+    .step h3 {
+      font-size: 1.05rem; font-weight: 500;
+      color: var(--text); margin-bottom: 8px;
+    }
+    .step p {
+      font-size: 0.875rem; color: var(--text-secondary); line-height: 1.65;
+    }
+
+    /* ─── FAQ ─── */
+    .faq-list { max-width: 720px; margin: 0 auto; }
+    .faq-item {
+      border-bottom: 1px solid var(--border);
+    }
+    .faq-item:first-child { border-top: 1px solid var(--border); }
+    .faq-item summary {
+      display: flex; align-items: center; justify-content: space-between;
+      padding: 20px 0;
+      font-size: 1rem; font-weight: 500;
+      color: var(--text);
+      cursor: pointer; list-style: none;
+      transition: color 0.15s;
+    }
+    .faq-item summary::-webkit-details-marker { display: none; }
+    .faq-item summary::after {
+      content: '+';
+      font-family: 'Geist Mono', monospace;
+      font-size: 1.25rem; font-weight: 300;
+      color: var(--text-tertiary);
+      transition: transform 0.2s;
+      flex-shrink: 0; margin-left: 16px;
+    }
+    .faq-item[open] summary::after {
+      content: '\2212'; /* minus sign */
+    }
+    .faq-item summary:hover { color: var(--accent); }
+    .faq-answer {
+      padding: 0 0 20px;
+      font-size: 0.9375rem; line-height: 1.7;
+      color: var(--text-secondary);
+      max-width: 600px;
+    }
+
+    /* ─── CTA SECTION ─── */
+    .cta-section {
+      text-align: center;
+      padding: 48px 0;
+    }
+    .cta-heading {
+      font-family: 'Plus Jakarta Sans', ui-sans-serif, system-ui, sans-serif;
+      font-size: clamp(1.5rem, 3.5vw, 2rem);
+      line-height: 1.2; letter-spacing: -0.02em;
+      color: var(--text);
+    }
+    .cta-sub {
+      font-size: 0.9375rem; color: var(--text-secondary);
+      line-height: 1.65; margin-top: 8px; max-width: 420px;
+      margin-left: auto; margin-right: auto;
+    }
+
+    /* ─── FOOTER ─── */
+    footer {
+      padding: 32px 0;
+      border-top: 1px solid var(--border);
+    }
+    .footer-inner {
+      display: flex; align-items: center;
+      justify-content: space-between;
+      flex-wrap: wrap; gap: 12px;
+    }
+    .footer-left {
+      display: flex; flex-direction: column; gap: 4px;
+    }
+    .footer-desc {
+      font-size: 0.8125rem; color: var(--text-tertiary);
+    }
+    .footer-copy {
+      font-family: 'Geist Mono', monospace;
+      font-size: 0.75rem; color: var(--text-tertiary);
+    }
+
+    /* ─── ANIMATIONS ─── */
+    .anim { animation: fup 0.7s cubic-bezier(0.16, 1, 0.3, 1) both; }
+    .anim-1 { animation-delay: 0.05s; }
+    .anim-2 { animation-delay: 0.15s; }
+    .anim-3 { animation-delay: 0.28s; }
+    .anim-4 { animation-delay: 0.40s; }
+    @keyframes fup {
+      from { opacity: 0; transform: translateY(20px); }
+      to   { opacity: 1; transform: translateY(0); }
+    }
+
+    .reveal {
+      opacity: 0; transform: translateY(20px);
+      transition: opacity 0.6s cubic-bezier(0.16, 1, 0.3, 1),
+                  transform 0.6s cubic-bezier(0.16, 1, 0.3, 1);
+    }
+    .reveal.visible { opacity: 1; transform: translateY(0); }
+    .rd1 { transition-delay: 0.05s; }
+    .rd2 { transition-delay: 0.1s; }
+    .rd3 { transition-delay: 0.15s; }
+    .rd4 { transition-delay: 0.2s; }
+    .rd5 { transition-delay: 0.25s; }
+    .rd6 { transition-delay: 0.3s; }
+
+    @media (prefers-reduced-motion: reduce) {
+      .anim, .reveal { animation: none; opacity: 1; transform: none; transition: none; }
+      .badge-dot { animation: none; }
+    }
+  </style>
+</head>
+<body>
+
+<!-- ── NAV ── -->
+<nav id="nav">
+  <div class="nav-inner">
+    <a href="/" class="nav-logo">
+      <svg class="nav-logo-icon" width="16" height="16" viewBox="0 0 64 64" fill="none" xmlns="http://www.w3.org/2000/svg" aria-hidden="true">
+        <path d="M8 4L36 32L8 60L20 60L48 32L20 4Z" fill="var(--accent)"/>
+        <path d="M24 4L52 32L24 60L36 60L64 32L36 4Z" fill="var(--accent)" opacity="0.45"/>
+      </svg><span class="nav-logo-text">launch<span>30</span></span>
+    </a>
+    <ul class="nav-links">
+      <li><a href="#offerings">What We Do</a></li>
+      <li><a href="#how-it-works">How It Works</a></li>
+      <li><a href="#faq">FAQ</a></li>
+    </ul>
+    <a href="#" onclick="Calendly.initPopupWidget({url: 'https://calendly.com/james-blacklabagency/launch30-intro-call'});return false;" class="btn btn-primary" style="font-size: 0.8125rem; padding: 8px 16px;">Book Free Consultation</a>
+  </div>
+</nav>
+
+<!-- ── HERO ── -->
+<section id="hero">
+  <div class="container">
+    <div class="hero-content">
+      <h1 class="hero-headline" style="text-align: center;">
+        Custom Software in<br>
+        <span class="slide-line">
+          <svg class="hero-chevrons" width="0.7em" height="0.7em" viewBox="0 0 64 64" fill="none" aria-hidden="true">
+            <path d="M8 4L36 32L8 60L20 60L48 32L20 4Z" fill="var(--accent)"/>
+            <path d="M24 4L52 32L24 60L36 60L64 32L36 4Z" fill="var(--accent)" opacity="0.45"/>
+          </svg>
+          <em>30 Days or Less</em>
+        </span>
+      </h1>
+      <p class="hero-sub">
+        Reliable software development without the complexity of managing it yourself.
+      </p>
+      <div class="hero-cta-row">
+        <a href="#" onclick="Calendly.initPopupWidget({url: 'https://calendly.com/james-blacklabagency/launch30-intro-call'});return false;" class="btn btn-primary btn-lg">
+          Book Your Free Consultation
+          <svg width="16" height="16" viewBox="0 0 16 16" fill="none" aria-hidden="true"><path d="M3 8h10M9 4l4 4-4 4" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"/></svg>
+        </a>
+        <a href="#offerings" class="btn btn-secondary btn-lg">See Our Offerings</a>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- ── WHAT WE DO ── -->
+<section id="offerings" class="section-pad">
+  <div class="container">
+    <div class="services-split">
+      <div class="services-left reveal">
+        <p class="eyebrow">What We Do</p>
+        <h2 class="heading">
+          Built for <em>every stage</em>
+        </h2>
+        <div class="tab-buttons">
+          <button class="tab-btn active" data-tab="individuals">Individuals</button>
+          <button class="tab-btn" data-tab="startups">Startups</button>
+          <button class="tab-btn" data-tab="businesses">Businesses</button>
+          <button class="tab-btn" data-tab="enterprise">Enterprise</button>
+        </div>
+      </div>
+
+      <div class="tab-panels reveal">
+        <div class="tab-panel active" data-tab="individuals">
+          <h3>Launch30 for <span>Individuals</span></h3>
+          <p>Have an idea but no technical team? We turn your vision into a working product — from personal projects and side hustles to portfolio apps.</p>
+          <ul>
+            <li>Personal websites &amp; landing pages</li>
+            <li>MVP builds to validate your idea</li>
+            <li>Portfolio &amp; passion projects</li>
+          </ul>
+          <a href="demos/individuals.html" class="tab-cta">See Our Work for Individuals &rarr;</a>
+        </div>
+        <div class="tab-panel" data-tab="startups">
+          <h3>Launch30 for <span>Startups</span></h3>
+          <p>Move fast without breaking things. We build your beta, iterate with you, and ship production-ready software on a startup timeline.</p>
+          <ul>
+            <li>Beta products &amp; rapid prototypes</li>
+            <li>SaaS platforms</li>
+            <li>Mobile apps</li>
+            <li>Investor-ready demos</li>
+          </ul>
+          <a href="demos/startups.html" class="tab-cta">See Our Work for Startups &rarr;</a>
+        </div>
+        <div class="tab-panel" data-tab="businesses">
+          <h3>Launch30 for <span>Businesses</span></h3>
+          <p>Modernize your operations with custom tools that fit your workflows — no off-the-shelf compromises.</p>
+          <ul>
+            <li>Internal tools &amp; dashboards</li>
+            <li>E-commerce solutions</li>
+            <li>Process automation</li>
+            <li>Custom integrations</li>
+          </ul>
+          <a href="demos/businesses.html" class="tab-cta">See Our Work for Businesses &rarr;</a>
+        </div>
+        <div class="tab-panel" data-tab="enterprise">
+          <h3>Launch30 for <span>Enterprise</span></h3>
+          <p>Dedicated development capacity for complex builds. Security-first, scalable, and built to your specs.</p>
+          <ul>
+            <li>Proprietary platforms</li>
+            <li>API systems &amp; microservices</li>
+            <li>Compliance-ready software</li>
+            <li>Legacy modernization</li>
+          </ul>
+          <a href="demos/enterprise.html" class="tab-cta">See Our Work for Enterprise &rarr;</a>
+        </div>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- ── HOW IT WORKS ── -->
+<section id="how-it-works" class="section-pad">
+  <div class="container">
+    <div class="reveal" style="text-align: center; margin-bottom: 64px;">
+      <p class="eyebrow">How It Works</p>
+      <h2 class="heading">From first call to launch day</h2>
+      <p class="subtext" style="margin-left: auto; margin-right: auto;">Simple and straightforward.</p>
+    </div>
+
+    <div class="steps reveal">
+      <div class="step rd1">
+        <div class="step-num">1</div>
+        <h3>Discovery Call</h3>
+        <p>Book a free consultation. We discuss your needs and determine the best solution.</p>
+      </div>
+      <div class="step rd2">
+        <div class="step-num">2</div>
+        <h3>Custom Proposal</h3>
+        <p>Clear plan with timeline and cost. No surprises, no hidden fees.</p>
+      </div>
+      <div class="step rd3">
+        <div class="step-num">3</div>
+        <h3>Build &amp; Launch</h3>
+        <p>We build your solution while keeping you updated. Delivered exactly as needed.</p>
+      </div>
+      <div class="step rd4">
+        <div class="step-num">4</div>
+        <h3>Support &amp; Optimization</h3>
+        <p>Ongoing support and optimization to keep your solution performing as you grow.</p>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- ── FAQ ── -->
+<section id="faq" class="section-pad" style="background: var(--surface);">
+  <div class="container">
+    <div class="reveal" style="text-align: center; margin-bottom: 48px;">
+      <p class="eyebrow">FAQ</p>
+      <h2 class="heading">Frequently Asked Questions</h2>
+      <p class="subtext" style="margin-left: auto; margin-right: auto;">Everything you need to know before getting started.</p>
+    </div>
+
+    <div class="faq-list reveal">
+      <details class="faq-item">
+        <summary>How much does a project cost?</summary>
+        <div class="faq-answer">
+          Every project is different, so pricing depends on scope and complexity. We provide a clear, upfront quote after our discovery call — no hidden fees, no surprises. We work with budgets of all sizes.
+        </div>
+      </details>
+      <details class="faq-item">
+        <summary>Can you really deliver in 30 days?</summary>
+        <div class="faq-answer">
+          Yes — for most projects. Our streamlined process and experienced team allow us to move fast without cutting corners. Larger enterprise projects may take longer, and we'll always give you a realistic timeline upfront.
+        </div>
+      </details>
+      <details class="faq-item">
+        <summary>Do you offer revisions?</summary>
+        <div class="faq-answer">
+          Absolutely. We keep you involved throughout the build process with regular check-ins. Revisions and feedback are built into our workflow so the final product is exactly what you need.
+        </div>
+      </details>
+      <details class="faq-item">
+        <summary>What happens after launch?</summary>
+        <div class="faq-answer">
+          We don't disappear after delivery. We offer ongoing support, maintenance, and optimization packages so your software stays fast, secure, and up-to-date as your business grows.
+        </div>
+      </details>
+    </div>
+  </div>
+</section>
+
+<!-- ── CTA ── -->
+<section class="section-pad" style="border-top: 1px solid var(--border);">
+  <div class="container">
+    <div class="cta-section reveal">
+      <h2 class="cta-heading">Ready to get started?</h2>
+      <p class="cta-sub">Stop waiting. Start building.</p>
+      <div style="margin-top: 24px;">
+        <a href="#" onclick="Calendly.initPopupWidget({url: 'https://calendly.com/james-blacklabagency/launch30-intro-call'});return false;" class="btn btn-primary">
+          Book Free Consultation
+          <svg width="14" height="14" viewBox="0 0 16 16" fill="none" aria-hidden="true"><path d="M3 8h10M9 4l4 4-4 4" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"/></svg>
+        </a>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- ── FOOTER ── -->
+<footer>
+  <div class="container">
+    <div class="footer-inner">
+      <div class="footer-left">
+        <a href="/" class="nav-logo" style="font-size: 0.9rem;">
+          <svg class="nav-logo-icon" width="14" height="14" viewBox="0 0 64 64" fill="none" xmlns="http://www.w3.org/2000/svg" aria-hidden="true">
+            <path d="M8 4L36 32L8 60L20 60L48 32L20 4Z" fill="var(--accent)"/>
+            <path d="M24 4L52 32L24 60L36 60L64 32L36 4Z" fill="var(--accent)" opacity="0.45"/>
+          </svg><span class="nav-logo-text">launch<span>30</span></span>
+        </a>
+        <span class="footer-desc">Custom software solutions for businesses, startups, and individuals.</span>
+      </div>
+      <span class="footer-copy">&copy; 2026 launch30. All rights reserved.</span>
+    </div>
+  </div>
+</footer>
+
+<script>
+  // Nav scroll
+  const nav = document.getElementById('nav');
+  window.addEventListener('scroll', () => {
+    nav.classList.toggle('scrolled', window.scrollY > 20);
+  }, { passive: true });
+
+  // Scroll reveal
+  const io = new IntersectionObserver((entries) => {
+    entries.forEach(e => {
+      if (e.isIntersecting) {
+        e.target.classList.add('visible');
+        io.unobserve(e.target);
+      }
+    });
+  }, { threshold: 0.08, rootMargin: '0px 0px -40px 0px' });
+  document.querySelectorAll('.reveal').forEach(el => io.observe(el));
+
+  // Tab switching
+  document.querySelectorAll('.tab-btn').forEach(btn => {
+    btn.addEventListener('click', () => {
+      const tab = btn.dataset.tab;
+      document.querySelectorAll('.tab-btn').forEach(b => b.classList.remove('active'));
+      document.querySelectorAll('.tab-panel').forEach(p => p.classList.remove('active'));
+      btn.classList.add('active');
+      document.querySelector(`.tab-panel[data-tab="${tab}"]`).classList.add('active');
+    });
+  });
+</script>
+
+</body>
+</html>

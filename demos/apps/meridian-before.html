@@ -1,0 +1,70 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Dispatch Log - Fleet Tracking Sheet</title>
+<link href="https://fonts.googleapis.com/css2?family=Plus+Jakarta+Sans:wght@400;600;700&display=swap" rel="stylesheet">
+<style>
+:root{--bg:#f0f0f0;--sbg:#fff;--hbg:#d5d5d5;--b:#b8b8b8;--bl:#d9d9d9;--t:#1a1a1a;--td:#666;--cf:'Consolas','Courier New',monospace;--uf:'Plus Jakarta Sans',system-ui,sans-serif;--gf:#c6efce;--gt:#006100;--yf:#ffeb9c;--yt:#9c6500;--rf:#ffc7ce;--rt:#9c0006;--br:#dce6f1;--fb:#e8e8e8}
+@media(prefers-color-scheme:dark){:root{--bg:#1a1a1a;--sbg:#242424;--hbg:#333;--b:#4a4a4a;--bl:#3a3a3a;--t:#d4d4d4;--td:#888;--gf:#1a3a1a;--gt:#6ccf6c;--yf:#3a3520;--yt:#e0c050;--rf:#3a1a1a;--rt:#f06060;--br:#1c2a3a;--fb:#2a2a2a}}
+*,*::before,*::after{box-sizing:border-box;margin:0;padding:0}
+html,body{height:100%;overflow:hidden}
+body{font-family:var(--uf);background:var(--bg);color:var(--t)}
+.app{display:flex;flex-direction:column;height:100vh}
+.toolbar{background:var(--hbg);padding:4px 10px;display:flex;align-items:center;gap:8px;border-bottom:1px solid var(--b);font-size:11px;flex-shrink:0}
+.toolbar b{font-size:12px;margin-right:auto}
+.toolbar span:not(:first-child){background:none;border:1px solid var(--b);border-radius:2px;padding:2px 8px;font-size:10px;color:var(--td);font-family:var(--uf)}
+.toolbar .sep{width:1px;height:16px;background:var(--b);border:0;padding:0}
+.fb{background:var(--fb);border-bottom:1px solid var(--b);padding:3px 8px;font-family:var(--cf);font-size:11px;color:var(--td);flex-shrink:0;display:flex;align-items:center;gap:6px}
+.fb em{font-weight:700;color:var(--t);font-style:normal;min-width:40px;border-right:1px solid var(--b);padding-right:6px}
+.sw{flex:1;overflow:auto}
+table{border-collapse:collapse;width:max-content;min-width:100%;font-family:var(--cf);font-size:11px}
+th,td{border:1px solid var(--bl);padding:3px 6px;text-align:left;white-space:nowrap;height:22px;vertical-align:middle}
+thead th{background:var(--hbg);font-weight:700;font-size:10px;text-transform:uppercase;letter-spacing:.03em;position:sticky;top:0;z-index:2;color:var(--t);border-color:var(--b)}
+.rn{background:var(--hbg);text-align:center;color:var(--td);font-size:10px;width:28px;min-width:28px;border-color:var(--b);position:sticky;left:0;z-index:1}
+thead th:first-child{z-index:3}
+.ci{color:#4472c4;font-weight:600} .cw{white-space:normal;max-width:140px;line-height:1.2;overflow:hidden}
+.co{max-width:80px;overflow:hidden;text-overflow:ellipsis} .cb{font-weight:700} .cd{color:var(--td)}
+.sg{background:var(--gf);color:var(--gt);font-weight:700} .sy{background:var(--yf);color:var(--yt)}
+.sr{background:var(--rf);color:var(--rt);font-weight:700;text-transform:uppercase} .srb{color:var(--rt);font-weight:700}
+.bblu{background:var(--br)} .byel{background:var(--yf)}
+.cu{color:var(--rt);font-weight:700;letter-spacing:1px} .cs{text-decoration:line-through;color:var(--td)}
+.sum{padding:10px 36px;font-family:var(--cf);font-size:11px;border-top:2px solid var(--b);background:var(--sbg);flex-shrink:0}
+.sum h4{font-family:var(--uf);font-size:11px;margin-bottom:4px;text-transform:uppercase;letter-spacing:.05em;color:var(--td);font-weight:700}
+.sum p{color:var(--td);line-height:1.7} .sum p b{color:var(--t)}
+.sb{background:var(--hbg);border-top:1px solid var(--b);padding:2px 10px;font-size:10px;color:var(--td);display:flex;justify-content:space-between;flex-shrink:0}
+</style>
+</head>
+<body>
+<div class="app">
+  <div class="toolbar"><b>Fleet_Dispatch_Log_Feb2026_FINAL_v3.xlsx</b><span>File</span><span>Edit</span><span>View</span><span class="sep"></span><span>AutoSave: Off</span></div>
+  <div class="fb"><em>H5</em> ="CALL MARCUS - tire blew on I-90"</div>
+  <div class="sw">
+    <table>
+      <thead><tr>
+        <th class="rn"></th><th style="min-width:72px">Dispatch #</th><th style="min-width:100px">Driver</th><th style="min-width:60px">Truck #</th><th style="min-width:170px">Route</th><th style="min-width:76px">Depart Time</th><th style="min-width:66px">ETA</th><th style="min-width:80px">Status</th><th style="min-width:200px">Notes</th>
+      </tr></thead>
+      <tbody>
+        <tr><td class="rn">1</td><td class="ci">D-1842</td><td class="cb">Marcus Chen</td><td>T-14</td><td class="co">Warehouse A &gt; Downtown Hub via Rt 9</td><td>06:30 AM</td><td>09:15 AM</td><td class="sg">Delivered</td><td class="cd">on time</td></tr>
+        <tr><td class="rn">2</td><td class="ci">D-1843</td><td>Lisa Park</td><td class="cb">T-07</td><td>Port Terminal &gt; Dist. Center</td><td>07:00</td><td class="sy">11:30ish??</td><td class="sy">In Transit</td><td class="cw">called dispatch at 9am - traffic on I-5, rerouting</td></tr>
+        <tr class="bblu"><td class="rn">3</td><td class="ci">D-1844</td><td class="cb">James Wilson</td><td>T-22</td><td class="cw">Hub North &gt;&gt; Retail Zone 3 (CHANGED from Zone 2)</td><td>07:45 AM</td><td class="cu">???</td><td class="sr">DELAYED</td><td class="srb">CALL MARCUS re: covering this route</td></tr>
+        <tr><td class="rn">4</td><td class="ci">D-1845</td><td>Ana Reyes</td><td>T-31</td><td>Warehouse B &gt; Airport Cargo</td><td>08:00 AM</td><td>10:45 AM</td><td class="sy">In Transit</td><td class="cd">GPS signal lost 20 min ago?</td></tr>
+        <tr><td class="rn">5</td><td class="ci">D-1846</td><td class="cb">Tom Bradley</td><td>T-09</td><td>Distribution Ctr &gt; Hub South</td><td>6:15 AM</td><td>08:50 AM</td><td class="sg">Delivered</td><td>customer signed 8:47am</td></tr>
+        <tr><td class="rn">6</td><td class="ci">D-1847</td><td>Kevin Nguyen</td><td>T-18</td><td class="co">Cross-dock Facility &gt; Northside Industrial &gt; Return</td><td>09:00 AM</td><td>01:30 PM</td><td class="sy">In Transit</td><td class="cd">multi-stop, 3 of 5 done</td></tr>
+        <tr><td class="rn">7</td><td class="ci">D-1848</td><td class="cs">Dave Miller</td><td class="cs">T-03</td><td class="cs">Warehouse A &gt; Eastside</td><td class="cs">10:00 AM</td><td class="cs">--</td><td class="cd" style="font-style:italic">CANCELLED</td><td class="cw byel">truck broke down!! reassign to tmrw</td></tr>
+        <tr><td class="rn">8</td><td class="ci">D-1849</td><td>Sarah Kim</td><td>T-25</td><td>Hub South &gt; Metro Depot</td><td>08:30 AM</td><td>11:00 AM</td><td class="sg">Delivered</td><td class="cd">15 min early</td></tr>
+        <tr><td class="rn">9</td><td class="ci">D-1850</td><td class="cb">R. Dominguez</td><td>T-11</td><td class="cw">Airport Cargo &gt; Downtown Hub (RUSH - priority)</td><td>09:15AM</td><td>12:00 PM</td><td class="sr">DELAYED</td><td class="cw srb">flat tire on I-90, ETA unknown, waiting for roadside</td></tr>
+        <tr><td class="rn">10</td><td class="ci cd">D-1851</td><td class="cd">TBD</td><td class="cd">--</td><td class="cd">Warehouse A &gt; TBD</td><td class="cd">PM?</td><td class="cd">--</td><td class="cd">Pending</td><td class="cd">waiting on client confirmation, Jordan check email</td></tr>
+      </tbody>
+    </table>
+  </div>
+  <div class="sum">
+    <h4>Daily Summary (manual count)</h4>
+    <p>On Route: <b>4</b> &nbsp;&nbsp;|&nbsp;&nbsp; Delayed: <b>2</b> &nbsp;&nbsp;|&nbsp;&nbsp; Completed: <b>3</b> &nbsp;&nbsp;|&nbsp;&nbsp; Cancelled: <b>1</b></p>
+    <p style="color:var(--rt);margin-top:2px">** 2 DELAYS need immediate action - see Jordan **</p>
+  </div>
+  <div class="sb"><span>Sheet1 of 1</span><span>Last saved: 9:47 AM (Jordan D.)</span></div>
+</div>
+</body>
+</html>

@@ -1,0 +1,2247 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Meridian Logistics Dashboard</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=IBM+Plex+Sans:wght@400;500;600;700&family=IBM+Plex+Mono:wght@400;500;600;700&display=swap" rel="stylesheet">
+<style>
+/* ============================================================
+   CSS Custom Properties — Industrial Command Center
+   ============================================================ */
+:root {
+  /* Primary palette */
+  --primary: #2E5090;
+  --primary-light: #3D6BB5;
+  --primary-dark: #1E3A6E;
+  --primary-bg: rgba(46, 80, 144, 0.08);
+
+  /* Signal orange */
+  --signal: #FF6B35;
+  --signal-light: #FF8A5C;
+  --signal-bg: rgba(255, 107, 53, 0.1);
+
+  /* Status colors */
+  --green: #0D9488;
+  --green-bg: rgba(13, 148, 136, 0.1);
+  --green-text: #0D9488;
+  --amber: #D97706;
+  --amber-bg: rgba(217, 119, 6, 0.1);
+  --amber-text: #D97706;
+  --blue-status: #2E5090;
+  --blue-status-bg: rgba(46, 80, 144, 0.1);
+  --blue-status-text: #2E5090;
+  --gray-status: #5C6B7A;
+  --gray-status-bg: rgba(92, 107, 122, 0.1);
+  --gray-status-text: #5C6B7A;
+  --red: #DC2626;
+
+  /* Sidebar */
+  --sidebar-bg: #0D1117;
+  --sidebar-hover: rgba(255, 255, 255, 0.04);
+  --sidebar-text: #7B8794;
+  --sidebar-text-active: #E8ECF0;
+  --sidebar-border: rgba(255, 255, 255, 0.06);
+  --sidebar-width: 232px;
+  --sidebar-collapsed-width: 0px;
+
+  /* Main content */
+  --bg: #F4F5F7;
+  --surface: #FFFFFF;
+  --surface-hover: #F8F9FA;
+  --border: #D1D5DB;
+  --border-light: #E5E7EB;
+  --text: #1B2332;
+  --text-secondary: #5C6B7A;
+  --text-muted: #8C96A3;
+  --grid-lines: #E5E7EB;
+
+  /* Spacing — tighter, more compact */
+  --space-2xs: 2px;
+  --space-xs: 4px;
+  --space-sm: 6px;
+  --space-md: 12px;
+  --space-lg: 18px;
+  --space-xl: 24px;
+
+  /* Typography */
+  --font-body: 'IBM Plex Sans', -apple-system, BlinkMacSystemFont, sans-serif;
+  --font-mono: 'IBM Plex Mono', 'SF Mono', 'Consolas', monospace;
+  --text-2xs: 9px;
+  --text-xs: 10px;
+  --text-sm: 11px;
+  --text-base: 12px;
+  --text-md: 13px;
+  --text-lg: 15px;
+  --text-xl: 18px;
+  --text-2xl: 26px;
+  --text-3xl: 32px;
+
+  /* Misc */
+  --radius-xs: 2px;
+  --radius-sm: 4px;
+  --radius-md: 6px;
+  --radius-lg: 8px;
+  --shadow-sm: 0 1px 2px rgba(0,0,0,0.06);
+  --shadow-md: 0 1px 3px rgba(0,0,0,0.08), 0 1px 2px rgba(0,0,0,0.04);
+  --shadow-lg: 0 4px 12px rgba(0,0,0,0.1);
+  --transition: 120ms ease;
+}
+
+/* ============================================================
+   Dark Mode
+   ============================================================ */
+@media (prefers-color-scheme: dark) {
+  :root {
+    --bg: #111318;
+    --surface: #1C1F26;
+    --surface-hover: #22262E;
+    --border: #2D3340;
+    --border-light: #252A33;
+    --grid-lines: #252A33;
+    --text: #D8DCE2;
+    --text-secondary: #8C96A3;
+    --text-muted: #5C6B7A;
+    --sidebar-bg: #080A0F;
+    --sidebar-hover: rgba(255, 255, 255, 0.05);
+    --sidebar-border: rgba(255, 255, 255, 0.05);
+    --primary-bg: rgba(46, 80, 144, 0.15);
+    --signal-bg: rgba(255, 107, 53, 0.12);
+    --green-bg: rgba(13, 148, 136, 0.15);
+    --green-text: #2DD4BF;
+    --amber-bg: rgba(217, 119, 6, 0.15);
+    --amber-text: #FBBF24;
+    --blue-status-bg: rgba(46, 80, 144, 0.2);
+    --blue-status-text: #6B9ADB;
+    --gray-status-bg: rgba(92, 107, 122, 0.15);
+    --gray-status-text: #8C96A3;
+    --shadow-sm: 0 1px 2px rgba(0,0,0,0.3);
+    --shadow-md: 0 1px 3px rgba(0,0,0,0.4), 0 1px 2px rgba(0,0,0,0.3);
+    --shadow-lg: 0 4px 12px rgba(0,0,0,0.4);
+  }
+}
+
+/* ============================================================
+   Reduced Motion
+   ============================================================ */
+@media (prefers-reduced-motion: reduce) {
+  *, *::before, *::after {
+    animation-duration: 0.01ms !important;
+    animation-iteration-count: 1 !important;
+    transition-duration: 0.01ms !important;
+  }
+}
+
+/* ============================================================
+   Reset & Base
+   ============================================================ */
+*, *::before, *::after {
+  box-sizing: border-box;
+  margin: 0;
+  padding: 0;
+}
+
+html, body {
+  height: 100%;
+  overflow: hidden;
+}
+
+body {
+  font-family: var(--font-body);
+  font-size: var(--text-base);
+  color: var(--text);
+  background: var(--bg);
+  line-height: 1.45;
+  -webkit-font-smoothing: antialiased;
+  -moz-osx-font-smoothing: grayscale;
+}
+
+/* ============================================================
+   Layout Shell
+   ============================================================ */
+.app {
+  display: flex;
+  height: 100vh;
+  width: 100%;
+  overflow: hidden;
+}
+
+/* ============================================================
+   Sidebar — Military-grade command nav
+   ============================================================ */
+.sidebar {
+  width: var(--sidebar-width);
+  min-width: var(--sidebar-width);
+  background: var(--sidebar-bg);
+  display: flex;
+  flex-direction: column;
+  transition: transform var(--transition), width var(--transition), min-width var(--transition);
+  z-index: 100;
+  overflow: hidden;
+  border-right: 1px solid var(--sidebar-border);
+}
+
+.sidebar-header {
+  padding: var(--space-lg) var(--space-md);
+  display: flex;
+  align-items: center;
+  gap: var(--space-sm);
+  border-bottom: 1px solid var(--sidebar-border);
+  flex-shrink: 0;
+}
+
+.logo-icon {
+  width: 28px;
+  height: 28px;
+  background: var(--signal);
+  border-radius: var(--radius-xs);
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  flex-shrink: 0;
+}
+
+.logo-icon svg {
+  width: 15px;
+  height: 15px;
+  color: #fff;
+}
+
+.logo-text {
+  font-size: var(--text-md);
+  font-weight: 700;
+  color: #E8ECF0;
+  letter-spacing: 0.04em;
+  text-transform: uppercase;
+  font-family: var(--font-mono);
+  white-space: nowrap;
+}
+
+.logo-badge {
+  font-size: 8px;
+  font-weight: 700;
+  color: var(--signal);
+  background: var(--signal-bg);
+  padding: 2px 5px;
+  border-radius: var(--radius-xs);
+  margin-left: auto;
+  white-space: nowrap;
+  font-family: var(--font-mono);
+  letter-spacing: 0.06em;
+  border: 1px solid rgba(255, 107, 53, 0.2);
+}
+
+.sidebar-nav {
+  flex: 1;
+  padding: var(--space-sm) 0;
+  overflow-y: auto;
+}
+
+.nav-section-label {
+  font-size: var(--text-2xs);
+  font-weight: 600;
+  color: var(--sidebar-text);
+  text-transform: uppercase;
+  letter-spacing: 0.12em;
+  padding: var(--space-md) var(--space-md) var(--space-xs);
+  font-family: var(--font-mono);
+  opacity: 0.5;
+  border-top: 1px solid var(--sidebar-border);
+}
+
+.nav-section-label:first-child {
+  border-top: none;
+}
+
+.nav-item {
+  display: flex;
+  align-items: center;
+  gap: var(--space-sm);
+  padding: 7px var(--space-md);
+  color: var(--sidebar-text);
+  cursor: pointer;
+  transition: all var(--transition);
+  font-size: var(--text-sm);
+  font-weight: 500;
+  margin: 1px 0;
+  position: relative;
+  white-space: nowrap;
+  border-left: 3px solid transparent;
+}
+
+.nav-item:hover {
+  background: var(--sidebar-hover);
+  color: var(--sidebar-text-active);
+}
+
+.nav-item.active {
+  background: rgba(255, 107, 53, 0.06);
+  color: var(--sidebar-text-active);
+  border-left-color: var(--signal);
+}
+
+.nav-item svg {
+  width: 16px;
+  height: 16px;
+  flex-shrink: 0;
+  opacity: 0.6;
+}
+
+.nav-item.active svg {
+  opacity: 1;
+  color: var(--signal);
+}
+
+.nav-badge {
+  margin-left: auto;
+  font-size: 9px;
+  font-weight: 700;
+  background: var(--signal);
+  color: #fff;
+  min-width: 16px;
+  height: 16px;
+  padding: 0 4px;
+  border-radius: var(--radius-xs);
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  font-family: var(--font-mono);
+}
+
+.sidebar-divider {
+  height: 1px;
+  background: var(--sidebar-border);
+  margin: var(--space-xs) 0;
+}
+
+.sidebar-footer {
+  padding: var(--space-md);
+  border-top: 1px solid var(--sidebar-border);
+  flex-shrink: 0;
+}
+
+.sidebar-status {
+  display: flex;
+  align-items: center;
+  gap: var(--space-sm);
+  padding: var(--space-xs) var(--space-sm);
+  margin-bottom: var(--space-sm);
+}
+
+.sidebar-status-dot {
+  width: 6px;
+  height: 6px;
+  border-radius: 50%;
+  background: var(--green);
+  animation: statusPulse 2s ease-in-out infinite;
+}
+
+@keyframes statusPulse {
+  0%, 100% { opacity: 1; }
+  50% { opacity: 0.4; }
+}
+
+.sidebar-status-text {
+  font-size: var(--text-2xs);
+  font-family: var(--font-mono);
+  color: var(--sidebar-text);
+  text-transform: uppercase;
+  letter-spacing: 0.08em;
+}
+
+.user-info {
+  display: flex;
+  align-items: center;
+  gap: var(--space-sm);
+  padding: var(--space-xs) var(--space-sm);
+  border-radius: var(--radius-sm);
+  cursor: pointer;
+  transition: background var(--transition);
+}
+
+.user-info:hover {
+  background: var(--sidebar-hover);
+}
+
+.user-avatar {
+  width: 28px;
+  height: 28px;
+  border-radius: var(--radius-xs);
+  background: var(--primary);
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  color: #fff;
+  font-size: var(--text-2xs);
+  font-weight: 700;
+  font-family: var(--font-mono);
+  flex-shrink: 0;
+}
+
+.user-details {
+  overflow: hidden;
+}
+
+.user-name {
+  font-size: var(--text-sm);
+  font-weight: 600;
+  color: #E8ECF0;
+  white-space: nowrap;
+  text-overflow: ellipsis;
+  overflow: hidden;
+}
+
+.user-role {
+  font-size: var(--text-2xs);
+  color: var(--sidebar-text);
+  font-family: var(--font-mono);
+  text-transform: uppercase;
+  letter-spacing: 0.06em;
+  white-space: nowrap;
+}
+
+/* ============================================================
+   Mobile Menu Toggle
+   ============================================================ */
+.mobile-toggle {
+  display: none;
+  position: fixed;
+  bottom: var(--space-md);
+  right: var(--space-md);
+  z-index: 200;
+  width: 42px;
+  height: 42px;
+  border-radius: var(--radius-sm);
+  background: var(--signal);
+  color: #fff;
+  border: none;
+  cursor: pointer;
+  box-shadow: var(--shadow-lg);
+  align-items: center;
+  justify-content: center;
+  transition: transform var(--transition);
+}
+
+.mobile-toggle:hover {
+  transform: scale(1.05);
+}
+
+.mobile-toggle svg {
+  width: 18px;
+  height: 18px;
+}
+
+.sidebar-overlay {
+  display: none;
+  position: fixed;
+  inset: 0;
+  background: rgba(0,0,0,0.6);
+  z-index: 90;
+}
+
+/* ============================================================
+   Main Content Area
+   ============================================================ */
+.main {
+  flex: 1;
+  display: flex;
+  flex-direction: column;
+  overflow: hidden;
+  min-width: 0;
+}
+
+/* ============================================================
+   Top Bar — Command Header
+   ============================================================ */
+.topbar {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  padding: var(--space-sm) var(--space-lg);
+  background: var(--surface);
+  border-bottom: 1px solid var(--border);
+  flex-shrink: 0;
+  gap: var(--space-md);
+  min-height: 44px;
+}
+
+.topbar-left {
+  display: flex;
+  align-items: center;
+  gap: var(--space-md);
+  min-width: 0;
+}
+
+.topbar-title {
+  font-size: var(--text-lg);
+  font-weight: 700;
+  letter-spacing: -0.01em;
+  white-space: nowrap;
+}
+
+.topbar-separator {
+  width: 1px;
+  height: 16px;
+  background: var(--border);
+}
+
+.topbar-date {
+  font-size: var(--text-xs);
+  color: var(--text-muted);
+  white-space: nowrap;
+  font-family: var(--font-mono);
+  letter-spacing: 0.02em;
+}
+
+.topbar-actions {
+  display: flex;
+  align-items: center;
+  gap: var(--space-xs);
+}
+
+.topbar-btn {
+  width: 32px;
+  height: 32px;
+  border-radius: var(--radius-sm);
+  border: 1px solid var(--border);
+  background: var(--surface);
+  color: var(--text-secondary);
+  cursor: pointer;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  transition: all var(--transition);
+  position: relative;
+}
+
+.topbar-btn:hover {
+  background: var(--surface-hover);
+  color: var(--text);
+  border-color: var(--text-muted);
+}
+
+.topbar-btn svg {
+  width: 14px;
+  height: 14px;
+}
+
+.topbar-notif-count {
+  position: absolute;
+  top: -3px;
+  right: -3px;
+  min-width: 14px;
+  height: 14px;
+  background: var(--signal);
+  color: #fff;
+  font-size: 8px;
+  font-weight: 700;
+  font-family: var(--font-mono);
+  border-radius: var(--radius-xs);
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  padding: 0 3px;
+  border: 2px solid var(--surface);
+}
+
+/* ============================================================
+   Content Scroll Area
+   ============================================================ */
+.content {
+  flex: 1;
+  overflow-y: auto;
+  padding: var(--space-lg);
+}
+
+.content-grid {
+  display: grid;
+  grid-template-columns: 1fr 260px;
+  gap: var(--space-lg);
+  max-width: 1400px;
+}
+
+/* ============================================================
+   KPI Cards — Instrument Panel Style
+   ============================================================ */
+.kpi-row {
+  display: grid;
+  grid-template-columns: repeat(4, 1fr);
+  gap: var(--space-md);
+  margin-bottom: var(--space-lg);
+}
+
+.kpi-card {
+  background: var(--surface);
+  border: 1px solid var(--border);
+  border-radius: var(--radius-md);
+  padding: var(--space-md);
+  display: flex;
+  flex-direction: column;
+  gap: var(--space-2xs);
+  transition: border-color var(--transition);
+  position: relative;
+}
+
+.kpi-card::before {
+  content: '';
+  position: absolute;
+  top: 0;
+  left: 0;
+  right: 0;
+  height: 2px;
+  border-radius: var(--radius-md) var(--radius-md) 0 0;
+}
+
+.kpi-card.steel::before { background: var(--primary); }
+.kpi-card.teal::before { background: var(--green); }
+.kpi-card.orange::before { background: var(--signal); }
+
+.kpi-card:hover {
+  border-color: var(--text-muted);
+}
+
+.kpi-header {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+}
+
+.kpi-label {
+  font-size: var(--text-xs);
+  color: var(--text-secondary);
+  font-weight: 500;
+  text-transform: uppercase;
+  letter-spacing: 0.04em;
+}
+
+.kpi-icon {
+  width: 26px;
+  height: 26px;
+  border-radius: var(--radius-xs);
+  display: flex;
+  align-items: center;
+  justify-content: center;
+}
+
+.kpi-icon svg {
+  width: 14px;
+  height: 14px;
+}
+
+.kpi-icon.steel { background: var(--primary-bg); color: var(--primary); }
+.kpi-icon.teal { background: var(--green-bg); color: var(--green); }
+.kpi-icon.orange { background: var(--signal-bg); color: var(--signal); }
+
+.kpi-value {
+  font-size: var(--text-2xl);
+  font-weight: 700;
+  font-family: var(--font-mono);
+  letter-spacing: -0.04em;
+  line-height: 1;
+}
+
+.kpi-sparkline {
+  display: flex;
+  align-items: flex-end;
+  gap: 2px;
+  height: 18px;
+  margin-top: var(--space-2xs);
+}
+
+.kpi-spark-bar {
+  flex: 1;
+  border-radius: 1px;
+  min-height: 2px;
+  transition: height 400ms ease;
+}
+
+.kpi-spark-bar.steel { background: var(--primary); opacity: 0.3; }
+.kpi-spark-bar.steel.current { opacity: 1; }
+.kpi-spark-bar.teal { background: var(--green); opacity: 0.3; }
+.kpi-spark-bar.teal.current { opacity: 1; }
+.kpi-spark-bar.orange { background: var(--signal); opacity: 0.3; }
+.kpi-spark-bar.orange.current { opacity: 1; }
+
+.kpi-footer {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  padding-top: var(--space-xs);
+  border-top: 1px solid var(--border-light);
+  margin-top: var(--space-xs);
+}
+
+.kpi-sub {
+  font-size: var(--text-2xs);
+  color: var(--text-muted);
+  font-family: var(--font-mono);
+  letter-spacing: 0.01em;
+}
+
+.kpi-sub .up { color: var(--green); font-weight: 600; }
+.kpi-sub .down { color: var(--red); font-weight: 600; }
+.kpi-sub .neutral { color: var(--text-muted); font-weight: 600; }
+
+.kpi-tag {
+  font-size: 8px;
+  font-family: var(--font-mono);
+  font-weight: 600;
+  color: var(--text-muted);
+  text-transform: uppercase;
+  letter-spacing: 0.06em;
+  background: var(--surface-hover);
+  padding: 1px 4px;
+  border-radius: var(--radius-xs);
+}
+
+/* ============================================================
+   Section Headers — Operational style
+   ============================================================ */
+.section-header {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  margin-bottom: var(--space-md);
+}
+
+.section-title {
+  font-size: var(--text-md);
+  font-weight: 700;
+  letter-spacing: -0.01em;
+}
+
+.section-tag {
+  font-size: var(--text-xs);
+  font-family: var(--font-mono);
+  color: var(--text-muted);
+  font-weight: 500;
+}
+
+.section-subtitle {
+  font-size: var(--text-xs);
+  color: var(--text-secondary);
+}
+
+/* ============================================================
+   Map Area — Tactical Display
+   ============================================================ */
+.map-section {
+  margin-bottom: var(--space-lg);
+}
+
+.map-container {
+  background: var(--surface);
+  border: 1px solid var(--border);
+  border-radius: var(--radius-md);
+  overflow: hidden;
+  position: relative;
+  height: 300px;
+}
+
+.map-canvas {
+  width: 100%;
+  height: 100%;
+  position: relative;
+  overflow: hidden;
+}
+
+/* Tactical grid background */
+.map-bg {
+  position: absolute;
+  inset: 0;
+  background-image:
+    linear-gradient(var(--grid-lines) 1px, transparent 1px),
+    linear-gradient(90deg, var(--grid-lines) 1px, transparent 1px);
+  background-size: 32px 32px;
+  opacity: 0.6;
+}
+
+/* Crosshair-like overlay */
+.map-crosshair-h,
+.map-crosshair-v {
+  position: absolute;
+  background: var(--border);
+  opacity: 0.3;
+}
+.map-crosshair-h {
+  height: 1px;
+  width: 100%;
+  top: 50%;
+}
+.map-crosshair-v {
+  width: 1px;
+  height: 100%;
+  left: 50%;
+}
+
+/* Road-like lines */
+.map-roads {
+  position: absolute;
+  inset: 0;
+}
+
+.map-road {
+  position: absolute;
+  background: var(--border);
+  border-radius: 1px;
+  opacity: 0.7;
+}
+
+.map-road.h { height: 2px; }
+.map-road.v { width: 2px; }
+
+/* Location markers — tactical style */
+.map-marker {
+  position: absolute;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  transform: translate(-50%, -50%);
+  z-index: 10;
+  cursor: pointer;
+}
+
+.marker-dot {
+  width: 12px;
+  height: 12px;
+  border-radius: 50%;
+  border: 2px solid var(--surface);
+  box-shadow: 0 0 0 1px rgba(0,0,0,0.15), 0 1px 4px rgba(0,0,0,0.2);
+  position: relative;
+}
+
+.marker-dot.green { background: var(--green); }
+.marker-dot.blue { background: var(--primary); }
+.marker-dot.amber { background: var(--amber); }
+.marker-dot.gray { background: var(--gray-status); }
+
+.marker-pulse {
+  position: absolute;
+  inset: -5px;
+  border-radius: 50%;
+  border: 1.5px solid currentColor;
+  opacity: 0;
+  animation: tacPulse 2.5s ease-out infinite;
+}
+
+.marker-dot.green .marker-pulse { color: var(--green); }
+.marker-dot.blue .marker-pulse { color: var(--primary); }
+.marker-dot.amber .marker-pulse { color: var(--amber); }
+
+@keyframes tacPulse {
+  0% { transform: scale(0.8); opacity: 0.5; }
+  100% { transform: scale(2.2); opacity: 0; }
+}
+
+.marker-label {
+  font-size: 9px;
+  font-weight: 600;
+  font-family: var(--font-mono);
+  color: var(--text);
+  background: var(--surface);
+  padding: 1px 5px;
+  border-radius: var(--radius-xs);
+  border: 1px solid var(--border);
+  margin-top: 3px;
+  white-space: nowrap;
+  box-shadow: var(--shadow-sm);
+  letter-spacing: 0.02em;
+}
+
+/* Depot markers */
+.map-depot {
+  position: absolute;
+  transform: translate(-50%, -50%);
+  z-index: 5;
+}
+
+.depot-icon {
+  width: 24px;
+  height: 24px;
+  border-radius: var(--radius-xs);
+  background: var(--surface);
+  border: 1.5px solid var(--border);
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  box-shadow: var(--shadow-sm);
+}
+
+.depot-icon svg {
+  width: 12px;
+  height: 12px;
+  color: var(--text-secondary);
+}
+
+/* Map info/legend */
+.map-info {
+  position: absolute;
+  top: var(--space-sm);
+  left: var(--space-sm);
+  font-size: var(--text-2xs);
+  color: var(--text-muted);
+  background: var(--surface);
+  padding: 3px 8px;
+  border-radius: var(--radius-xs);
+  border: 1px solid var(--border);
+  box-shadow: var(--shadow-sm);
+  font-weight: 600;
+  font-family: var(--font-mono);
+  text-transform: uppercase;
+  letter-spacing: 0.06em;
+}
+
+.map-info .live-dot {
+  display: inline-block;
+  width: 5px;
+  height: 5px;
+  border-radius: 50%;
+  background: var(--signal);
+  margin-right: 4px;
+  animation: liveBlink 1.5s ease-in-out infinite;
+}
+
+@keyframes liveBlink {
+  0%, 100% { opacity: 1; }
+  50% { opacity: 0.2; }
+}
+
+.map-controls {
+  position: absolute;
+  top: var(--space-sm);
+  right: var(--space-sm);
+  display: flex;
+  gap: 1px;
+  background: var(--border);
+  border-radius: var(--radius-sm);
+  overflow: hidden;
+  box-shadow: var(--shadow-sm);
+}
+
+.map-ctrl-btn {
+  width: 26px;
+  height: 26px;
+  background: var(--surface);
+  border: none;
+  color: var(--text-secondary);
+  cursor: pointer;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  font-size: var(--text-md);
+  font-family: var(--font-mono);
+  font-weight: 600;
+  transition: all var(--transition);
+}
+
+.map-ctrl-btn:hover {
+  background: var(--surface-hover);
+  color: var(--text);
+}
+
+.map-legend {
+  position: absolute;
+  bottom: var(--space-sm);
+  left: var(--space-sm);
+  display: flex;
+  gap: var(--space-md);
+  background: var(--surface);
+  padding: 4px var(--space-md);
+  border-radius: var(--radius-xs);
+  border: 1px solid var(--border);
+  box-shadow: var(--shadow-sm);
+}
+
+.legend-item {
+  display: flex;
+  align-items: center;
+  gap: 4px;
+  font-size: var(--text-2xs);
+  color: var(--text-secondary);
+  font-weight: 600;
+  font-family: var(--font-mono);
+  text-transform: uppercase;
+  letter-spacing: 0.04em;
+}
+
+.legend-dot {
+  width: 6px;
+  height: 6px;
+  border-radius: 50%;
+}
+
+.legend-dot.green { background: var(--green); }
+.legend-dot.blue { background: var(--primary); }
+.legend-dot.amber { background: var(--amber); }
+.legend-dot.gray { background: var(--gray-status); }
+
+/* Coordinate overlay — tactical feel */
+.map-coords {
+  position: absolute;
+  bottom: var(--space-sm);
+  right: var(--space-sm);
+  font-size: 8px;
+  font-family: var(--font-mono);
+  font-weight: 500;
+  color: var(--text-muted);
+  background: var(--surface);
+  padding: 2px 6px;
+  border-radius: var(--radius-xs);
+  border: 1px solid var(--border);
+  letter-spacing: 0.04em;
+}
+
+/* ============================================================
+   Dispatch Table — Operations Board
+   ============================================================ */
+.table-section {
+  margin-bottom: var(--space-lg);
+}
+
+.table-wrapper {
+  background: var(--surface);
+  border: 1px solid var(--border);
+  border-radius: var(--radius-md);
+  overflow: hidden;
+}
+
+.table-scroll {
+  overflow-x: auto;
+}
+
+table {
+  width: 100%;
+  border-collapse: collapse;
+  font-size: var(--text-sm);
+}
+
+thead {
+  background: var(--surface-hover);
+  border-bottom: 2px solid var(--border);
+}
+
+th {
+  padding: 7px var(--space-md);
+  text-align: left;
+  font-weight: 700;
+  font-size: var(--text-2xs);
+  color: var(--text-secondary);
+  text-transform: uppercase;
+  letter-spacing: 0.08em;
+  font-family: var(--font-mono);
+  white-space: nowrap;
+}
+
+td {
+  padding: 8px var(--space-md);
+  border-bottom: 1px solid var(--border-light);
+  white-space: nowrap;
+  font-size: var(--text-sm);
+}
+
+tr:last-child td {
+  border-bottom: none;
+}
+
+tbody tr {
+  transition: background var(--transition);
+}
+
+tbody tr:hover {
+  background: var(--surface-hover);
+}
+
+.td-id {
+  font-family: var(--font-mono);
+  font-weight: 700;
+  font-size: var(--text-xs);
+  color: var(--primary);
+  letter-spacing: 0.02em;
+}
+
+.td-driver {
+  font-weight: 600;
+  font-size: var(--text-sm);
+}
+
+.td-route {
+  color: var(--text-secondary);
+  max-width: 220px;
+  overflow: hidden;
+  text-overflow: ellipsis;
+  font-family: var(--font-mono);
+  font-size: var(--text-xs);
+}
+
+.td-eta {
+  font-family: var(--font-mono);
+  font-weight: 700;
+  font-size: var(--text-xs);
+  letter-spacing: 0.02em;
+}
+
+.status-badge {
+  display: inline-flex;
+  align-items: center;
+  gap: 4px;
+  padding: 2px 8px;
+  border-radius: var(--radius-xs);
+  font-size: var(--text-2xs);
+  font-weight: 700;
+  white-space: nowrap;
+  text-transform: uppercase;
+  letter-spacing: 0.04em;
+  font-family: var(--font-mono);
+}
+
+.status-badge .badge-dot {
+  width: 5px;
+  height: 5px;
+  border-radius: 50%;
+}
+
+.status-badge.on-route {
+  background: var(--green-bg);
+  color: var(--green-text);
+}
+.status-badge.on-route .badge-dot { background: var(--green); }
+
+.status-badge.loading {
+  background: var(--blue-status-bg);
+  color: var(--blue-status-text);
+}
+.status-badge.loading .badge-dot { background: var(--blue-status); }
+
+.status-badge.delayed {
+  background: var(--amber-bg);
+  color: var(--amber-text);
+}
+.status-badge.delayed .badge-dot { background: var(--amber); }
+
+.status-badge.completed {
+  background: var(--gray-status-bg);
+  color: var(--gray-status-text);
+}
+.status-badge.completed .badge-dot { background: var(--gray-status); }
+
+/* ============================================================
+   Performance Sidebar — Instrument Panels
+   ============================================================ */
+.perf-sidebar {
+  display: flex;
+  flex-direction: column;
+  gap: var(--space-md);
+}
+
+.perf-card {
+  background: var(--surface);
+  border: 1px solid var(--border);
+  border-radius: var(--radius-md);
+  padding: var(--space-md);
+}
+
+.perf-card-header {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  margin-bottom: var(--space-md);
+  padding-bottom: var(--space-sm);
+  border-bottom: 1px solid var(--border-light);
+}
+
+.perf-card-title {
+  font-size: var(--text-xs);
+  font-weight: 700;
+  letter-spacing: 0.02em;
+  text-transform: uppercase;
+}
+
+.perf-card-tag {
+  font-size: 8px;
+  font-family: var(--font-mono);
+  font-weight: 600;
+  color: var(--text-muted);
+  text-transform: uppercase;
+  letter-spacing: 0.06em;
+}
+
+/* Bar chart */
+.bar-chart {
+  display: flex;
+  align-items: flex-end;
+  gap: 4px;
+  height: 100px;
+}
+
+.bar-group {
+  flex: 1;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  gap: 3px;
+  height: 100%;
+  justify-content: flex-end;
+}
+
+.bar {
+  width: 100%;
+  border-radius: 2px 2px 1px 1px;
+  transition: height 500ms ease, background var(--transition);
+  cursor: pointer;
+  min-height: 3px;
+  position: relative;
+}
+
+.bar:hover {
+  filter: brightness(1.15);
+}
+
+.bar.primary { background: var(--primary); }
+.bar.light { background: var(--primary-bg); border: 1px solid var(--border-light); }
+
+.bar-label {
+  font-size: 8px;
+  color: var(--text-muted);
+  font-weight: 600;
+  font-family: var(--font-mono);
+  text-transform: uppercase;
+}
+
+.bar-value {
+  font-size: 8px;
+  color: var(--text-secondary);
+  font-weight: 700;
+  font-family: var(--font-mono);
+}
+
+.chart-summary {
+  display: flex;
+  justify-content: space-between;
+  margin-top: var(--space-md);
+  padding-top: var(--space-sm);
+  border-top: 1px solid var(--border-light);
+}
+
+.chart-stat {
+  text-align: center;
+}
+
+.chart-stat-value {
+  font-size: var(--text-md);
+  font-weight: 700;
+  font-family: var(--font-mono);
+  letter-spacing: -0.02em;
+}
+
+.chart-stat-label {
+  font-size: 8px;
+  color: var(--text-muted);
+  font-family: var(--font-mono);
+  text-transform: uppercase;
+  letter-spacing: 0.04em;
+}
+
+/* Top drivers — compact list */
+.driver-card {
+  display: flex;
+  align-items: center;
+  gap: var(--space-md);
+  padding-bottom: var(--space-sm);
+  border-bottom: 1px solid var(--border-light);
+}
+
+.driver-avatar {
+  width: 32px;
+  height: 32px;
+  border-radius: var(--radius-xs);
+  background: var(--primary);
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  color: #fff;
+  font-size: var(--text-2xs);
+  font-weight: 700;
+  font-family: var(--font-mono);
+  flex-shrink: 0;
+}
+
+.driver-info {
+  flex: 1;
+  min-width: 0;
+}
+
+.driver-name {
+  font-weight: 700;
+  font-size: var(--text-sm);
+}
+
+.driver-stat {
+  font-size: var(--text-2xs);
+  color: var(--text-secondary);
+  font-family: var(--font-mono);
+}
+
+.driver-score {
+  font-family: var(--font-mono);
+  font-weight: 700;
+  font-size: var(--text-lg);
+  color: var(--green);
+  letter-spacing: -0.02em;
+}
+
+.driver-list {
+  margin-top: var(--space-sm);
+  display: flex;
+  flex-direction: column;
+  gap: 1px;
+}
+
+.driver-row {
+  display: flex;
+  align-items: center;
+  gap: var(--space-sm);
+  padding: 4px var(--space-xs);
+  border-radius: var(--radius-xs);
+  transition: background var(--transition);
+}
+
+.driver-row:hover {
+  background: var(--surface-hover);
+}
+
+.driver-rank {
+  font-size: var(--text-2xs);
+  font-family: var(--font-mono);
+  font-weight: 700;
+  color: var(--text-muted);
+  width: 16px;
+  text-align: right;
+}
+
+.driver-row-avatar {
+  width: 20px;
+  height: 20px;
+  border-radius: var(--radius-xs);
+  background: var(--border-light);
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  font-size: 8px;
+  font-weight: 700;
+  font-family: var(--font-mono);
+  color: var(--text-secondary);
+  flex-shrink: 0;
+}
+
+.driver-row-name {
+  flex: 1;
+  font-size: var(--text-xs);
+  font-weight: 600;
+}
+
+.driver-row-pct {
+  font-family: var(--font-mono);
+  font-size: var(--text-xs);
+  font-weight: 700;
+  color: var(--green);
+  letter-spacing: -0.01em;
+}
+
+/* Fleet utilization */
+.utilization-header {
+  display: flex;
+  align-items: baseline;
+  gap: var(--space-sm);
+  margin-bottom: var(--space-xs);
+}
+
+.util-value {
+  font-family: var(--font-mono);
+  font-size: var(--text-xl);
+  font-weight: 700;
+  letter-spacing: -0.03em;
+}
+
+.util-delta {
+  font-size: var(--text-2xs);
+  color: var(--green);
+  font-weight: 600;
+  font-family: var(--font-mono);
+}
+
+.utilization-bar {
+  height: 6px;
+  background: var(--border-light);
+  border-radius: 3px;
+  overflow: hidden;
+  display: flex;
+  gap: 1px;
+  margin: var(--space-sm) 0;
+}
+
+.util-segment {
+  height: 100%;
+  border-radius: 3px;
+  transition: width 600ms ease;
+}
+
+.util-segment.active { background: var(--green); }
+.util-segment.idle { background: var(--primary); opacity: 0.3; }
+.util-segment.maintenance { background: var(--amber); }
+
+.util-labels {
+  display: flex;
+  gap: var(--space-md);
+  flex-wrap: wrap;
+}
+
+.util-label {
+  display: flex;
+  align-items: center;
+  gap: 3px;
+  font-size: 9px;
+  color: var(--text-secondary);
+  font-family: var(--font-mono);
+  font-weight: 500;
+}
+
+.util-label .dot {
+  width: 5px;
+  height: 5px;
+  border-radius: 50%;
+}
+
+.util-label .dot.active { background: var(--green); }
+.util-label .dot.idle { background: var(--primary); opacity: 0.4; }
+.util-label .dot.maint { background: var(--amber); }
+
+/* Alerts card — ops log style */
+.alert-item {
+  display: flex;
+  gap: var(--space-sm);
+  padding: var(--space-sm) 0;
+  border-bottom: 1px solid var(--border-light);
+}
+
+.alert-item:last-child {
+  border-bottom: none;
+  padding-bottom: 0;
+}
+
+.alert-severity {
+  width: 3px;
+  border-radius: 2px;
+  flex-shrink: 0;
+  align-self: stretch;
+}
+
+.alert-severity.amber { background: var(--amber); }
+.alert-severity.red { background: var(--red); }
+.alert-severity.blue { background: var(--primary); }
+
+.alert-content {
+  flex: 1;
+  min-width: 0;
+}
+
+.alert-text {
+  font-size: var(--text-xs);
+  color: var(--text-secondary);
+  line-height: 1.4;
+}
+
+.alert-text strong {
+  color: var(--text);
+  font-weight: 700;
+  font-family: var(--font-mono);
+  font-size: var(--text-2xs);
+}
+
+.alert-time {
+  font-size: 8px;
+  color: var(--text-muted);
+  font-family: var(--font-mono);
+  margin-top: 2px;
+  text-transform: uppercase;
+  letter-spacing: 0.04em;
+}
+
+/* ============================================================
+   Responsive
+   ============================================================ */
+@media (max-width: 1100px) {
+  .content-grid {
+    grid-template-columns: 1fr;
+  }
+  .perf-sidebar {
+    display: grid;
+    grid-template-columns: repeat(auto-fit, minmax(220px, 1fr));
+  }
+}
+
+@media (max-width: 860px) {
+  .kpi-row {
+    grid-template-columns: repeat(2, 1fr);
+  }
+}
+
+@media (max-width: 700px) {
+  .sidebar {
+    position: fixed;
+    top: 0;
+    left: 0;
+    bottom: 0;
+    transform: translateX(-100%);
+    z-index: 100;
+    box-shadow: 4px 0 24px rgba(0,0,0,0.4);
+  }
+
+  .sidebar.open {
+    transform: translateX(0);
+  }
+
+  .sidebar-overlay.show {
+    display: block;
+  }
+
+  .mobile-toggle {
+    display: flex;
+  }
+
+  .content {
+    padding: var(--space-md);
+  }
+
+  .topbar {
+    padding: var(--space-sm) var(--space-md);
+  }
+
+  .topbar-title {
+    font-size: var(--text-md);
+  }
+
+  .kpi-row {
+    grid-template-columns: 1fr 1fr;
+    gap: var(--space-sm);
+  }
+
+  .kpi-card {
+    padding: var(--space-sm) var(--space-md);
+  }
+
+  .kpi-value {
+    font-size: var(--text-lg);
+  }
+
+  .map-container {
+    height: 220px;
+  }
+
+  .map-legend {
+    gap: var(--space-sm);
+    padding: 3px var(--space-sm);
+  }
+}
+
+@media (max-width: 480px) {
+  .kpi-row {
+    grid-template-columns: 1fr;
+  }
+
+  .topbar-date,
+  .topbar-separator {
+    display: none;
+  }
+
+  .kpi-sparkline {
+    display: none;
+  }
+}
+</style>
+</head>
+<body>
+
+<div class="app">
+  <!-- ============================================================
+       Sidebar Overlay (mobile)
+       ============================================================ -->
+  <div class="sidebar-overlay" id="sidebarOverlay" onclick="toggleSidebar()"></div>
+
+  <!-- ============================================================
+       Sidebar — Command Navigation
+       ============================================================ -->
+  <aside class="sidebar" id="sidebar">
+    <div class="sidebar-header">
+      <div class="logo-icon">
+        <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round">
+          <polygon points="3 6 9 3 15 6 21 3 21 18 15 21 9 18 3 21"/>
+          <line x1="9" y1="3" x2="9" y2="18"/>
+          <line x1="15" y1="6" x2="15" y2="21"/>
+        </svg>
+      </div>
+      <span class="logo-text">Meridian</span>
+      <span class="logo-badge">OPS</span>
+    </div>
+
+    <nav class="sidebar-nav">
+      <div class="nav-section-label">Command</div>
+
+      <div class="nav-item active">
+        <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+          <rect x="3" y="3" width="7" height="7" rx="1"/>
+          <rect x="14" y="3" width="7" height="7" rx="1"/>
+          <rect x="3" y="14" width="7" height="7" rx="1"/>
+          <rect x="14" y="14" width="7" height="7" rx="1"/>
+        </svg>
+        <span>Overview</span>
+      </div>
+
+      <div class="nav-item">
+        <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+          <rect x="1" y="6" width="15" height="10" rx="2"/>
+          <path d="M16 10h4l3 3v3a1 1 0 0 1-1 1h-2"/>
+          <circle cx="6.5" cy="17.5" r="2.5"/>
+          <circle cx="19.5" cy="17.5" r="2.5"/>
+        </svg>
+        <span>Fleet</span>
+      </div>
+
+      <div class="nav-item">
+        <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+          <path d="M21 10c0 7-9 13-9 13s-9-6-9-13a9 9 0 0 1 18 0z"/>
+          <circle cx="12" cy="10" r="3"/>
+        </svg>
+        <span>Dispatch</span>
+        <span class="nav-badge">7</span>
+      </div>
+
+      <div class="nav-item">
+        <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+          <circle cx="12" cy="12" r="10"/>
+          <polygon points="16.24 7.76 14.12 14.12 7.76 16.24 9.88 9.88 16.24 7.76"/>
+        </svg>
+        <span>Routes</span>
+      </div>
+
+      <div class="nav-section-label">Intelligence</div>
+
+      <div class="nav-item">
+        <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+          <line x1="18" y1="20" x2="18" y2="10"/>
+          <line x1="12" y1="20" x2="12" y2="4"/>
+          <line x1="6" y1="20" x2="6" y2="14"/>
+        </svg>
+        <span>Reports</span>
+      </div>
+
+      <div class="nav-item">
+        <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+          <polyline points="22 12 18 12 15 21 9 3 6 12 2 12"/>
+        </svg>
+        <span>Telemetry</span>
+      </div>
+
+      <div class="nav-section-label">System</div>
+
+      <div class="nav-item">
+        <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+          <circle cx="12" cy="12" r="3"/>
+          <path d="M19.4 15a1.65 1.65 0 0 0 .33 1.82l.06.06a2 2 0 0 1 0 2.83 2 2 0 0 1-2.83 0l-.06-.06a1.65 1.65 0 0 0-1.82-.33 1.65 1.65 0 0 0-1 1.51V21a2 2 0 0 1-2 2 2 2 0 0 1-2-2v-.09A1.65 1.65 0 0 0 9 19.4a1.65 1.65 0 0 0-1.82.33l-.06.06a2 2 0 0 1-2.83 0 2 2 0 0 1 0-2.83l.06-.06A1.65 1.65 0 0 0 4.68 15a1.65 1.65 0 0 0-1.51-1H3a2 2 0 0 1-2-2 2 2 0 0 1 2-2h.09A1.65 1.65 0 0 0 4.6 9a1.65 1.65 0 0 0-.33-1.82l-.06-.06a2 2 0 0 1 0-2.83 2 2 0 0 1 2.83 0l.06.06A1.65 1.65 0 0 0 9 4.68a1.65 1.65 0 0 0 1-1.51V3a2 2 0 0 1 2-2 2 2 0 0 1 2 2v.09a1.65 1.65 0 0 0 1 1.51 1.65 1.65 0 0 0 1.82-.33l.06-.06a2 2 0 0 1 2.83 0 2 2 0 0 1 0 2.83l-.06.06a1.65 1.65 0 0 0-.33 1.82V9a1.65 1.65 0 0 0 1.51 1H21a2 2 0 0 1 2 2 2 2 0 0 1-2 2h-.09a1.65 1.65 0 0 0-1.51 1z"/>
+        </svg>
+        <span>Settings</span>
+      </div>
+    </nav>
+
+    <div class="sidebar-footer">
+      <div class="sidebar-status">
+        <span class="sidebar-status-dot"></span>
+        <span class="sidebar-status-text">All systems nominal</span>
+      </div>
+      <div class="sidebar-divider"></div>
+      <div class="user-info">
+        <div class="user-avatar">JD</div>
+        <div class="user-details">
+          <div class="user-name">Jordan Davis</div>
+          <div class="user-role">Ops Manager</div>
+        </div>
+      </div>
+    </div>
+  </aside>
+
+  <!-- ============================================================
+       Main Content
+       ============================================================ -->
+  <main class="main">
+    <!-- Top bar -->
+    <header class="topbar">
+      <div class="topbar-left">
+        <h1 class="topbar-title">Fleet Overview</h1>
+        <div class="topbar-separator"></div>
+        <span class="topbar-date">2026-02-24 // Tue</span>
+      </div>
+      <div class="topbar-actions">
+        <button class="topbar-btn" aria-label="Search">
+          <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+            <circle cx="11" cy="11" r="8"/>
+            <line x1="21" y1="21" x2="16.65" y2="16.65"/>
+          </svg>
+        </button>
+        <button class="topbar-btn" aria-label="Notifications" style="position: relative;">
+          <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+            <path d="M18 8A6 6 0 0 0 6 8c0 7-3 9-3 9h18s-3-2-3-9"/>
+            <path d="M13.73 21a2 2 0 0 1-3.46 0"/>
+          </svg>
+          <span class="topbar-notif-count">3</span>
+        </button>
+        <button class="topbar-btn" aria-label="Refresh">
+          <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+            <polyline points="23 4 23 10 17 10"/>
+            <path d="M20.49 15a9 9 0 1 1-2.12-9.36L23 10"/>
+          </svg>
+        </button>
+      </div>
+    </header>
+
+    <!-- Scrollable content -->
+    <div class="content">
+      <!-- KPI Row — Instrument panels -->
+      <div class="kpi-row">
+        <div class="kpi-card steel">
+          <div class="kpi-header">
+            <span class="kpi-label">Active Vehicles</span>
+            <div class="kpi-icon steel">
+              <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+                <rect x="1" y="6" width="15" height="10" rx="2"/>
+                <path d="M16 10h4l3 3v3a1 1 0 0 1-1 1h-2"/>
+                <circle cx="6.5" cy="17.5" r="2.5"/>
+                <circle cx="19.5" cy="17.5" r="2.5"/>
+              </svg>
+            </div>
+          </div>
+          <div class="kpi-value">42<span style="font-size:13px;color:var(--text-muted);font-weight:500;">/50</span></div>
+          <div class="kpi-sparkline">
+            <div class="kpi-spark-bar steel" style="height:60%"></div>
+            <div class="kpi-spark-bar steel" style="height:72%"></div>
+            <div class="kpi-spark-bar steel" style="height:55%"></div>
+            <div class="kpi-spark-bar steel" style="height:80%"></div>
+            <div class="kpi-spark-bar steel" style="height:68%"></div>
+            <div class="kpi-spark-bar steel" style="height:75%"></div>
+            <div class="kpi-spark-bar steel" style="height:90%"></div>
+            <div class="kpi-spark-bar steel current" style="height:84%"></div>
+          </div>
+          <div class="kpi-footer">
+            <div class="kpi-sub"><span class="up">+3</span> vs yesterday</div>
+            <div class="kpi-tag">Live</div>
+          </div>
+        </div>
+
+        <div class="kpi-card teal">
+          <div class="kpi-header">
+            <span class="kpi-label">On-Time Delivery</span>
+            <div class="kpi-icon teal">
+              <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+                <path d="M22 11.08V12a10 10 0 1 1-5.93-9.14"/>
+                <polyline points="22 4 12 14.01 9 11.01"/>
+              </svg>
+            </div>
+          </div>
+          <div class="kpi-value">94.2<span style="font-size:13px;color:var(--text-muted);font-weight:400;">%</span></div>
+          <div class="kpi-sparkline">
+            <div class="kpi-spark-bar teal" style="height:88%"></div>
+            <div class="kpi-spark-bar teal" style="height:90%"></div>
+            <div class="kpi-spark-bar teal" style="height:85%"></div>
+            <div class="kpi-spark-bar teal" style="height:92%"></div>
+            <div class="kpi-spark-bar teal" style="height:89%"></div>
+            <div class="kpi-spark-bar teal" style="height:91%"></div>
+            <div class="kpi-spark-bar teal" style="height:93%"></div>
+            <div class="kpi-spark-bar teal current" style="height:94%"></div>
+          </div>
+          <div class="kpi-footer">
+            <div class="kpi-sub"><span class="up">+1.8%</span> this week</div>
+            <div class="kpi-tag">7d avg</div>
+          </div>
+        </div>
+
+        <div class="kpi-card steel">
+          <div class="kpi-header">
+            <span class="kpi-label">Avg Transit Time</span>
+            <div class="kpi-icon steel">
+              <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+                <circle cx="12" cy="12" r="10"/>
+                <polyline points="12 6 12 12 16 14"/>
+              </svg>
+            </div>
+          </div>
+          <div class="kpi-value">3.2<span style="font-size:13px;color:var(--text-muted);font-weight:400;">h</span></div>
+          <div class="kpi-sparkline">
+            <div class="kpi-spark-bar steel" style="height:80%"></div>
+            <div class="kpi-spark-bar steel" style="height:75%"></div>
+            <div class="kpi-spark-bar steel" style="height:85%"></div>
+            <div class="kpi-spark-bar steel" style="height:70%"></div>
+            <div class="kpi-spark-bar steel" style="height:78%"></div>
+            <div class="kpi-spark-bar steel" style="height:65%"></div>
+            <div class="kpi-spark-bar steel" style="height:60%"></div>
+            <div class="kpi-spark-bar steel current" style="height:55%"></div>
+          </div>
+          <div class="kpi-footer">
+            <div class="kpi-sub"><span class="down">-0.4h</span> vs last week</div>
+            <div class="kpi-tag">Trend</div>
+          </div>
+        </div>
+
+        <div class="kpi-card orange">
+          <div class="kpi-header">
+            <span class="kpi-label">Pending Dispatches</span>
+            <div class="kpi-icon orange">
+              <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+                <path d="M16 16v6H8v-6"/>
+                <path d="M12 2L2 7l10 5 10-5-10-5z"/>
+                <path d="M2 17l10 5 10-5"/>
+                <path d="M2 12l10 5 10-5"/>
+              </svg>
+            </div>
+          </div>
+          <div class="kpi-value">7</div>
+          <div class="kpi-sparkline">
+            <div class="kpi-spark-bar orange" style="height:40%"></div>
+            <div class="kpi-spark-bar orange" style="height:55%"></div>
+            <div class="kpi-spark-bar orange" style="height:30%"></div>
+            <div class="kpi-spark-bar orange" style="height:70%"></div>
+            <div class="kpi-spark-bar orange" style="height:45%"></div>
+            <div class="kpi-spark-bar orange" style="height:60%"></div>
+            <div class="kpi-spark-bar orange" style="height:50%"></div>
+            <div class="kpi-spark-bar orange current" style="height:65%"></div>
+          </div>
+          <div class="kpi-footer">
+            <div class="kpi-sub"><span class="neutral">2 urgent</span></div>
+            <div class="kpi-tag">Queue</div>
+          </div>
+        </div>
+      </div>
+
+      <!-- Main grid: left content + right perf sidebar -->
+      <div class="content-grid">
+        <div class="content-left">
+          <!-- Map Section — Tactical Display -->
+          <div class="map-section">
+            <div class="section-header">
+              <div>
+                <div class="section-title">Live Fleet Tracking</div>
+                <div class="section-subtitle">Real-time vehicle positions</div>
+              </div>
+              <span class="section-tag">GRID: SECTOR-7 // ZOOM: 4x</span>
+            </div>
+            <div class="map-container">
+              <div class="map-canvas">
+                <!-- Tactical grid background -->
+                <div class="map-bg"></div>
+                <div class="map-crosshair-h"></div>
+                <div class="map-crosshair-v"></div>
+
+                <!-- Roads -->
+                <div class="map-roads">
+                  <div class="map-road h" style="top:25%;left:5%;width:90%;"></div>
+                  <div class="map-road h" style="top:50%;left:10%;width:80%;"></div>
+                  <div class="map-road h" style="top:72%;left:3%;width:94%;"></div>
+                  <div class="map-road h" style="top:38%;left:20%;width:60%;"></div>
+                  <div class="map-road v" style="left:20%;top:10%;height:80%;"></div>
+                  <div class="map-road v" style="left:45%;top:5%;height:90%;"></div>
+                  <div class="map-road v" style="left:70%;top:15%;height:70%;"></div>
+                  <div class="map-road v" style="left:85%;top:20%;height:55%;"></div>
+                  <div class="map-road v" style="left:33%;top:25%;height:50%;"></div>
+                </div>
+
+                <!-- Depot markers -->
+                <div class="map-depot" style="top:25%;left:20%;">
+                  <div class="depot-icon">
+                    <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+                      <path d="M3 9l9-7 9 7v11a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2z"/>
+                      <polyline points="9 22 9 12 15 12 15 22"/>
+                    </svg>
+                  </div>
+                </div>
+                <div class="map-depot" style="top:72%;left:70%;">
+                  <div class="depot-icon">
+                    <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+                      <path d="M3 9l9-7 9 7v11a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2z"/>
+                      <polyline points="9 22 9 12 15 12 15 22"/>
+                    </svg>
+                  </div>
+                </div>
+                <div class="map-depot" style="top:50%;left:45%;">
+                  <div class="depot-icon">
+                    <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+                      <path d="M3 9l9-7 9 7v11a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2z"/>
+                      <polyline points="9 22 9 12 15 12 15 22"/>
+                    </svg>
+                  </div>
+                </div>
+
+                <!-- Vehicle markers -->
+                <div class="map-marker" style="top:32%;left:35%;">
+                  <div class="marker-dot green"><div class="marker-pulse"></div></div>
+                  <span class="marker-label">T-14 Chen</span>
+                </div>
+
+                <div class="map-marker" style="top:48%;left:22%;">
+                  <div class="marker-dot blue"><div class="marker-pulse"></div></div>
+                  <span class="marker-label">T-07 Park</span>
+                </div>
+
+                <div class="map-marker" style="top:60%;left:58%;">
+                  <div class="marker-dot amber"><div class="marker-pulse"></div></div>
+                  <span class="marker-label">T-22 Wilson</span>
+                </div>
+
+                <div class="map-marker" style="top:22%;left:68%;">
+                  <div class="marker-dot green"><div class="marker-pulse"></div></div>
+                  <span class="marker-label">T-31 Reyes</span>
+                </div>
+
+                <div class="map-marker" style="top:68%;left:40%;">
+                  <div class="marker-dot gray"></div>
+                  <span class="marker-label">T-09 Bradley</span>
+                </div>
+
+                <div class="map-marker" style="top:42%;left:80%;">
+                  <div class="marker-dot green"><div class="marker-pulse"></div></div>
+                  <span class="marker-label">T-18 Kim</span>
+                </div>
+
+                <!-- Top left info -->
+                <div class="map-info">
+                  <span class="live-dot"></span>Live &mdash; 6 tracked
+                </div>
+
+                <!-- Controls -->
+                <div class="map-controls">
+                  <button class="map-ctrl-btn" aria-label="Zoom in">+</button>
+                  <button class="map-ctrl-btn" aria-label="Zoom out">&minus;</button>
+                </div>
+
+                <!-- Legend -->
+                <div class="map-legend">
+                  <div class="legend-item"><span class="legend-dot green"></span> Route</div>
+                  <div class="legend-item"><span class="legend-dot blue"></span> Loading</div>
+                  <div class="legend-item"><span class="legend-dot amber"></span> Delayed</div>
+                  <div class="legend-item"><span class="legend-dot gray"></span> Done</div>
+                </div>
+
+                <!-- Coordinates -->
+                <div class="map-coords">47.6062N 122.3321W</div>
+              </div>
+            </div>
+          </div>
+
+          <!-- Active Dispatches Table — Operations Board -->
+          <div class="table-section">
+            <div class="section-header">
+              <div>
+                <div class="section-title">Active Dispatches</div>
+                <div class="section-subtitle">Today's dispatch queue</div>
+              </div>
+              <span class="section-tag">5 DISPATCHES // QUEUE ACTIVE</span>
+            </div>
+            <div class="table-wrapper">
+              <div class="table-scroll">
+                <table>
+                  <thead>
+                    <tr>
+                      <th>ID</th>
+                      <th>Driver</th>
+                      <th>Route</th>
+                      <th>Status</th>
+                      <th>ETA</th>
+                    </tr>
+                  </thead>
+                  <tbody>
+                    <tr>
+                      <td class="td-id">#D-1847</td>
+                      <td class="td-driver">Marcus Chen</td>
+                      <td class="td-route">Warehouse A &rarr; Downtown Hub</td>
+                      <td><span class="status-badge on-route"><span class="badge-dot"></span>On Route</span></td>
+                      <td class="td-eta">14:45</td>
+                    </tr>
+                    <tr>
+                      <td class="td-id">#D-1848</td>
+                      <td class="td-driver">Lisa Park</td>
+                      <td class="td-route">Port Terminal &rarr; Distribution Center</td>
+                      <td><span class="status-badge loading"><span class="badge-dot"></span>Loading</span></td>
+                      <td class="td-eta">15:30</td>
+                    </tr>
+                    <tr>
+                      <td class="td-id">#D-1849</td>
+                      <td class="td-driver">James Wilson</td>
+                      <td class="td-route">Hub North &rarr; Retail Zone 3</td>
+                      <td><span class="status-badge delayed"><span class="badge-dot"></span>Delayed</span></td>
+                      <td class="td-eta" style="color:var(--amber);">16:15</td>
+                    </tr>
+                    <tr>
+                      <td class="td-id">#D-1850</td>
+                      <td class="td-driver">Ana Reyes</td>
+                      <td class="td-route">Warehouse B &rarr; Airport Cargo</td>
+                      <td><span class="status-badge on-route"><span class="badge-dot"></span>On Route</span></td>
+                      <td class="td-eta">13:50</td>
+                    </tr>
+                    <tr>
+                      <td class="td-id">#D-1851</td>
+                      <td class="td-driver">Tom Bradley</td>
+                      <td class="td-route">Distribution Center &rarr; Hub South</td>
+                      <td><span class="status-badge completed"><span class="badge-dot"></span>Done</span></td>
+                      <td class="td-eta" style="color:var(--text-muted);">&mdash;</td>
+                    </tr>
+                  </tbody>
+                </table>
+              </div>
+            </div>
+          </div>
+        </div>
+
+        <!-- Performance Sidebar — Instrument Panels -->
+        <div class="perf-sidebar">
+          <!-- Deliveries Chart -->
+          <div class="perf-card">
+            <div class="perf-card-header">
+              <div class="perf-card-title">Deliveries</div>
+              <div class="perf-card-tag">This Week</div>
+            </div>
+            <div class="bar-chart" id="barChart">
+              <div class="bar-group">
+                <div class="bar-value">32</div>
+                <div class="bar primary" style="height:72%;"></div>
+                <div class="bar-label">Mo</div>
+              </div>
+              <div class="bar-group">
+                <div class="bar-value">28</div>
+                <div class="bar primary" style="height:63%;"></div>
+                <div class="bar-label">Tu</div>
+              </div>
+              <div class="bar-group">
+                <div class="bar-value">41</div>
+                <div class="bar primary" style="height:92%;"></div>
+                <div class="bar-label">We</div>
+              </div>
+              <div class="bar-group">
+                <div class="bar-value">36</div>
+                <div class="bar primary" style="height:81%;"></div>
+                <div class="bar-label">Th</div>
+              </div>
+              <div class="bar-group">
+                <div class="bar-value">44</div>
+                <div class="bar primary" style="height:100%;"></div>
+                <div class="bar-label">Fr</div>
+              </div>
+              <div class="bar-group">
+                <div class="bar-value">18</div>
+                <div class="bar light" style="height:40%;"></div>
+                <div class="bar-label">Sa</div>
+              </div>
+              <div class="bar-group">
+                <div class="bar-value">&mdash;</div>
+                <div class="bar light" style="height:4%;"></div>
+                <div class="bar-label">Su</div>
+              </div>
+            </div>
+            <div class="chart-summary">
+              <div class="chart-stat">
+                <div class="chart-stat-value">199</div>
+                <div class="chart-stat-label">Total</div>
+              </div>
+              <div class="chart-stat">
+                <div class="chart-stat-value">33.2</div>
+                <div class="chart-stat-label">Avg/Day</div>
+              </div>
+              <div class="chart-stat">
+                <div class="chart-stat-value" style="color:var(--green);">94%</div>
+                <div class="chart-stat-label">On-Time</div>
+              </div>
+            </div>
+          </div>
+
+          <!-- Top Drivers -->
+          <div class="perf-card">
+            <div class="perf-card-header">
+              <div class="perf-card-title">Top Drivers</div>
+              <div class="perf-card-tag">Ranked</div>
+            </div>
+            <div class="driver-card">
+              <div class="driver-avatar">MC</div>
+              <div class="driver-info">
+                <div class="driver-name">Marcus Chen</div>
+                <div class="driver-stat">142 del. this month</div>
+              </div>
+              <div class="driver-score">98%</div>
+            </div>
+            <div class="driver-list">
+              <div class="driver-row">
+                <span class="driver-rank">1</span>
+                <div class="driver-row-avatar">MC</div>
+                <span class="driver-row-name">Marcus Chen</span>
+                <span class="driver-row-pct">98%</span>
+              </div>
+              <div class="driver-row">
+                <span class="driver-rank">2</span>
+                <div class="driver-row-avatar">AR</div>
+                <span class="driver-row-name">Ana Reyes</span>
+                <span class="driver-row-pct">96%</span>
+              </div>
+              <div class="driver-row">
+                <span class="driver-rank">3</span>
+                <div class="driver-row-avatar">LP</div>
+                <span class="driver-row-name">Lisa Park</span>
+                <span class="driver-row-pct">95%</span>
+              </div>
+              <div class="driver-row">
+                <span class="driver-rank">4</span>
+                <div class="driver-row-avatar">TB</div>
+                <span class="driver-row-name">Tom Bradley</span>
+                <span class="driver-row-pct">93%</span>
+              </div>
+            </div>
+          </div>
+
+          <!-- Fleet Utilization -->
+          <div class="perf-card">
+            <div class="perf-card-header">
+              <div class="perf-card-title">Fleet Utilization</div>
+              <div class="perf-card-tag">Current</div>
+            </div>
+            <div class="utilization-header">
+              <span class="util-value">84%</span>
+              <span class="util-delta">+2% vs last week</span>
+            </div>
+            <div class="utilization-bar">
+              <div class="util-segment active" style="width:84%;"></div>
+              <div class="util-segment idle" style="width:10%;"></div>
+              <div class="util-segment maintenance" style="width:6%;"></div>
+            </div>
+            <div class="util-labels">
+              <div class="util-label"><span class="dot active"></span> Active (42)</div>
+              <div class="util-label"><span class="dot idle"></span> Idle (5)</div>
+              <div class="util-label"><span class="dot maint"></span> Maint. (3)</div>
+            </div>
+          </div>
+
+          <!-- Recent Alerts — Ops log style -->
+          <div class="perf-card">
+            <div class="perf-card-header">
+              <div class="perf-card-title">Alerts</div>
+              <div class="perf-card-tag">3 Active</div>
+            </div>
+            <div class="alert-item">
+              <div class="alert-severity amber"></div>
+              <div class="alert-content">
+                <div class="alert-text"><strong>T-22</strong> delayed 35 min on I-90 corridor</div>
+                <div class="alert-time">12 min ago</div>
+              </div>
+            </div>
+            <div class="alert-item">
+              <div class="alert-severity red"></div>
+              <div class="alert-content">
+                <div class="alert-text"><strong>T-05</strong> maintenance due &mdash; brake inspection overdue</div>
+                <div class="alert-time">1 hr ago</div>
+              </div>
+            </div>
+            <div class="alert-item">
+              <div class="alert-severity blue"></div>
+              <div class="alert-content">
+                <div class="alert-text"><strong>RTE-7B</strong> updated &mdash; construction on 5th Ave until Mar 1</div>
+                <div class="alert-time">3 hrs ago</div>
+              </div>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+  </main>
+
+  <!-- Mobile toggle button -->
+  <button class="mobile-toggle" id="mobileToggle" onclick="toggleSidebar()" aria-label="Toggle navigation">
+    <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+      <line x1="3" y1="6" x2="21" y2="6"/>
+      <line x1="3" y1="12" x2="21" y2="12"/>
+      <line x1="3" y1="18" x2="21" y2="18"/>
+    </svg>
+  </button>
+</div>
+
+<script>
+// ============================================================
+// Mobile sidebar toggle
+// ============================================================
+function toggleSidebar() {
+  var sidebar = document.getElementById('sidebar');
+  var overlay = document.getElementById('sidebarOverlay');
+  var isOpen = sidebar.classList.contains('open');
+
+  if (isOpen) {
+    sidebar.classList.remove('open');
+    overlay.classList.remove('show');
+  } else {
+    sidebar.classList.add('open');
+    overlay.classList.add('show');
+  }
+}
+
+// Close sidebar on resize to desktop
+window.addEventListener('resize', function() {
+  if (window.innerWidth > 700) {
+    document.getElementById('sidebar').classList.remove('open');
+    document.getElementById('sidebarOverlay').classList.remove('show');
+  }
+});
+
+// ============================================================
+// Animate bar chart on load
+// ============================================================
+document.addEventListener('DOMContentLoaded', function() {
+  var bars = document.querySelectorAll('.bar-chart .bar');
+  bars.forEach(function(bar, i) {
+    var targetHeight = bar.style.height;
+    bar.style.height = '3px';
+    setTimeout(function() {
+      bar.style.height = targetHeight;
+    }, 80 + i * 50);
+  });
+
+  // Animate sparkline bars
+  var sparks = document.querySelectorAll('.kpi-spark-bar');
+  sparks.forEach(function(spark, i) {
+    var targetHeight = spark.style.height;
+    spark.style.height = '2px';
+    setTimeout(function() {
+      spark.style.height = targetHeight;
+    }, 50 + i * 30);
+  });
+});
+
+// ============================================================
+// Nav item click (visual only)
+// ============================================================
+document.querySelectorAll('.nav-item').forEach(function(item) {
+  item.addEventListener('click', function() {
+    document.querySelectorAll('.nav-item').forEach(function(el) {
+      el.classList.remove('active');
+    });
+    this.classList.add('active');
+  });
+});
+
+// ============================================================
+// Table row click highlight (visual only)
+// ============================================================
+document.querySelectorAll('tbody tr').forEach(function(row) {
+  row.addEventListener('click', function() {
+    document.querySelectorAll('tbody tr').forEach(function(r) {
+      r.style.outline = 'none';
+    });
+    this.style.outline = '2px solid var(--signal)';
+    this.style.outlineOffset = '-2px';
+    this.style.borderRadius = 'var(--radius-sm)';
+  });
+});
+</script>
+</body>
+</html>

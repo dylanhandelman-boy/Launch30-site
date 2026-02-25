@@ -1,0 +1,184 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Q1 2026 Compliance Review Checklist</title>
+  <style>
+    *, *::before, *::after { margin: 0; padding: 0; box-sizing: border-box; }
+
+    :root {
+      --page-bg: #e8e8e8;
+      --doc-bg: #ffffff;
+      --text: #1a1a1a;
+      --text-muted: #555555;
+      --border: #cccccc;
+      --red: #c0392b;
+      --amber: #d4850a;
+      --green: #1e7e34;
+      --note-bg: #fffde6;
+      --note-border: #e6d88a;
+      --banner-bg: #fdecea;
+      --banner-border: #e6a19a;
+      --banner-text: #8b1a1a;
+      --highlight-bg: #fff3cd;
+    }
+
+    @media (prefers-color-scheme: dark) {
+      :root {
+        --page-bg: #1a1a1a;
+        --doc-bg: #262626;
+        --text: #d9d9d9;
+        --text-muted: #999999;
+        --border: #444444;
+        --red: #e74c3c;
+        --amber: #f0a630;
+        --green: #4caf50;
+        --note-bg: #33301a;
+        --note-border: #5c5425;
+        --banner-bg: #3d1a1a;
+        --banner-border: #6b2a2a;
+        --banner-text: #f5a8a8;
+        --highlight-bg: #3d3010;
+      }
+    }
+
+    body {
+      font-family: Georgia, 'Times New Roman', Times, serif;
+      background: var(--page-bg);
+      color: var(--text);
+      line-height: 1.6;
+      -webkit-font-smoothing: antialiased;
+    }
+
+    .page {
+      max-width: 720px;
+      margin: 32px auto;
+      background: var(--doc-bg);
+      padding: 56px 64px 48px;
+      box-shadow: 0 1px 4px rgba(0,0,0,0.12), 0 0 0 1px rgba(0,0,0,0.04);
+      min-height: 90vh;
+    }
+
+    .doc-header { text-align: center; margin-bottom: 28px; padding-bottom: 20px; border-bottom: 2px solid var(--text); }
+    .doc-title { font-size: 1.4rem; font-weight: bold; margin-bottom: 4px; letter-spacing: 0.01em; }
+    .doc-meta { font-size: 0.8rem; color: var(--text-muted); }
+    .doc-meta span { display: inline-block; margin: 0 12px; }
+
+    .overdue-banner {
+      background: var(--banner-bg);
+      border: 1px solid var(--banner-border);
+      color: var(--banner-text);
+      padding: 8px 14px;
+      font-size: 0.8rem;
+      font-weight: bold;
+      margin-bottom: 24px;
+      display: flex;
+      align-items: center;
+      gap: 8px;
+    }
+    .overdue-banner::before { content: "\26A0"; font-size: 1rem; }
+
+    h2 { font-size: 1rem; font-weight: bold; margin-bottom: 14px; text-decoration: underline; }
+
+    .checklist { list-style: none; margin-bottom: 28px; }
+    .checklist li { padding: 7px 0; font-size: 0.85rem; border-bottom: 1px solid var(--border); display: flex; align-items: baseline; gap: 10px; }
+    .checklist li:last-child { border-bottom: none; }
+    .cb { flex-shrink: 0; width: 18px; text-align: center; font-size: 0.95rem; }
+    .cb-empty { color: var(--text-muted); }
+    .cb-check { color: var(--green); font-weight: bold; }
+    .cb-warn { color: var(--amber); }
+    .item-num { color: var(--text-muted); min-width: 18px; flex-shrink: 0; }
+    .item-text { flex: 1; }
+    .item-due { color: var(--text-muted); font-style: italic; font-size: 0.78rem; }
+    .item-overdue { color: var(--red); font-weight: bold; font-style: italic; font-size: 0.78rem; }
+    .item-amber { color: var(--amber); font-weight: bold; font-style: italic; font-size: 0.78rem; }
+
+    .notes-section { margin-top: 28px; }
+    .notes-section h2 { margin-bottom: 8px; }
+    .notes-box { background: var(--note-bg); border: 1px solid var(--note-border); padding: 14px 16px; font-family: 'Segoe Print', 'Bradley Hand', 'Comic Sans MS', cursive; font-size: 0.82rem; line-height: 1.7; color: var(--text); }
+    .doc-footer { margin-top: 32px; padding-top: 14px; border-top: 1px solid var(--border); font-size: 0.7rem; color: var(--text-muted); display: flex; justify-content: space-between; }
+
+    @media (max-width: 800px) {
+      .page { margin: 16px; padding: 32px 28px 28px; }
+    }
+    @media (max-width: 480px) {
+      .page { margin: 8px; padding: 24px 18px 20px; }
+      .doc-title { font-size: 1.15rem; }
+      .checklist li { font-size: 0.8rem; }
+    }
+  </style>
+</head>
+<body>
+
+<div class="page">
+  <div class="doc-header">
+    <div class="doc-title">Q1 2026 Compliance Review Checklist</div>
+    <div class="doc-meta">
+      <span>Last updated: Jan 15, 2026</span>
+      <span>Prepared by: Sarah Chen</span>
+    </div>
+  </div>
+
+  <div class="overdue-banner">3 items overdue &mdash; immediate action required</div>
+
+  <h2>Compliance Items</h2>
+  <ol class="checklist">
+    <li>
+      <span class="item-num">1.</span>
+      <span class="cb cb-empty">&#9744;</span>
+      <span class="item-text">Data Protection Policy review <span class="item-due">&mdash; due Feb 1</span></span>
+    </li>
+    <li>
+      <span class="item-num">2.</span>
+      <span class="cb cb-check">&#10003;</span>
+      <span class="item-text">Access control audit completed <span class="item-due">&mdash; Jan 8</span></span>
+    </li>
+    <li>
+      <span class="item-num">3.</span>
+      <span class="cb cb-warn">&#9888;</span>
+      <span class="item-text">Vendor risk assessments <span class="item-overdue">&mdash; 3 OVERDUE</span></span>
+    </li>
+    <li>
+      <span class="item-num">4.</span>
+      <span class="cb cb-check">&#10003;</span>
+      <span class="item-text">Employee training certificates <span class="item-due">&mdash; collected</span></span>
+    </li>
+    <li>
+      <span class="item-num">5.</span>
+      <span class="cb cb-empty">&#9744;</span>
+      <span class="item-text">Incident response plan update <span class="item-due">&mdash; not started</span></span>
+    </li>
+    <li>
+      <span class="item-num">6.</span>
+      <span class="cb cb-check">&#10003;</span>
+      <span class="item-text">Quarterly SOC 2 evidence <span class="item-due">&mdash; uploaded</span></span>
+    </li>
+    <li>
+      <span class="item-num">7.</span>
+      <span class="cb cb-empty">&#9744;</span>
+      <span class="item-text">GDPR data mapping <span class="item-due">&mdash; in progress</span></span>
+    </li>
+    <li>
+      <span class="item-num">8.</span>
+      <span class="cb cb-warn">&#9888;</span>
+      <span class="item-text">UK-FCA regulatory filing <span class="item-amber">&mdash; deadline approaching</span></span>
+    </li>
+  </ol>
+
+  <div class="notes-section">
+    <h2>Notes</h2>
+    <div class="notes-box">
+      Need to follow up with Mike re: vendor assessments. 3 vendors still haven't submitted questionnaires. Escalate?<br><br>
+      Also &mdash; Sarah mentioned the FCA deadline moved up by two weeks. Need to confirm with legal.
+    </div>
+  </div>
+
+  <div class="doc-footer">
+    <span>CONFIDENTIAL &mdash; Internal Use Only</span>
+    <span>Page 1 of 1</span>
+  </div>
+</div>
+
+</body>
+</html>

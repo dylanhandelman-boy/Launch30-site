@@ -274,13 +274,12 @@
       border: 1px solid var(--border);
       border-radius: 12px;
       padding: 4px;
-      flex-wrap: wrap;
     }
     .demo-nav-link {
       font-family: 'Geist Mono', monospace;
       font-size: 0.75rem; font-weight: 500;
       letter-spacing: 0.02em;
-      padding: 8px 18px;
+      padding: 8px 14px;
       border-radius: 10px;
       color: var(--text-secondary);
       text-decoration: none;
@@ -334,7 +333,8 @@
       display: flex;
       flex-direction: column;
       align-items: center;
-      padding: 0 32px;
+      flex: 1;
+      text-align: center;
     }
     .stat-value {
       font-family: 'Geist Mono', monospace;
@@ -357,8 +357,21 @@
       background: var(--border);
     }
     @media (max-width: 480px) {
-      .stat-item { padding: 0 16px; }
+      .demo-nav-link {
+        font-size: 0.65rem;
+        padding: 6px 10px;
+      }
+      .stats-bar {
+        max-width: 100%;
+        padding: 16px 0;
+      }
+      .stat-item {
+        padding: 0 14px;
+        text-align: center;
+      }
       .stat-value { font-size: 1.25rem; }
+      .stat-label { font-size: 0.65rem; }
+      .stat-divider { height: 32px; }
     }
 
     /* ─── TAB-BASED SHOWCASE ─── */

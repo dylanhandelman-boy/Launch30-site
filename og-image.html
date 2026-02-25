@@ -1,0 +1,110 @@
+<!DOCTYPE html>
+<html>
+<head>
+<meta charset="UTF-8">
+<link href="https://fonts.googleapis.com/css2?family=Plus+Jakarta+Sans:wght@400;500;600;700&family=Geist+Mono:wght@400;500&display=swap" rel="stylesheet">
+<style>
+  * { margin: 0; padding: 0; box-sizing: border-box; }
+  body {
+    width: 1200px;
+    height: 630px;
+    background: #0f1117;
+    font-family: 'Plus Jakarta Sans', sans-serif;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    position: relative;
+    overflow: hidden;
+  }
+  /* Subtle radial glow */
+  body::before {
+    content: '';
+    position: absolute;
+    inset: 0;
+    background:
+      radial-gradient(circle at 30% 40%, rgba(37, 99, 235, 0.15), transparent 50%),
+      radial-gradient(circle at 70% 60%, rgba(99, 102, 241, 0.08), transparent 50%);
+  }
+  /* Dot grid */
+  body::after {
+    content: '';
+    position: absolute;
+    inset: 0;
+    background-image: radial-gradient(circle, rgba(255,255,255,0.06) 1px, transparent 1px);
+    background-size: 32px 32px;
+  }
+  .card {
+    position: relative;
+    z-index: 1;
+    text-align: center;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    gap: 24px;
+  }
+  .logo-row {
+    display: flex;
+    align-items: center;
+    gap: 12px;
+  }
+  .logo-text {
+    font-size: 42px;
+    font-weight: 600;
+    color: #f1f5f9;
+    letter-spacing: -0.02em;
+  }
+  .logo-text span {
+    color: #4D9FFF;
+  }
+  h1 {
+    font-size: 56px;
+    font-weight: 700;
+    color: #f1f5f9;
+    letter-spacing: -0.03em;
+    line-height: 1.1;
+  }
+  h1 em {
+    font-style: italic;
+    color: #4D9FFF;
+  }
+  p {
+    font-size: 22px;
+    color: #94a3b8;
+    max-width: 600px;
+    line-height: 1.5;
+  }
+  .badge {
+    font-family: 'Geist Mono', monospace;
+    font-size: 13px;
+    font-weight: 500;
+    letter-spacing: 0.04em;
+    color: #4D9FFF;
+    background: rgba(77, 159, 255, 0.1);
+    border: 1px solid rgba(77, 159, 255, 0.2);
+    padding: 6px 16px;
+    border-radius: 8px;
+  }
+  .url {
+    font-family: 'Geist Mono', monospace;
+    font-size: 16px;
+    color: #64748b;
+    letter-spacing: 0.02em;
+  }
+</style>
+</head>
+<body>
+  <div class="card">
+    <div class="logo-row">
+      <svg width="48" height="48" viewBox="0 0 64 64" fill="none">
+        <path d="M8 4L36 32L8 60L20 60L48 32L20 4Z" fill="#4D9FFF"/>
+        <path d="M24 4L52 32L24 60L36 60L64 32L36 4Z" fill="#4D9FFF" opacity="0.45"/>
+      </svg>
+      <span class="logo-text">launch<span>30</span></span>
+    </div>
+    <h1>Custom Software in<br><em>30 Days or Less</em></h1>
+    <p>Reliable software development for businesses, startups, and individuals.</p>
+    <span class="badge">ACCEPTING NEW PROJECTS</span>
+    <span class="url">launch30.dev</span>
+  </div>
+</body>
+</html>

@@ -1,0 +1,9 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 280 64" fill="none">
+  <!-- Double chevron icon -->
+  <path d="M8 4L36 32L8 60L20 60L48 32L20 4Z" fill="#2563EB"/>
+  <path d="M24 4L52 32L24 60L36 60L64 32L36 4Z" fill="#2563EB" opacity="0.45"/>
+  <!-- "launch" text -->
+  <text x="72" y="44" font-family="'Plus Jakarta Sans', system-ui, sans-serif" font-size="28" font-weight="600" letter-spacing="-0.5" fill="#111827">launch</text>
+  <!-- "30" text in accent blue -->
+  <text x="195" y="44" font-family="'Plus Jakarta Sans', system-ui, sans-serif" font-size="28" font-weight="600" letter-spacing="-0.5" fill="#2563EB">30</text>
+</svg>

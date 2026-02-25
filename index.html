@@ -516,19 +516,126 @@
 
     /* ─── CTA SECTION ─── */
     .cta-section {
-      text-align: center;
-      padding: 48px 0;
+      padding: 64px 0;
+    }
+    .cta-row {
+      display: grid;
+      grid-template-columns: 1fr 1fr;
+      gap: 64px;
+      align-items: center;
+    }
+    @media (max-width: 768px) {
+      .cta-row { grid-template-columns: 1fr; gap: 40px; }
+    }
+    .cta-left {
+      display: flex;
+      flex-direction: column;
+      align-items: flex-start;
+      text-align: left;
     }
     .cta-heading {
       font-family: 'Plus Jakarta Sans', ui-sans-serif, system-ui, sans-serif;
-      font-size: clamp(1.5rem, 3.5vw, 2rem);
-      line-height: 1.2; letter-spacing: -0.02em;
+      font-size: clamp(2rem, 4vw, 2.75rem);
+      line-height: 1.12;
+      letter-spacing: -0.025em;
       color: var(--text);
     }
     .cta-sub {
-      font-size: 0.9375rem; color: var(--text-secondary);
-      line-height: 1.65; margin-top: 8px; max-width: 420px;
-      margin-left: auto; margin-right: auto;
+      font-size: 1rem;
+      color: var(--text-secondary);
+      line-height: 1.65;
+      margin-top: 12px;
+      max-width: 380px;
+    }
+    .cta-left .btn {
+      margin-top: 28px;
+    }
+    .cta-trust {
+      display: flex;
+      align-items: center;
+      gap: 8px;
+      margin-top: 20px;
+      font-family: 'Geist Mono', monospace;
+      font-size: 0.7rem;
+      color: var(--text-tertiary);
+      letter-spacing: 0.02em;
+    }
+    .cta-trust svg {
+      flex-shrink: 0;
+      color: var(--accent);
+    }
+    .cta-form {
+      display: flex;
+      flex-direction: column;
+      gap: 12px;
+      background: var(--surface);
+      border: 1px solid var(--border);
+      border-radius: var(--radius-lg);
+      padding: 28px;
+      box-shadow: var(--shadow-lg);
+      width: 100%;
+      text-align: left;
+    }
+    .cta-form-title {
+      font-family: 'Plus Jakarta Sans', sans-serif;
+      font-size: 1rem;
+      font-weight: 600;
+      color: var(--text);
+      margin-bottom: 4px;
+    }
+    .cta-form label {
+      font-family: 'Geist Mono', monospace;
+      font-size: 0.7rem;
+      font-weight: 500;
+      letter-spacing: 0.04em;
+      text-transform: uppercase;
+      color: var(--text-secondary);
+    }
+    .cta-form input,
+    .cta-form textarea {
+      font-family: 'Plus Jakarta Sans', sans-serif;
+      font-size: 0.875rem;
+      padding: 11px 14px;
+      border: 1px solid var(--border);
+      border-radius: var(--radius-sm);
+      outline: none;
+      background: var(--bg);
+      color: var(--text);
+      width: 100%;
+      transition: border-color 0.2s, box-shadow 0.2s;
+      margin-top: 4px;
+    }
+    .cta-form input:focus,
+    .cta-form textarea:focus {
+      border-color: var(--accent);
+      box-shadow: 0 0 0 3px var(--accent-xlight);
+    }
+    .cta-form input::placeholder,
+    .cta-form textarea::placeholder {
+      color: var(--text-tertiary);
+    }
+    .cta-form textarea {
+      resize: vertical;
+      min-height: 90px;
+    }
+    .cta-form button {
+      font-family: 'Plus Jakarta Sans', sans-serif;
+      font-size: 0.9rem;
+      font-weight: 600;
+      padding: 12px 24px;
+      border: none;
+      border-radius: var(--radius-sm);
+      background: var(--accent);
+      color: #fff;
+      cursor: pointer;
+      transition: background 0.15s, transform 0.15s, box-shadow 0.15s;
+      box-shadow: 0 1px 3px rgba(37, 99, 235, 0.3);
+      margin-top: 4px;
+    }
+    .cta-form button:hover {
+      background: var(--accent-hover);
+      transform: translateY(-1px);
+      box-shadow: 0 4px 12px rgba(37, 99, 235, 0.25);
     }
 
     /* ─── FOOTER ─── */
@@ -772,13 +879,39 @@
 <section class="section-pad" style="border-top: 1px solid var(--border);">
   <div class="container">
     <div class="cta-section reveal">
-      <h2 class="cta-heading">Ready to get started?</h2>
-      <p class="cta-sub">Stop waiting. Start building.</p>
-      <div style="margin-top: 24px;">
-        <a href="#" onclick="Calendly.initPopupWidget({url: 'https://calendly.com/james-blacklabagency/launch30-intro-call'});return false;" class="btn btn-primary">
-          Book Free Consultation
-          <svg width="14" height="14" viewBox="0 0 16 16" fill="none" aria-hidden="true"><path d="M3 8h10M9 4l4 4-4 4" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"/></svg>
-        </a>
+      <div class="cta-row">
+        <div class="cta-left">
+          <p class="eyebrow">Get Started</p>
+          <h2 class="cta-heading">Let's build something<br>great together.</h2>
+          <p class="cta-sub">Book a free 15-minute consultation to discuss your project, timeline, and budget. No commitment required.</p>
+          <a href="#" onclick="Calendly.initPopupWidget({url: 'https://calendly.com/james-blacklabagency/launch30-intro-call'});return false;" class="btn btn-primary btn-lg">
+            Book Free Consultation
+            <svg width="14" height="14" viewBox="0 0 16 16" fill="none" aria-hidden="true"><path d="M3 8h10M9 4l4 4-4 4" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"/></svg>
+          </a>
+          <div class="cta-trust">
+            <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M22 11.08V12a10 10 0 1 1-5.93-9.14"/><polyline points="22 4 12 14.01 9 11.01"/></svg>
+            Free consultation &middot; No commitment &middot; Response within 24h
+          </div>
+        </div>
+        <form class="cta-form" action="https://formspree.io/f/mdalyqwr" method="POST">
+          <p class="cta-form-title">Send us a message</p>
+          <div>
+            <label for="cta-name">Name</label>
+            <input type="text" id="cta-name" name="name" placeholder="Your name" required>
+          </div>
+          <div>
+            <label for="cta-email">Email</label>
+            <input type="email" id="cta-email" name="email" placeholder="you@company.com" required>
+          </div>
+          <div>
+            <label for="cta-message">Project details</label>
+            <textarea id="cta-message" name="message" placeholder="Tell us about your project, timeline, and goals..." required></textarea>
+          </div>
+          <button type="submit">
+            Send Message
+            <svg width="14" height="14" viewBox="0 0 16 16" fill="none" style="display:inline-block;vertical-align:middle;margin-left:6px;" aria-hidden="true"><path d="M3 8h10M9 4l4 4-4 4" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"/></svg>
+          </button>
+        </form>
       </div>
     </div>
   </div>

@@ -149,8 +149,25 @@
       transition: color 0.15s;
     }
     .nav-links a:hover { color: var(--text); }
+    .nav-cta {
+      font-size: 0.8125rem;
+      padding: 8px 16px;
+      white-space: nowrap;
+    }
     @media (max-width: 768px) {
       .nav-links { display: none; }
+    }
+    @media (max-width: 480px) {
+      .nav-cta {
+        font-size: 0.7rem;
+        padding: 6px 10px;
+      }
+    }
+    @media (max-width: 360px) {
+      .nav-cta {
+        font-size: 0.65rem;
+        padding: 5px 8px;
+      }
     }
 
     /* ─── BUTTONS ─── */
@@ -688,6 +705,95 @@
       .anim, .reveal { animation: none; opacity: 1; transform: none; transition: none; }
       .badge-dot { animation: none; }
     }
+
+    /* ─── MOBILE RESPONSIVE FIXES ─── */
+
+    /* Nav: tighten spacing on small screens */
+    @media (max-width: 480px) {
+      .nav-logo { font-size: 0.9rem; }
+      .nav-inner { padding: 0 16px; }
+    }
+
+    /* Hero: reduce headline size on mobile */
+    @media (max-width: 640px) {
+      .hero-headline {
+        font-size: clamp(2rem, 8vw, 3rem);
+      }
+      .hero-content {
+        padding: 48px 0 64px;
+      }
+      .hero-sub {
+        font-size: 0.95rem;
+        max-width: 360px;
+      }
+      .hero-chevrons {
+        width: 0.6em;
+        height: 0.6em;
+      }
+      .container { padding: 0 16px; }
+    }
+
+    /* Hero CTA: stack nicely, don't full-stretch on mid-size */
+    @media (max-width: 480px) {
+      .hero-cta-row .btn {
+        font-size: 0.875rem;
+        padding: 12px 20px;
+      }
+    }
+
+    /* Tabs: allow wrapping on small screens */
+    @media (max-width: 480px) {
+      .tab-buttons {
+        display: flex;
+        flex-wrap: wrap;
+        justify-content: center;
+        gap: 2px;
+      }
+      .tab-btn {
+        font-size: 0.675rem;
+        padding: 6px 12px;
+      }
+      .services-left .heading {
+        font-size: 1.75rem;
+      }
+    }
+
+    /* Process steps: tighten on mobile */
+    @media (max-width: 480px) {
+      .step h3 { font-size: 0.95rem; }
+      .step p { font-size: 0.8125rem; }
+    }
+
+    /* FAQ: tighten spacing */
+    @media (max-width: 480px) {
+      .faq-item summary {
+        font-size: 0.875rem;
+        padding: 16px 0;
+      }
+      .faq-answer { font-size: 0.8125rem; }
+    }
+
+    /* CTA: reduce form padding, stack properly */
+    @media (max-width: 480px) {
+      .cta-section { padding: 32px 0; }
+      .cta-heading { font-size: 1.75rem; }
+      .cta-sub { font-size: 0.875rem; }
+      .cta-form { padding: 20px; }
+      .cta-left .btn { font-size: 0.875rem; padding: 11px 20px; }
+      .cta-trust { font-size: 0.625rem; }
+    }
+
+    /* Footer: center on mobile */
+    @media (max-width: 480px) {
+      .footer-inner {
+        flex-direction: column;
+        align-items: center;
+        text-align: center;
+        gap: 8px;
+      }
+      .footer-left { align-items: center; }
+      .footer-desc { font-size: 0.75rem; }
+    }
   </style>
 </head>
 <body>
@@ -706,7 +812,7 @@
       <li><a href="#how-it-works">How It Works</a></li>
       <li><a href="#faq">FAQ</a></li>
     </ul>
-    <a href="#" onclick="Calendly.initPopupWidget({url: 'https://calendly.com/james-blacklabagency/launch30-intro-call'});return false;" class="btn btn-primary" style="font-size: 0.8125rem; padding: 8px 16px;">Book Free Consultation</a>
+    <a href="#" onclick="Calendly.initPopupWidget({url: 'https://calendly.com/james-blacklabagency/launch30-intro-call'});return false;" class="btn btn-primary nav-cta">Book Free Consultation</a>
   </div>
 </nav>
 

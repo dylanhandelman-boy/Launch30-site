@@ -360,6 +360,50 @@
       .hero-cta-row .btn { width: 100%; justify-content: center; }
     }
 
+    /* ─── TRUST BAR ─── */
+    .trust-bar {
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      gap: 32px;
+      padding: 32px 24px;
+      border-bottom: 1px solid var(--border);
+    }
+    .trust-stat {
+      display: flex;
+      flex-direction: column;
+      align-items: center;
+      gap: 4px;
+      text-align: center;
+    }
+    .trust-stat-value {
+      font-family: 'Geist Mono', monospace;
+      font-size: 1.25rem;
+      font-weight: 600;
+      color: var(--text);
+      letter-spacing: -0.02em;
+    }
+    .trust-stat-label {
+      font-family: 'Geist Mono', monospace;
+      font-size: 0.7rem;
+      font-weight: 500;
+      letter-spacing: 0.04em;
+      text-transform: uppercase;
+      color: var(--text-tertiary);
+    }
+    .trust-divider {
+      width: 1px;
+      height: 32px;
+      background: var(--border);
+      flex-shrink: 0;
+    }
+    @media (max-width: 480px) {
+      .trust-bar { gap: 20px; padding: 24px 16px; }
+      .trust-stat-value { font-size: 1rem; }
+      .trust-stat-label { font-size: 0.6rem; }
+      .trust-divider { height: 24px; }
+    }
+
     /* ─── SERVICES SECTION ─── */
     .services-split {
       display: grid;
@@ -509,6 +553,398 @@
     }
     .step p {
       font-size: 0.875rem; color: var(--text-secondary); line-height: 1.65;
+    }
+
+    /* ─── TESTIMONIALS ─── */
+    .testimonials-grid {
+      display: grid;
+      grid-template-columns: repeat(3, 1fr);
+      gap: 24px;
+      margin-top: 48px;
+    }
+    @media (max-width: 768px) {
+      .testimonials-grid { grid-template-columns: 1fr; gap: 16px; }
+    }
+    .testimonial-card {
+      background: var(--surface);
+      border: 1px solid var(--border);
+      border-radius: var(--radius-lg);
+      padding: 28px;
+      display: flex;
+      flex-direction: column;
+      gap: 16px;
+    }
+    .testimonial-stars {
+      display: flex;
+      gap: 2px;
+      color: #f59e0b;
+    }
+    .testimonial-quote {
+      font-size: 0.9375rem;
+      line-height: 1.7;
+      color: var(--text-secondary);
+      font-style: italic;
+    }
+    .testimonial-author {
+      display: flex;
+      flex-direction: column;
+      gap: 2px;
+      margin-top: auto;
+    }
+    .testimonial-name {
+      font-size: 0.875rem;
+      font-weight: 600;
+      color: var(--text);
+    }
+    .testimonial-role {
+      font-family: 'Geist Mono', monospace;
+      font-size: 0.7rem;
+      color: var(--text-tertiary);
+      letter-spacing: 0.02em;
+    }
+
+    /* ─── CALCULATOR ─── */
+    .calc {
+      max-width: 680px;
+      margin: 0 auto;
+      background: var(--surface);
+      border: 1px solid var(--border);
+      border-radius: var(--radius-lg);
+      box-shadow: var(--shadow-lg);
+      overflow: hidden;
+    }
+    .calc-progress {
+      display: flex;
+      align-items: center;
+      padding: 24px 32px 0;
+    }
+    .calc-progress-step {
+      display: flex;
+      flex-direction: column;
+      align-items: center;
+      gap: 6px;
+      z-index: 1;
+    }
+    .calc-progress-num {
+      width: 32px; height: 32px;
+      border-radius: 50%;
+      display: flex; align-items: center; justify-content: center;
+      font-family: 'Geist Mono', monospace;
+      font-size: 0.75rem; font-weight: 600;
+      background: var(--bg);
+      border: 2px solid var(--border);
+      color: var(--text-tertiary);
+      transition: all 0.3s ease;
+    }
+    .calc-progress-step.active .calc-progress-num,
+    .calc-progress-step.done .calc-progress-num {
+      background: var(--accent);
+      border-color: var(--accent);
+      color: #fff;
+    }
+    .calc-progress-label {
+      font-family: 'Geist Mono', monospace;
+      font-size: 0.625rem; font-weight: 500;
+      letter-spacing: 0.04em;
+      text-transform: uppercase;
+      color: var(--text-tertiary);
+      transition: color 0.3s;
+    }
+    .calc-progress-step.active .calc-progress-label,
+    .calc-progress-step.done .calc-progress-label {
+      color: var(--accent);
+    }
+    .calc-progress-line {
+      flex: 1; height: 2px;
+      background: var(--border);
+      margin: 0 8px; margin-bottom: 22px;
+      transition: background 0.3s;
+    }
+    .calc-progress-line.filled { background: var(--accent); }
+
+    .calc-body {
+      padding: 32px;
+      position: relative;
+      min-height: 320px;
+    }
+    .calc-step { display: none; }
+    .calc-step.active {
+      display: block;
+      animation: calc-fade-in 0.3s ease forwards;
+    }
+    .calc-step.back {
+      animation: calc-fade-in-back 0.3s ease forwards;
+    }
+    @keyframes calc-fade-in {
+      from { opacity: 0; transform: translateX(24px); }
+      to { opacity: 1; transform: translateX(0); }
+    }
+    @keyframes calc-fade-in-back {
+      from { opacity: 0; transform: translateX(-24px); }
+      to { opacity: 1; transform: translateX(0); }
+    }
+    .calc-question {
+      font-size: 1.125rem; font-weight: 600;
+      color: var(--text); margin-bottom: 20px;
+    }
+
+    /* Cards (single select) */
+    .calc-cards {
+      display: grid;
+      grid-template-columns: repeat(2, 1fr);
+      gap: 12px;
+    }
+    .calc-card {
+      display: flex; flex-direction: column;
+      align-items: center; gap: 6px;
+      padding: 20px 16px;
+      background: var(--bg);
+      border: 2px solid var(--border);
+      border-radius: var(--radius-md);
+      cursor: pointer;
+      transition: all 0.2s ease;
+      text-align: center;
+      font-family: 'Plus Jakarta Sans', sans-serif;
+      outline: none; -webkit-appearance: none;
+    }
+    .calc-card:hover {
+      border-color: var(--accent);
+      background: var(--accent-xlight);
+    }
+    .calc-card.selected {
+      border-color: var(--accent);
+      background: var(--accent-xlight);
+      box-shadow: 0 0 0 3px var(--accent-light);
+    }
+    .calc-card-icon { color: var(--accent); }
+    .calc-card-title {
+      font-size: 0.9375rem; font-weight: 600; color: var(--text);
+    }
+    .calc-card-desc {
+      font-size: 0.75rem; color: var(--text-tertiary); line-height: 1.4;
+    }
+
+    /* Feature checkboxes (multi-select) */
+    .calc-features {
+      display: grid;
+      grid-template-columns: repeat(2, 1fr);
+      gap: 10px;
+    }
+    .calc-feature {
+      display: flex; align-items: center; gap: 10px;
+      padding: 12px 14px;
+      background: var(--bg);
+      border: 2px solid var(--border);
+      border-radius: var(--radius-sm);
+      cursor: pointer;
+      transition: all 0.2s ease;
+      font-family: 'Plus Jakarta Sans', sans-serif;
+      outline: none; -webkit-appearance: none;
+      text-align: left;
+    }
+    .calc-feature:hover { border-color: var(--accent); }
+    .calc-feature.selected {
+      border-color: var(--accent);
+      background: var(--accent-xlight);
+    }
+    .calc-feature-check {
+      width: 18px; height: 18px;
+      border: 2px solid var(--border);
+      border-radius: 4px;
+      flex-shrink: 0;
+      display: flex; align-items: center; justify-content: center;
+      transition: all 0.2s;
+    }
+    .calc-feature.selected .calc-feature-check {
+      background: var(--accent);
+      border-color: var(--accent);
+    }
+    .calc-feature-label {
+      font-size: 0.8125rem; font-weight: 500; color: var(--text);
+    }
+
+    /* Timeline pills */
+    .calc-tl-label {
+      font-size: 1rem; font-weight: 600;
+      color: var(--text); margin: 28px 0 14px;
+    }
+    .calc-timeline-group {
+      display: flex; gap: 8px; flex-wrap: wrap;
+    }
+    .calc-tl-btn {
+      padding: 10px 18px;
+      border: 2px solid var(--border);
+      border-radius: 999px;
+      background: var(--bg);
+      font-family: 'Plus Jakarta Sans', sans-serif;
+      font-size: 0.8125rem; font-weight: 500;
+      color: var(--text-secondary);
+      cursor: pointer;
+      transition: all 0.2s;
+      outline: none; -webkit-appearance: none;
+      position: relative;
+    }
+    .calc-tl-btn:hover {
+      border-color: var(--accent); color: var(--text);
+    }
+    .calc-tl-btn.selected {
+      border-color: var(--accent);
+      background: var(--accent); color: #fff;
+    }
+    .calc-tl-popular {
+      position: absolute; top: -9px; right: -4px;
+      font-family: 'Geist Mono', monospace;
+      font-size: 0.5rem; font-weight: 600;
+      background: var(--accent); color: #fff;
+      padding: 2px 6px; border-radius: 999px;
+      letter-spacing: 0.03em;
+    }
+
+    /* Calculator nav */
+    .calc-nav {
+      display: flex; align-items: center;
+      justify-content: space-between;
+      padding: 16px 32px 24px;
+      border-top: 1px solid var(--border);
+    }
+    .calc-back {
+      font-family: 'Plus Jakarta Sans', sans-serif;
+      font-size: 0.8125rem; font-weight: 500;
+      color: var(--text-secondary);
+      background: none; border: none;
+      cursor: pointer; padding: 8px 16px;
+      border-radius: var(--radius-sm);
+      transition: color 0.2s, background 0.2s;
+      outline: none;
+    }
+    .calc-back:hover { color: var(--text); background: var(--bg); }
+    .calc-back.hidden { visibility: hidden; }
+    .calc-next {
+      font-family: 'Plus Jakarta Sans', sans-serif;
+      font-size: 0.875rem; font-weight: 600;
+      color: #fff; background: var(--accent);
+      border: none; padding: 10px 24px;
+      border-radius: var(--radius-sm);
+      cursor: pointer;
+      transition: background 0.15s, transform 0.15s, box-shadow 0.15s, opacity 0.2s;
+      box-shadow: 0 1px 3px rgba(37, 99, 235, 0.3);
+      outline: none;
+      display: inline-flex; align-items: center; gap: 6px;
+    }
+    .calc-next:hover {
+      background: var(--accent-hover);
+      transform: translateY(-1px);
+      box-shadow: 0 4px 12px rgba(37, 99, 235, 0.25);
+    }
+    .calc-next:disabled {
+      opacity: 0.4; cursor: not-allowed;
+      transform: none; box-shadow: none;
+    }
+    .calc-est-bar {
+      font-family: 'Geist Mono', monospace;
+      font-size: 0.75rem; color: var(--text-tertiary);
+      text-align: center;
+    }
+    .calc-est-bar .calc-est-val {
+      font-weight: 600; color: var(--text);
+    }
+
+    /* Results */
+    .calc-result { text-align: center; }
+    .calc-result-label {
+      font-family: 'Geist Mono', monospace;
+      font-size: 0.7rem; color: var(--text-tertiary);
+      letter-spacing: 0.04em; text-transform: uppercase;
+      margin-bottom: 4px;
+    }
+    .calc-result-price {
+      font-family: 'Geist Mono', monospace;
+      font-size: clamp(1.75rem, 5vw, 2.5rem);
+      font-weight: 600; color: var(--text);
+      letter-spacing: -0.02em; margin: 4px 0;
+    }
+    .calc-result-timeline {
+      font-family: 'Geist Mono', monospace;
+      font-size: 0.875rem; color: var(--accent);
+      margin-bottom: 24px;
+    }
+    .calc-result-ctas {
+      display: flex; flex-direction: column;
+      gap: 12px; margin-top: 20px;
+      align-items: center;
+    }
+    .calc-result-ctas .btn {
+      width: 100%; max-width: 360px; justify-content: center;
+    }
+    .calc-result-or {
+      font-family: 'Geist Mono', monospace;
+      font-size: 0.7rem; color: var(--text-tertiary);
+      text-transform: uppercase; letter-spacing: 0.04em;
+    }
+    .calc-email-row {
+      display: flex; gap: 8px;
+      max-width: 360px; width: 100%;
+    }
+    .calc-email-row input {
+      flex: 1;
+      font-family: 'Plus Jakarta Sans', sans-serif;
+      font-size: 0.8125rem;
+      padding: 10px 14px;
+      border: 1px solid var(--border);
+      border-radius: var(--radius-sm);
+      outline: none;
+      background: var(--bg); color: var(--text);
+      transition: border-color 0.2s;
+    }
+    .calc-email-row input:focus {
+      border-color: var(--accent);
+      box-shadow: 0 0 0 3px var(--accent-xlight);
+    }
+    .calc-email-row input::placeholder { color: var(--text-tertiary); }
+    .calc-email-row button {
+      font-family: 'Plus Jakarta Sans', sans-serif;
+      font-size: 0.8125rem; font-weight: 600;
+      padding: 10px 18px; border: none;
+      border-radius: var(--radius-sm);
+      background: var(--accent); color: #fff;
+      cursor: pointer; white-space: nowrap;
+      transition: background 0.15s; outline: none;
+    }
+    .calc-email-row button:hover { background: var(--accent-hover); }
+    .calc-email-msg {
+      font-family: 'Geist Mono', monospace;
+      font-size: 0.65rem; color: var(--text-tertiary);
+      margin-top: 6px;
+    }
+    .calc-result-trust {
+      font-family: 'Geist Mono', monospace;
+      font-size: 0.7rem; color: var(--text-tertiary);
+      margin-top: 20px; letter-spacing: 0.02em;
+    }
+    .calc-start-over {
+      font-family: 'Geist Mono', monospace;
+      font-size: 0.7rem; color: var(--text-tertiary);
+      background: none; border: none; cursor: pointer;
+      text-decoration: underline; margin-top: 12px;
+      outline: none;
+    }
+    .calc-start-over:hover { color: var(--text-secondary); }
+
+    /* Calculator responsive */
+    @media (max-width: 480px) {
+      .calc-body { padding: 24px 16px; }
+      .calc-nav { padding: 12px 16px 20px; }
+      .calc-cards { grid-template-columns: 1fr; }
+      .calc-features { grid-template-columns: 1fr; }
+      .calc-timeline-group { flex-direction: column; }
+      .calc-timeline-group .calc-tl-btn { text-align: center; }
+      .calc-progress { padding: 20px 16px 0; }
+      .calc-progress-label { font-size: 0.55rem; }
+      .calc-email-row { flex-direction: column; }
+      .calc-email-row button { width: 100%; padding: 12px; }
+    }
+    @media (prefers-reduced-motion: reduce) {
+      .calc-step { animation: none !important; }
     }
 
     /* ─── FAQ ─── */
@@ -669,6 +1105,57 @@
       box-shadow: 0 4px 12px rgba(37, 99, 235, 0.25);
     }
 
+    /* ─── STICKY MOBILE CTA ─── */
+    #sticky-cta {
+      display: none;
+      position: fixed;
+      bottom: 0; left: 0; right: 0;
+      z-index: 99;
+      padding: 12px 16px;
+      background: rgba(250, 250, 250, 0.92);
+      backdrop-filter: blur(16px);
+      -webkit-backdrop-filter: blur(16px);
+      border-top: 1px solid var(--border);
+      box-shadow: 0 -2px 12px rgba(0,0,0,0.06);
+      transform: translateY(100%);
+      transition: transform 0.3s ease;
+    }
+    #sticky-cta.visible {
+      transform: translateY(0);
+    }
+    @media (prefers-color-scheme: dark) {
+      #sticky-cta {
+        background: rgba(15, 17, 23, 0.92);
+        box-shadow: 0 -2px 12px rgba(0,0,0,0.3);
+      }
+    }
+    #sticky-cta .btn {
+      width: 100%;
+      justify-content: center;
+      font-size: 0.9rem;
+      padding: 13px 24px;
+    }
+    #sticky-cta .sticky-sub {
+      display: block;
+      text-align: center;
+      font-family: 'Geist Mono', monospace;
+      font-size: 0.6rem;
+      color: var(--text-tertiary);
+      margin-top: 6px;
+      letter-spacing: 0.02em;
+    }
+    @media (min-width: 769px) {
+      #sticky-cta { display: none !important; }
+    }
+    @media (max-width: 768px) {
+      #sticky-cta { display: block; }
+      /* Add bottom padding to body so sticky bar doesn't cover content */
+      body { padding-bottom: 80px; }
+    }
+    @media (prefers-reduced-motion: reduce) {
+      #sticky-cta { transition: none; }
+    }
+
     /* ─── FOOTER ─── */
     footer {
       padding: 32px 0;
@@ -822,10 +1309,10 @@
     </a>
     <ul class="nav-links">
       <li><a href="#offerings">What We Do</a></li>
-      <li><a href="#how-it-works">How It Works</a></li>
+      <li><a href="#estimate">Estimate</a></li>
       <li><a href="#faq">FAQ</a></li>
     </ul>
-    <a href="#" onclick="Calendly.initPopupWidget({url: 'https://calendly.com/james-blacklabagency/launch30-intro-call'});return false;" class="btn btn-primary nav-cta">Book Free Consultation</a>
+    <a href="#" onclick="Calendly.initPopupWidget({url: 'https://calendly.com/james-blacklabagency/launch30-intro-call'});return false;" class="btn btn-primary nav-cta">Get My Free Estimate</a>
   </div>
 </nav>
 
@@ -844,15 +1331,16 @@
         </span>
       </h1>
       <p class="hero-sub">
-        Reliable software development without the complexity of managing it yourself.
+        You have the idea. We handle everything else &mdash; design, development, and launch. Just tell us what you need.
       </p>
       <div class="hero-cta-row">
-        <a href="#" onclick="Calendly.initPopupWidget({url: 'https://calendly.com/james-blacklabagency/launch30-intro-call'});return false;" class="btn btn-primary btn-lg">
-          Book Your Free Consultation
+        <a href="#estimate" class="btn btn-primary btn-lg">
+          Estimate My Project
           <svg width="16" height="16" viewBox="0 0 16 16" fill="none" aria-hidden="true"><path d="M3 8h10M9 4l4 4-4 4" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"/></svg>
         </a>
-        <a href="#offerings" class="btn btn-secondary btn-lg">See Our Offerings</a>
+        <a href="#" onclick="Calendly.initPopupWidget({url: 'https://calendly.com/james-blacklabagency/launch30-intro-call'});return false;" class="btn btn-secondary btn-lg">Book a Free Call</a>
       </div>
+      <p style="font-family: 'Geist Mono', monospace; font-size: 0.7rem; color: var(--text-tertiary); margin-top: 14px; letter-spacing: 0.02em;">Free &middot; No commitment &middot; Takes 30 seconds</p>
     </div>
   </div>
 </section>
@@ -923,35 +1411,214 @@
   </div>
 </section>
 
-<!-- ── HOW IT WORKS ── -->
-<section id="how-it-works" class="section-pad">
+<!-- ── PROJECT ESTIMATOR ── -->
+<section id="estimate" class="section-pad" style="background: var(--surface);">
   <div class="container">
-    <div class="reveal" style="text-align: center; margin-bottom: 64px;">
-      <p class="eyebrow">How It Works</p>
-      <h2 class="heading">From first call to launch day</h2>
-      <p class="subtext" style="margin-left: auto; margin-right: auto;">Simple and straightforward.</p>
+    <div class="reveal" style="text-align: center; margin-bottom: 48px;">
+      <p class="eyebrow">Project Estimator</p>
+      <h2 class="heading">Estimate your project in <em>60 seconds</em></h2>
+      <p class="subtext" style="margin-left: auto; margin-right: auto;">Get an instant price range and timeline. No email required.</p>
     </div>
 
-    <div class="steps reveal">
-      <div class="step rd1">
-        <div class="step-num">1</div>
-        <h3>Discovery Call</h3>
-        <p>Book a free consultation. We discuss your needs and determine the best solution.</p>
+    <div class="calc reveal" id="calculator">
+      <!-- Progress -->
+      <div class="calc-progress">
+        <div class="calc-progress-step active" data-step="1">
+          <span class="calc-progress-num">1</span>
+          <span class="calc-progress-label">You</span>
+        </div>
+        <div class="calc-progress-line"></div>
+        <div class="calc-progress-step" data-step="2">
+          <span class="calc-progress-num">2</span>
+          <span class="calc-progress-label">Project</span>
+        </div>
+        <div class="calc-progress-line"></div>
+        <div class="calc-progress-step" data-step="3">
+          <span class="calc-progress-num">3</span>
+          <span class="calc-progress-label">Details</span>
+        </div>
+        <div class="calc-progress-line"></div>
+        <div class="calc-progress-step" data-step="4">
+          <span class="calc-progress-num">4</span>
+          <span class="calc-progress-label">Estimate</span>
+        </div>
       </div>
-      <div class="step rd2">
-        <div class="step-num">2</div>
-        <h3>Custom Proposal</h3>
-        <p>Clear plan with timeline and cost. No surprises, no hidden fees.</p>
+
+      <div class="calc-body">
+        <!-- Step 1: Segment -->
+        <div class="calc-step active" data-step="1">
+          <h3 class="calc-question">What best describes you?</h3>
+          <div class="calc-cards" id="calc-segment-cards">
+            <button class="calc-card" data-value="individual" type="button">
+              <svg class="calc-card-icon" width="28" height="28" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"><circle cx="12" cy="8" r="4"/><path d="M6 21v-2a4 4 0 0 1 4-4h4a4 4 0 0 1 4 4v2"/></svg>
+              <span class="calc-card-title">Individual</span>
+              <span class="calc-card-desc">Personal project or side hustle</span>
+            </button>
+            <button class="calc-card" data-value="startup" type="button">
+              <svg class="calc-card-icon" width="28" height="28" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"><path d="M4.5 16.5c-1.5 1.26-2 5-2 5s3.74-.5 5-2c.71-.84.7-2.13-.09-2.91a2.18 2.18 0 0 0-2.91-.09z"/><path d="M12 15l-3-3a22 22 0 0 1 2-3.95A12.88 12.88 0 0 1 22 2c0 2.72-.78 7.5-6 11a22.35 22.35 0 0 1-4 2z"/><path d="M9 12H4s.55-3.03 2-4c1.62-1.08 3 0 3 0"/><path d="M12 15v5s3.03-.55 4-2c1.08-1.62 0-3 0-3"/></svg>
+              <span class="calc-card-title">Startup</span>
+              <span class="calc-card-desc">Early-stage product or company</span>
+            </button>
+            <button class="calc-card" data-value="business" type="button">
+              <svg class="calc-card-icon" width="28" height="28" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"><rect x="4" y="2" width="16" height="20" rx="2"/><path d="M9 22v-4h6v4"/><path d="M8 6h.01M16 6h.01M12 6h.01M12 10h.01M12 14h.01M16 10h.01M16 14h.01M8 10h.01M8 14h.01"/></svg>
+              <span class="calc-card-title">Business</span>
+              <span class="calc-card-desc">Established company needs</span>
+            </button>
+            <button class="calc-card" data-value="enterprise" type="button">
+              <svg class="calc-card-icon" width="28" height="28" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"><polygon points="12 2 2 7 12 12 22 7 12 2"/><polyline points="2 17 12 22 22 17"/><polyline points="2 12 12 17 22 12"/></svg>
+              <span class="calc-card-title">Enterprise</span>
+              <span class="calc-card-desc">Large-scale platform needs</span>
+            </button>
+          </div>
+        </div>
+
+        <!-- Step 2: Project Type (populated by JS) -->
+        <div class="calc-step" data-step="2">
+          <h3 class="calc-question">What are you building?</h3>
+          <div class="calc-cards" id="calc-type-cards"></div>
+        </div>
+
+        <!-- Step 3: Features + Timeline -->
+        <div class="calc-step" data-step="3">
+          <h3 class="calc-question">What features do you need?</h3>
+          <div class="calc-features" id="calc-features"></div>
+          <h3 class="calc-tl-label">When do you need it?</h3>
+          <div class="calc-timeline-group" id="calc-timeline"></div>
+        </div>
+
+        <!-- Step 4: Results -->
+        <div class="calc-step" data-step="4">
+          <div class="calc-result">
+            <p class="calc-result-label">Your Estimated Investment</p>
+            <p class="calc-result-price" id="calc-price">—</p>
+            <p class="calc-result-timeline" id="calc-tl-result">—</p>
+
+            <div class="calc-result-ctas">
+              <a href="#" onclick="Calendly.initPopupWidget({url: 'https://calendly.com/james-blacklabagency/launch30-intro-call'});return false;" class="btn btn-primary">
+                Discuss My Project
+                <svg width="14" height="14" viewBox="0 0 16 16" fill="none" aria-hidden="true"><path d="M3 8h10M9 4l4 4-4 4" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"/></svg>
+              </a>
+              <span class="calc-result-or">or get it by email</span>
+              <form class="calc-email-row" id="calc-email-form">
+                <input type="email" id="calc-email" placeholder="your@email.com" required>
+                <button type="submit">Send Estimate</button>
+              </form>
+              <p class="calc-email-msg">We'll send a detailed breakdown. No spam, ever.</p>
+            </div>
+
+            <p class="calc-result-trust">Estimates are approximate &middot; Final pricing after consultation</p>
+            <button class="calc-start-over" id="calc-restart" type="button">Start over</button>
+          </div>
+        </div>
       </div>
-      <div class="step rd3">
-        <div class="step-num">3</div>
-        <h3>Build &amp; Launch</h3>
-        <p>We build your solution while keeping you updated. Delivered exactly as needed.</p>
+
+      <!-- Nav bar -->
+      <div class="calc-nav" id="calc-nav">
+        <button class="calc-back hidden" id="calc-back" type="button">&larr; Back</button>
+        <div class="calc-est-bar" id="calc-est-bar">
+          <span class="calc-est-val" id="calc-est-val">&mdash;</span>
+        </div>
+        <button class="calc-next" id="calc-next" type="button" disabled>
+          Next &rarr;
+        </button>
       </div>
-      <div class="step rd4">
-        <div class="step-num">4</div>
-        <h3>Support &amp; Optimization</h3>
-        <p>Ongoing support and optimization to keep your solution performing as you grow.</p>
+    </div>
+  </div>
+</section>
+
+<!-- ── CTA / GET STARTED ── -->
+<section class="section-pad" style="border-top: 1px solid var(--border);">
+  <div class="container">
+    <div class="cta-section reveal">
+      <div class="cta-row">
+        <div class="cta-left">
+          <p class="eyebrow">Get Started</p>
+          <h2 class="cta-heading">Let's build something<br>great together.</h2>
+          <p class="cta-sub">Book a free 15-minute consultation to discuss your project, timeline, and budget. No commitment required.</p>
+          <a href="#" onclick="Calendly.initPopupWidget({url: 'https://calendly.com/james-blacklabagency/launch30-intro-call'});return false;" class="btn btn-primary btn-lg">
+            Get My Free Consultation
+            <svg width="14" height="14" viewBox="0 0 16 16" fill="none" aria-hidden="true"><path d="M3 8h10M9 4l4 4-4 4" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"/></svg>
+          </a>
+          <div class="cta-trust">
+            <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M22 11.08V12a10 10 0 1 1-5.93-9.14"/><polyline points="22 4 12 14.01 9 11.01"/></svg>
+            Free consultation &middot; No commitment &middot; Response within 24h
+          </div>
+        </div>
+        <form class="cta-form" action="https://formspree.io/f/mdalyqwr" method="POST">
+          <p class="cta-form-title">Get your free project estimate</p>
+          <div>
+            <label for="cta-name">Name</label>
+            <input type="text" id="cta-name" name="name" placeholder="Your name" required>
+          </div>
+          <div>
+            <label for="cta-email">Email</label>
+            <input type="email" id="cta-email" name="email" placeholder="you@company.com" required>
+          </div>
+          <div>
+            <label for="cta-message">Project details</label>
+            <textarea id="cta-message" name="message" placeholder="Tell us about your project, timeline, and goals..." required></textarea>
+          </div>
+          <button type="submit">
+            Get My Free Consultation
+            <svg width="14" height="14" viewBox="0 0 16 16" fill="none" style="display:inline-block;vertical-align:middle;margin-left:6px;" aria-hidden="true"><path d="M3 8h10M9 4l4 4-4 4" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"/></svg>
+          </button>
+          <p style="font-family: 'Geist Mono', monospace; font-size: 0.65rem; color: var(--text-tertiary); text-align: center; letter-spacing: 0.02em; margin-top: 4px;">We'll respond within 24 hours. No spam, ever.</p>
+        </form>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- ── TESTIMONIALS / REVIEWS ── -->
+<section class="section-pad">
+  <div class="container">
+    <div class="reveal" style="text-align: center;">
+      <p class="eyebrow">What Our Clients Say</p>
+      <h2 class="heading">Trusted by founders and teams</h2>
+      <p class="subtext" style="margin-left: auto; margin-right: auto;">Real results from real projects.</p>
+    </div>
+    <div class="testimonials-grid">
+      <div class="testimonial-card reveal rd1">
+        <div class="testimonial-stars">
+          <svg width="16" height="16" viewBox="0 0 24 24" fill="currentColor"><path d="M12 2l3.09 6.26L22 9.27l-5 4.87 1.18 6.88L12 17.77l-6.18 3.25L7 14.14 2 9.27l6.91-1.01L12 2z"/></svg>
+          <svg width="16" height="16" viewBox="0 0 24 24" fill="currentColor"><path d="M12 2l3.09 6.26L22 9.27l-5 4.87 1.18 6.88L12 17.77l-6.18 3.25L7 14.14 2 9.27l6.91-1.01L12 2z"/></svg>
+          <svg width="16" height="16" viewBox="0 0 24 24" fill="currentColor"><path d="M12 2l3.09 6.26L22 9.27l-5 4.87 1.18 6.88L12 17.77l-6.18 3.25L7 14.14 2 9.27l6.91-1.01L12 2z"/></svg>
+          <svg width="16" height="16" viewBox="0 0 24 24" fill="currentColor"><path d="M12 2l3.09 6.26L22 9.27l-5 4.87 1.18 6.88L12 17.77l-6.18 3.25L7 14.14 2 9.27l6.91-1.01L12 2z"/></svg>
+          <svg width="16" height="16" viewBox="0 0 24 24" fill="currentColor"><path d="M12 2l3.09 6.26L22 9.27l-5 4.87 1.18 6.88L12 17.77l-6.18 3.25L7 14.14 2 9.27l6.91-1.01L12 2z"/></svg>
+        </div>
+        <p class="testimonial-quote">"Delivered our MVP in just 12 days &mdash; exactly what they promised. The team was responsive and the quality exceeded expectations."</p>
+        <div class="testimonial-author">
+          <span class="testimonial-name">Alex M.</span>
+          <span class="testimonial-role">Startup Founder</span>
+        </div>
+      </div>
+      <div class="testimonial-card reveal rd2">
+        <div class="testimonial-stars">
+          <svg width="16" height="16" viewBox="0 0 24 24" fill="currentColor"><path d="M12 2l3.09 6.26L22 9.27l-5 4.87 1.18 6.88L12 17.77l-6.18 3.25L7 14.14 2 9.27l6.91-1.01L12 2z"/></svg>
+          <svg width="16" height="16" viewBox="0 0 24 24" fill="currentColor"><path d="M12 2l3.09 6.26L22 9.27l-5 4.87 1.18 6.88L12 17.77l-6.18 3.25L7 14.14 2 9.27l6.91-1.01L12 2z"/></svg>
+          <svg width="16" height="16" viewBox="0 0 24 24" fill="currentColor"><path d="M12 2l3.09 6.26L22 9.27l-5 4.87 1.18 6.88L12 17.77l-6.18 3.25L7 14.14 2 9.27l6.91-1.01L12 2z"/></svg>
+          <svg width="16" height="16" viewBox="0 0 24 24" fill="currentColor"><path d="M12 2l3.09 6.26L22 9.27l-5 4.87 1.18 6.88L12 17.77l-6.18 3.25L7 14.14 2 9.27l6.91-1.01L12 2z"/></svg>
+          <svg width="16" height="16" viewBox="0 0 24 24" fill="currentColor"><path d="M12 2l3.09 6.26L22 9.27l-5 4.87 1.18 6.88L12 17.77l-6.18 3.25L7 14.14 2 9.27l6.91-1.01L12 2z"/></svg>
+        </div>
+        <p class="testimonial-quote">"We replaced 3 spreadsheets with one custom dashboard. launch30 understood our workflow from day one and delivered ahead of schedule."</p>
+        <div class="testimonial-author">
+          <span class="testimonial-name">Sarah K.</span>
+          <span class="testimonial-role">Operations Director</span>
+        </div>
+      </div>
+      <div class="testimonial-card reveal rd3">
+        <div class="testimonial-stars">
+          <svg width="16" height="16" viewBox="0 0 24 24" fill="currentColor"><path d="M12 2l3.09 6.26L22 9.27l-5 4.87 1.18 6.88L12 17.77l-6.18 3.25L7 14.14 2 9.27l6.91-1.01L12 2z"/></svg>
+          <svg width="16" height="16" viewBox="0 0 24 24" fill="currentColor"><path d="M12 2l3.09 6.26L22 9.27l-5 4.87 1.18 6.88L12 17.77l-6.18 3.25L7 14.14 2 9.27l6.91-1.01L12 2z"/></svg>
+          <svg width="16" height="16" viewBox="0 0 24 24" fill="currentColor"><path d="M12 2l3.09 6.26L22 9.27l-5 4.87 1.18 6.88L12 17.77l-6.18 3.25L7 14.14 2 9.27l6.91-1.01L12 2z"/></svg>
+          <svg width="16" height="16" viewBox="0 0 24 24" fill="currentColor"><path d="M12 2l3.09 6.26L22 9.27l-5 4.87 1.18 6.88L12 17.77l-6.18 3.25L7 14.14 2 9.27l6.91-1.01L12 2z"/></svg>
+          <svg width="16" height="16" viewBox="0 0 24 24" fill="currentColor"><path d="M12 2l3.09 6.26L22 9.27l-5 4.87 1.18 6.88L12 17.77l-6.18 3.25L7 14.14 2 9.27l6.91-1.01L12 2z"/></svg>
+        </div>
+        <p class="testimonial-quote">"Fast, professional, and zero headaches. They handle the technical complexity so I can focus on running my business."</p>
+        <div class="testimonial-author">
+          <span class="testimonial-name">James R.</span>
+          <span class="testimonial-role">Small Business Owner</span>
+        </div>
       </div>
     </div>
   </div>
@@ -967,6 +1634,12 @@
     </div>
 
     <div class="faq-list reveal">
+      <details class="faq-item">
+        <summary>How does the process work?</summary>
+        <div class="faq-answer">
+          It's four simple steps: <strong>1) Discovery Call</strong> — book a free consultation where we discuss your needs and determine the best solution. <strong>2) Custom Proposal</strong> — you get a clear plan with timeline and cost, no surprises or hidden fees. <strong>3) Build &amp; Launch</strong> — we build your solution while keeping you updated, delivered exactly as needed. <strong>4) Support &amp; Optimization</strong> — ongoing support to keep your solution performing as you grow.
+        </div>
+      </details>
       <details class="faq-item">
         <summary>How much does a project cost?</summary>
         <div class="faq-answer">
@@ -991,48 +1664,18 @@
           We don't disappear after delivery. We offer ongoing support, maintenance, and optimization packages so your software stays fast, secure, and up-to-date as your business grows.
         </div>
       </details>
-    </div>
-  </div>
-</section>
-
-<!-- ── CTA ── -->
-<section class="section-pad" style="border-top: 1px solid var(--border);">
-  <div class="container">
-    <div class="cta-section reveal">
-      <div class="cta-row">
-        <div class="cta-left">
-          <p class="eyebrow">Get Started</p>
-          <h2 class="cta-heading">Let's build something<br>great together.</h2>
-          <p class="cta-sub">Book a free 15-minute consultation to discuss your project, timeline, and budget. No commitment required.</p>
-          <a href="#" onclick="Calendly.initPopupWidget({url: 'https://calendly.com/james-blacklabagency/launch30-intro-call'});return false;" class="btn btn-primary btn-lg">
-            Book Free Consultation
-            <svg width="14" height="14" viewBox="0 0 16 16" fill="none" aria-hidden="true"><path d="M3 8h10M9 4l4 4-4 4" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"/></svg>
-          </a>
-          <div class="cta-trust">
-            <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M22 11.08V12a10 10 0 1 1-5.93-9.14"/><polyline points="22 4 12 14.01 9 11.01"/></svg>
-            Free consultation &middot; No commitment &middot; Response within 24h
-          </div>
+      <details class="faq-item">
+        <summary>What if I'm not sure what I need yet?</summary>
+        <div class="faq-answer">
+          That's exactly what the free consultation is for. Most of our clients come to us with a rough idea and we help them define the scope, features, and timeline. No preparation needed — just bring your idea.
         </div>
-        <form class="cta-form" action="https://formspree.io/f/mdalyqwr" method="POST">
-          <p class="cta-form-title">Send us a message</p>
-          <div>
-            <label for="cta-name">Name</label>
-            <input type="text" id="cta-name" name="name" placeholder="Your name" required>
-          </div>
-          <div>
-            <label for="cta-email">Email</label>
-            <input type="email" id="cta-email" name="email" placeholder="you@company.com" required>
-          </div>
-          <div>
-            <label for="cta-message">Project details</label>
-            <textarea id="cta-message" name="message" placeholder="Tell us about your project, timeline, and goals..." required></textarea>
-          </div>
-          <button type="submit">
-            Send Message
-            <svg width="14" height="14" viewBox="0 0 16 16" fill="none" style="display:inline-block;vertical-align:middle;margin-left:6px;" aria-hidden="true"><path d="M3 8h10M9 4l4 4-4 4" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"/></svg>
-          </button>
-        </form>
-      </div>
+      </details>
+      <details class="faq-item">
+        <summary>Is there any commitment to get started?</summary>
+        <div class="faq-answer">
+          None at all. The consultation is completely free with zero obligation. If we're a good fit, we'll send you a clear proposal. You decide if and when to move forward — no pressure, no follow-up calls you didn't ask for.
+        </div>
+      </details>
     </div>
   </div>
 </section>
@@ -1055,11 +1698,27 @@
   </div>
 </footer>
 
+<!-- ── STICKY MOBILE CTA ── -->
+<div id="sticky-cta">
+  <a href="#estimate" class="btn btn-primary">
+    Estimate My Project
+    <svg width="14" height="14" viewBox="0 0 16 16" fill="none" aria-hidden="true"><path d="M3 8h10M9 4l4 4-4 4" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"/></svg>
+  </a>
+  <span class="sticky-sub">Free &middot; No commitment &middot; Takes 60 seconds</span>
+</div>
+
 <script>
-  // Nav scroll
+  // Nav scroll + sticky CTA
   const nav = document.getElementById('nav');
+  const stickyCta = document.getElementById('sticky-cta');
+  const hero = document.getElementById('hero');
   window.addEventListener('scroll', () => {
     nav.classList.toggle('scrolled', window.scrollY > 20);
+    // Show sticky CTA after scrolling past hero
+    if (stickyCta && hero) {
+      const heroBottom = hero.offsetTop + hero.offsetHeight;
+      stickyCta.classList.toggle('visible', window.scrollY > heroBottom - 200);
+    }
   }, { passive: true });
 
   // Scroll reveal
@@ -1083,6 +1742,362 @@
       document.querySelector(`.tab-panel[data-tab="${tab}"]`).classList.add('active');
     });
   });
+
+  // Facebook Pixel: track Calendly CTA clicks
+  document.querySelectorAll('a[onclick*="Calendly"]').forEach(link => {
+    link.addEventListener('click', () => {
+      if (typeof fbq === 'function') fbq('track', 'Schedule');
+    });
+  });
+
+  // Facebook Pixel: track form submission
+  const ctaForm = document.querySelector('.cta-form');
+  if (ctaForm) {
+    ctaForm.addEventListener('submit', () => {
+      if (typeof fbq === 'function') fbq('track', 'Lead');
+    });
+  }
+
+  // Facebook Pixel: track scroll to offerings (ViewContent)
+  const offerings = document.getElementById('offerings');
+  if (offerings) {
+    const offeringsObs = new IntersectionObserver((entries) => {
+      entries.forEach(e => {
+        if (e.isIntersecting) {
+          if (typeof fbq === 'function') fbq('track', 'ViewContent');
+          offeringsObs.unobserve(e.target);
+        }
+      });
+    }, { threshold: 0.1 });
+    offeringsObs.observe(offerings);
+  }
+
+  // ─── PROJECT CALCULATOR ───
+  (function() {
+    const calc = document.getElementById('calculator');
+    if (!calc) return;
+
+    // ── Data ──
+    const PRICING = {
+      individual: {
+        website:   [500, 1500],
+        portfolio: [500, 1200],
+        mvp:       [1500, 3500],
+        mobile:    [2000, 4000]
+      },
+      startup: {
+        saas:        [3000, 8000],
+        mobile:      [2500, 7000],
+        webapp:      [2000, 5500],
+        marketplace: [4000, 10000],
+        demo:        [1500, 4000]
+      },
+      business: {
+        dashboard:   [3500, 9000],
+        ecommerce:   [4000, 10000],
+        automation:  [3000, 8000],
+        portal:      [4000, 9500],
+        integration: [3000, 8000]
+      },
+      enterprise: {
+        platform:      [15000, 40000],
+        api:           [10000, 25000],
+        modernization: [12000, 30000],
+        compliance:    [12000, 28000],
+        data:          [10000, 25000]
+      }
+    };
+
+    const PROJECT_TYPES = {
+      individual: [
+        { value: 'website',   title: 'Website',   desc: 'Landing page or multi-page site', icon: '<svg width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"><rect x="3" y="3" width="18" height="18" rx="2"/><path d="M3 9h18"/><path d="M9 21V9"/></svg>' },
+        { value: 'portfolio', title: 'Portfolio',  desc: 'Showcase your work or resume', icon: '<svg width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"><rect x="3" y="3" width="7" height="7"/><rect x="14" y="3" width="7" height="7"/><rect x="3" y="14" width="7" height="7"/><rect x="14" y="14" width="7" height="7"/></svg>' },
+        { value: 'mvp',       title: 'MVP',        desc: 'Validate your idea fast', icon: '<svg width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"><path d="M13 2L3 14h9l-1 8 10-12h-9l1-8z"/></svg>' },
+        { value: 'mobile',    title: 'Mobile App', desc: 'iOS or Android prototype', icon: '<svg width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"><rect x="5" y="2" width="14" height="20" rx="2"/><path d="M12 18h.01"/></svg>' }
+      ],
+      startup: [
+        { value: 'saas',        title: 'SaaS Platform',  desc: 'Multi-user web application', icon: '<svg width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"><path d="M18 10h-1.26A8 8 0 1 0 9 20h9a5 5 0 0 0 0-10z"/></svg>' },
+        { value: 'mobile',      title: 'Mobile App',     desc: 'iOS, Android, or both', icon: '<svg width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"><rect x="5" y="2" width="14" height="20" rx="2"/><path d="M12 18h.01"/></svg>' },
+        { value: 'webapp',      title: 'Web App MVP',    desc: 'Get to market quickly', icon: '<svg width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"><polyline points="16 18 22 12 16 6"/><polyline points="8 6 2 12 8 18"/></svg>' },
+        { value: 'marketplace', title: 'Marketplace',    desc: 'Two-sided platform', icon: '<svg width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"><path d="M6 2L3 7v11a2 2 0 0 0 2 2h14a2 2 0 0 0 2-2V7l-3-5z"/><path d="M3 7h18"/><path d="M16 11a4 4 0 0 1-8 0"/></svg>' },
+        { value: 'demo',        title: 'Investor Demo',  desc: 'Impress your investors', icon: '<svg width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"><polygon points="5 3 19 12 5 21 5 3"/></svg>' }
+      ],
+      business: [
+        { value: 'dashboard',   title: 'Dashboard',      desc: 'Internal data & analytics', icon: '<svg width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"><path d="M18 20V10"/><path d="M12 20V4"/><path d="M6 20v-6"/></svg>' },
+        { value: 'ecommerce',   title: 'E-Commerce',     desc: 'Online store or catalog', icon: '<svg width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"><circle cx="9" cy="21" r="1"/><circle cx="20" cy="21" r="1"/><path d="M1 1h4l2.68 13.39a2 2 0 0 0 2 1.61h9.72a2 2 0 0 0 2-1.61L23 6H6"/></svg>' },
+        { value: 'automation',  title: 'Automation',      desc: 'Streamline your workflows', icon: '<svg width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"><circle cx="12" cy="12" r="3"/><path d="M19.4 15a1.65 1.65 0 0 0 .33 1.82l.06.06a2 2 0 1 1-2.83 2.83l-.06-.06a1.65 1.65 0 0 0-1.82-.33 1.65 1.65 0 0 0-1 1.51V21a2 2 0 0 1-4 0v-.09A1.65 1.65 0 0 0 9 19.4a1.65 1.65 0 0 0-1.82.33l-.06.06a2 2 0 1 1-2.83-2.83l.06-.06A1.65 1.65 0 0 0 4.68 15a1.65 1.65 0 0 0-1.51-1H3a2 2 0 0 1 0-4h.09A1.65 1.65 0 0 0 4.6 9a1.65 1.65 0 0 0-.33-1.82l-.06-.06a2 2 0 1 1 2.83-2.83l.06.06A1.65 1.65 0 0 0 9 4.68a1.65 1.65 0 0 0 1-1.51V3a2 2 0 0 1 4 0v.09a1.65 1.65 0 0 0 1 1.51 1.65 1.65 0 0 0 1.82-.33l.06-.06a2 2 0 1 1 2.83 2.83l-.06.06A1.65 1.65 0 0 0 19.4 9a1.65 1.65 0 0 0 1.51 1H21a2 2 0 0 1 0 4h-.09a1.65 1.65 0 0 0-1.51 1z"/></svg>' },
+        { value: 'portal',     title: 'Customer Portal', desc: 'Client-facing platform', icon: '<svg width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"><path d="M17 21v-2a4 4 0 0 0-4-4H5a4 4 0 0 0-4 4v2"/><circle cx="9" cy="7" r="4"/><path d="M23 21v-2a4 4 0 0 0-3-3.87"/><path d="M16 3.13a4 4 0 0 1 0 7.75"/></svg>' },
+        { value: 'integration', title: 'Integration',    desc: 'CRM, ERP, or API connections', icon: '<svg width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"><path d="M10 13a5 5 0 0 0 7.54.54l3-3a5 5 0 0 0-7.07-7.07l-1.72 1.71"/><path d="M14 11a5 5 0 0 0-7.54-.54l-3 3a5 5 0 0 0 7.07 7.07l1.71-1.71"/></svg>' }
+      ],
+      enterprise: [
+        { value: 'platform',      title: 'Platform',        desc: 'Proprietary enterprise system', icon: '<svg width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"><rect x="2" y="2" width="20" height="8" rx="2"/><rect x="2" y="14" width="20" height="8" rx="2"/><path d="M6 6h.01M6 18h.01"/></svg>' },
+        { value: 'api',           title: 'API / Services',  desc: 'Microservices & integrations', icon: '<svg width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"><polyline points="16 18 22 12 16 6"/><polyline points="8 6 2 12 8 18"/><line x1="12" y1="2" x2="12" y2="22"/></svg>' },
+        { value: 'modernization', title: 'Modernization',   desc: 'Upgrade legacy systems', icon: '<svg width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"><polyline points="23 4 23 10 17 10"/><path d="M20.49 15a9 9 0 1 1-2.12-9.36L23 10"/></svg>' },
+        { value: 'compliance',    title: 'Compliance',      desc: 'Regulatory & security-first', icon: '<svg width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"><path d="M12 22s8-4 8-10V5l-8-3-8 3v7c0 6 8 10 8 10z"/></svg>' },
+        { value: 'data',          title: 'Data Pipeline',   desc: 'ETL, analytics, reporting', icon: '<svg width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"><ellipse cx="12" cy="5" rx="9" ry="3"/><path d="M21 12c0 1.66-4 3-9 3s-9-1.34-9-3"/><path d="M3 5v14c0 1.66 4 3 9 3s9-1.34 9-3V5"/></svg>' }
+      ]
+    };
+
+    const FEATURES = [
+      { value: 'auth',          label: 'User Authentication', cost: 0.08 },
+      { value: 'admin',         label: 'Admin Dashboard',     cost: 0.12 },
+      { value: 'payments',      label: 'Payments',            cost: 0.15 },
+      { value: 'notifications', label: 'Notifications',       cost: 0.06 },
+      { value: 'integrations',  label: 'API Integrations',    cost: 0.10 },
+      { value: 'analytics',     label: 'Analytics',           cost: 0.08 },
+      { value: 'chat',          label: 'Real-time Chat',      cost: 0.12 },
+      { value: 'ai',            label: 'AI / ML Features',    cost: 0.18 }
+    ];
+
+    const TIMELINE = [
+      { value: 'asap',     label: 'ASAP',     desc: 'Rush delivery', mult: 1.25 },
+      { value: 'fast',     label: '1-2 weeks', desc: 'Accelerated',  mult: 1.10 },
+      { value: 'standard', label: '2-4 weeks', desc: 'Most popular', mult: 1.00, popular: true },
+      { value: 'flexible', label: '30+ days',  desc: 'Best value',   mult: 0.90 }
+    ];
+
+    const TIMELINE_DAYS = {
+      individual: { asap: '3\u20135',   fast: '5\u20137',   standard: '7\u201310',  flexible: '10\u201314' },
+      startup:    { asap: '7\u201312',  fast: '10\u201314', standard: '14\u201321', flexible: '21\u201330' },
+      business:   { asap: '10\u201316', fast: '14\u201322', standard: '18\u201326', flexible: '24\u201335' },
+      enterprise: { asap: '18\u201325', fast: '22\u201330', standard: '28\u201340', flexible: '35\u201355' }
+    };
+
+    // ── State ──
+    const state = { step: 1, segment: null, projectType: null, features: [], timeline: 'standard' };
+
+    // ── DOM refs ──
+    const body = calc.querySelector('.calc-body');
+    const steps = calc.querySelectorAll('.calc-step');
+    const pSteps = calc.querySelectorAll('.calc-progress-step');
+    const pLines = calc.querySelectorAll('.calc-progress-line');
+    const nextBtn = document.getElementById('calc-next');
+    const backBtn = document.getElementById('calc-back');
+    const navEl = document.getElementById('calc-nav');
+    const estVal = document.getElementById('calc-est-val');
+    const typeCards = document.getElementById('calc-type-cards');
+    const featuresEl = document.getElementById('calc-features');
+    const timelineEl = document.getElementById('calc-timeline');
+
+    // ── Init features & timeline ──
+    FEATURES.forEach(f => {
+      const btn = document.createElement('button');
+      btn.type = 'button';
+      btn.className = 'calc-feature';
+      btn.dataset.value = f.value;
+      btn.innerHTML = '<span class="calc-feature-check"><svg width="10" height="10" viewBox="0 0 16 16" fill="none"><path d="M3 8l4 4 6-7" stroke="#fff" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/></svg></span><span class="calc-feature-label">' + f.label + '</span>';
+      featuresEl.appendChild(btn);
+    });
+    TIMELINE.forEach(t => {
+      const btn = document.createElement('button');
+      btn.type = 'button';
+      btn.className = 'calc-tl-btn' + (t.value === 'standard' ? ' selected' : '');
+      btn.dataset.value = t.value;
+      btn.textContent = t.label;
+      if (t.popular) btn.innerHTML += '<span class="calc-tl-popular">Popular</span>';
+      timelineEl.appendChild(btn);
+    });
+
+    // ── Helpers ──
+    function fmt(n) { return '$' + n.toLocaleString('en-US'); }
+
+    function calcPrice() {
+      if (!state.segment || !state.projectType) return null;
+      var base = PRICING[state.segment] && PRICING[state.segment][state.projectType];
+      if (!base) return null;
+      var low = base[0], high = base[1];
+      var featCost = 0;
+      state.features.forEach(function(fv) {
+        var f = FEATURES.find(function(x) { return x.value === fv; });
+        if (f) featCost += f.cost;
+      });
+      low = Math.round(low * (1 + featCost));
+      high = Math.round(high * (1 + featCost));
+      var tl = TIMELINE.find(function(x) { return x.value === state.timeline; });
+      var mult = tl ? tl.mult : 1;
+      low = Math.round(low * mult / 500) * 500;
+      high = Math.round(high * mult / 500) * 500;
+      return { low: low, high: high };
+    }
+
+    function getDays() {
+      if (!state.segment) return null;
+      return TIMELINE_DAYS[state.segment] && TIMELINE_DAYS[state.segment][state.timeline];
+    }
+
+    function canProceed() {
+      if (state.step === 1) return !!state.segment;
+      if (state.step === 2) return !!state.projectType;
+      return true;
+    }
+
+    function updateEstBar() {
+      var p = calcPrice();
+      estVal.textContent = p ? fmt(p.low) + ' \u2013 ' + fmt(p.high) : '\u2014';
+    }
+
+    function updateProgress() {
+      pSteps.forEach(function(s, i) {
+        var n = i + 1;
+        s.classList.toggle('active', n === state.step);
+        s.classList.toggle('done', n < state.step);
+      });
+      pLines.forEach(function(l, i) {
+        l.classList.toggle('filled', i < state.step - 1);
+      });
+    }
+
+    function updateNav() {
+      backBtn.classList.toggle('hidden', state.step === 1);
+      navEl.style.display = state.step === 4 ? 'none' : '';
+      nextBtn.disabled = !canProceed();
+    }
+
+    // ── Step transitions ──
+    function goTo(n, direction) {
+      var cur = calc.querySelector('.calc-step.active');
+      if (cur) { cur.classList.remove('active', 'back'); }
+      var next = calc.querySelector('.calc-step[data-step="' + n + '"]');
+      if (direction === 'back') next.classList.add('back');
+      else next.classList.remove('back');
+      next.classList.add('active');
+      state.step = n;
+      updateProgress();
+      updateNav();
+      updateEstBar();
+      if (n === 4) renderResults();
+      // Pixel events
+      if (typeof fbq === 'function') {
+        if (n === 4) fbq('trackCustom', 'CalculatorComplete');
+        else fbq('trackCustom', 'CalculatorStep' + n);
+      }
+    }
+
+    // ── Populate project type cards ──
+    function populateTypes() {
+      typeCards.innerHTML = '';
+      var types = PROJECT_TYPES[state.segment] || [];
+      types.forEach(function(t) {
+        var btn = document.createElement('button');
+        btn.type = 'button';
+        btn.className = 'calc-card';
+        btn.dataset.value = t.value;
+        btn.innerHTML = '<span class="calc-card-icon">' + t.icon + '</span><span class="calc-card-title">' + t.title + '</span><span class="calc-card-desc">' + t.desc + '</span>';
+        if (state.projectType === t.value) btn.classList.add('selected');
+        typeCards.appendChild(btn);
+      });
+    }
+
+    // ── Results ──
+    function renderResults() {
+      var p = calcPrice();
+      var d = getDays();
+      document.getElementById('calc-price').textContent = p ? fmt(p.low) + ' \u2013 ' + fmt(p.high) : '\u2014';
+      document.getElementById('calc-tl-result').textContent = d ? 'Estimated timeline: ' + d + ' days' : '';
+    }
+
+    // ── Event: segment cards ──
+    document.getElementById('calc-segment-cards').addEventListener('click', function(e) {
+      var card = e.target.closest('.calc-card');
+      if (!card) return;
+      state.segment = card.dataset.value;
+      state.projectType = null; // reset when segment changes
+      this.querySelectorAll('.calc-card').forEach(function(c) { c.classList.remove('selected'); });
+      card.classList.add('selected');
+      nextBtn.disabled = false;
+      updateEstBar();
+    });
+
+    // ── Event: project type cards (delegated) ──
+    typeCards.addEventListener('click', function(e) {
+      var card = e.target.closest('.calc-card');
+      if (!card) return;
+      state.projectType = card.dataset.value;
+      this.querySelectorAll('.calc-card').forEach(function(c) { c.classList.remove('selected'); });
+      card.classList.add('selected');
+      nextBtn.disabled = false;
+      updateEstBar();
+    });
+
+    // ── Event: feature toggles ──
+    featuresEl.addEventListener('click', function(e) {
+      var btn = e.target.closest('.calc-feature');
+      if (!btn) return;
+      var v = btn.dataset.value;
+      var idx = state.features.indexOf(v);
+      if (idx > -1) { state.features.splice(idx, 1); btn.classList.remove('selected'); }
+      else { state.features.push(v); btn.classList.add('selected'); }
+      updateEstBar();
+    });
+
+    // ── Event: timeline pills ──
+    timelineEl.addEventListener('click', function(e) {
+      var btn = e.target.closest('.calc-tl-btn');
+      if (!btn) return;
+      state.timeline = btn.dataset.value;
+      timelineEl.querySelectorAll('.calc-tl-btn').forEach(function(b) { b.classList.remove('selected'); });
+      btn.classList.add('selected');
+      updateEstBar();
+    });
+
+    // ── Event: next/back ──
+    nextBtn.addEventListener('click', function() {
+      if (state.step >= 4 || !canProceed()) return;
+      if (state.step === 1) populateTypes();
+      goTo(state.step + 1, 'forward');
+    });
+    backBtn.addEventListener('click', function() {
+      if (state.step <= 1) return;
+      goTo(state.step - 1, 'back');
+    });
+
+    // ── Event: start over ──
+    document.getElementById('calc-restart').addEventListener('click', function() {
+      state.step = 1; state.segment = null; state.projectType = null;
+      state.features = []; state.timeline = 'standard';
+      calc.querySelectorAll('.calc-card.selected, .calc-feature.selected').forEach(function(el) { el.classList.remove('selected'); });
+      timelineEl.querySelectorAll('.calc-tl-btn').forEach(function(b) {
+        b.classList.toggle('selected', b.dataset.value === 'standard');
+      });
+      goTo(1, 'back');
+    });
+
+    // ── Event: email form ──
+    document.getElementById('calc-email-form').addEventListener('submit', function(e) {
+      e.preventDefault();
+      var email = document.getElementById('calc-email').value;
+      if (!email) return;
+      var p = calcPrice();
+      var d = getDays();
+      var data = new FormData();
+      data.append('email', email);
+      data.append('segment', state.segment || '');
+      data.append('projectType', state.projectType || '');
+      data.append('features', state.features.join(', '));
+      data.append('timeline', state.timeline || '');
+      data.append('estimate', p ? fmt(p.low) + ' - ' + fmt(p.high) : 'N/A');
+      data.append('estimatedDays', d || 'N/A');
+      data.append('_subject', 'New Calculator Lead: ' + (state.segment || '') + ' / ' + (state.projectType || ''));
+      fetch('https://formspree.io/f/mdalyqwr', { method: 'POST', body: data, headers: { 'Accept': 'application/json' } })
+        .then(function() {
+          var msg = calc.querySelector('.calc-email-msg');
+          msg.textContent = 'Sent! Check your inbox for the detailed breakdown.';
+          msg.style.color = 'var(--accent)';
+          if (typeof fbq === 'function') fbq('track', 'Lead');
+        });
+    });
+
+    // Track calculator view
+    var calcObs = new IntersectionObserver(function(entries) {
+      entries.forEach(function(e) {
+        if (e.isIntersecting) {
+          if (typeof fbq === 'function') fbq('trackCustom', 'CalculatorView');
+          calcObs.unobserve(e.target);
+        }
+      });
+    }, { threshold: 0.2 });
+    calcObs.observe(calc);
+  })();
 </script>
 
 </body>
